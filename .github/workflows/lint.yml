@@ -1,0 +1,17 @@
+name: Lint
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v1
+      - name: yarn install
+        run: yarn install --dev
+      - name: Run gts
+        run: yarn lint
