@@ -1,10 +1,14 @@
 {
     "extends": [
         "./node_modules/gts/",
-        "next"
+        "next",
+        "plugin:jsdoc/recommended",
+        "plugin:import/errors"
     ],
     "plugins": [
-        "prefer-arrow"
+        "prefer-arrow",
+        "header",
+        "import"
     ],
     "rules": {
         "prefer-arrow/prefer-arrow-functions": [
@@ -13,6 +17,41 @@
                 "disallowPrototype": true,
                 "singleReturnOnly": true,
                 "classPropertiesAllowed": false
+            }
+        ],
+        "header/header": [
+            2,
+            "block",
+            [
+                "*********************************************************",
+                {
+                    "pattern": "^ \\* .*$",
+                    "template": " * [Module description.]"
+                },
+                " *",
+                {
+                    "pattern": "^ \\* @author ([^<]+\\s<[^>]+>(, )?)+",
+                    "template": " * @author YourName <YourMailAddress>"
+                },
+                {
+                    "pattern": "^ \\* @version .*$",
+                    "template": " * @version 1.0.0"
+                },
+                " *",
+                " * Copyright (C) 2021 hello-slide",
+                " *********************************************************"
+            ]
+        ],
+        "jsdoc/require-jsdoc": [
+            "error"
+        ],
+        "sort-imports": 0,
+        "import/order": [
+            2,
+            {
+                "alphabetize": {
+                    "order": "asc"
+                }
             }
         ]
     }

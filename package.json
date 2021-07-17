@@ -6,7 +6,7 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "gts lint && next lint",
+        "lint": "gts lint",
         "clean": "gts clean",
         "fix": "gts fix",
         "posttest": "yarn run lint"
@@ -21,6 +21,9 @@
         "@types/react": "^17.0.14",
         "eslint": "7.30.0",
         "eslint-config-next": "11.0.1",
+        "eslint-plugin-header": "^3.1.1",
+        "eslint-plugin-import": "^2.23.4",
+        "eslint-plugin-jsdoc": "^35.4.3",
         "eslint-plugin-prefer-arrow": "^1.2.3",
         "gts": "^3.1.0",
         "typescript": "^4.0.3"
