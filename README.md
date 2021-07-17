@@ -1,1 +1,5 @@
-# viewer-front
+# Hello Slide Front
+
+## LICENSE
+
+[MIT](./LICENSE)
