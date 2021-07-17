@@ -1,0 +1,19 @@
+{
+    "extends": [
+        "./node_modules/gts/",
+        "next"
+    ],
+    "plugins": [
+        "prefer-arrow"
+    ],
+    "rules": {
+        "prefer-arrow/prefer-arrow-functions": [
+            "error",
+            {
+                "disallowPrototype": true,
+                "singleReturnOnly": true,
+                "classPropertiesAllowed": false
+            }
+        ]
+    }
+}
