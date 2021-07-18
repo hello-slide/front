@@ -1,5 +1,5 @@
 runtime: nodejs14
-service: hello-slide-front
+service: default
 instance_class: F1
 
 handlers:
