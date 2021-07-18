@@ -11,16 +11,9 @@ import {useRouter} from 'next/router';
 import {useEffect} from 'react';
 import {GA_TRACKING_ID, pageview} from '../src/lib/gtag';
 
-/**
- * @param {any} root0 [discription]
- * @param {any} root0.Component [discription]
- * @param {any} root0.pageProps [discription]
- * @returns {any} [discription]
- */
-export default function App({Component, pageProps}: AppProps): JSX.Element {
+const App = ({Component, pageProps}: AppProps): JSX.Element => {
   const router = useRouter();
   useEffect(() => {
-    // GA_TRACKING_ID が設定されていない場合は、処理終了
     if (!GA_TRACKING_ID) return;
 
     const handleRouteChange = (url: string) => {
@@ -33,4 +26,6 @@ export default function App({Component, pageProps}: AppProps): JSX.Element {
   }, [router.events]);
 
   return <Component {...pageProps} />;
-}
+};
+
+export default App;
