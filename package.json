@@ -6,7 +6,7 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start -p $PORT",
-        "deploy": "yarn build && gcloud app deploy",
+        "deploy": "yarn build && gcloud app deploy --appyaml=./deploy/app.yaml --stop-previous-version --quiet",
         "lint": "gts lint",
         "clean": "gts clean",
         "fix": "gts fix",

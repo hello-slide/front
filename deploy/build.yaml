@@ -1,0 +1,18 @@
+steps:
+  # Setting env
+  # - name: 'gcr.io/cloud-builders/gcloud'
+  #   entrypoint: 'bash'
+  #   args:
+  #     - '-c'
+  #     - |
+  #       echo 'EXAMPLE="${_EXAMPLE}"' > .env
+  #       cat .env
+
+  - name: 'gcr.io/cloud-builders/yarn'
+    args: ['install']
+
+  - name: 'gcr.io/cloud-builders/yarn'
+    args: ['run', 'build']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['app', 'deploy', '--appyaml=./deploy/app.yaml', '--stop-previous-version', '--quiet']

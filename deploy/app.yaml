@@ -1,4 +1,7 @@
 runtime: nodejs14
+service: hello-slide-front
+instance_class: F1
+
 handlers:
   - url: /.*
     secure: always
