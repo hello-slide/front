@@ -1,4 +1,11 @@
-// lib/gtag.ts
+/**********************************************************
+ * [Module description.]
+ *
+ * @author YourName <YourMailAddress>
+ * @version 1.0.0
+ *
+ * Copyright (C) 2021 hello-slide
+ **********************************************************/
 export const GA_TRACKING_ID = process.env.GOOGLE_ANALYTICS_ID || '';
 
 export const pageview = (url: string): void => {

@@ -1,13 +1,20 @@
-// pages/_document.tsx
-import {GA_TRACKING_ID} from '../src/lib/gtag';
+/**********************************************************
+ * [Module description.]
+ *
+ * @author YourName <YourMailAddress>
+ * @version 1.0.0
+ *
+ * Copyright (C) 2021 hello-slide
+ **********************************************************/
 import Document, {Html, Head, Main, NextScript} from 'next/document';
+import {GA_TRACKING_ID} from '../src/lib/gtag';
 
 export default class MyDocument extends Document {
   render(): JSX.Element {
     return (
       <Html lang="ja">
         <Head>
-          // GA_TRACKING_ID が設定されていない場合は、なし
+          {/* // GA_TRACKING_ID が設定されていない場合は、なし */}
           {GA_TRACKING_ID && (
             <>
               <script
