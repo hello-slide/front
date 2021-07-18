@@ -1,7 +1,7 @@
 /**********************************************************
  * [Module description.]
  *
- * @author YourName <YourMailAddress>
+ * @author Yoshitsugu Tahara <arisahyper0000@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide

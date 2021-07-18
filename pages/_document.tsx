@@ -1,7 +1,7 @@
 /**********************************************************
  * [Module description.]
  *
- * @author YourName <YourMailAddress>
+ * @author Yoshitsugu Tahara <arisahyper0000@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide
@@ -14,7 +14,6 @@ export default class MyDocument extends Document {
     return (
       <Html lang="ja">
         <Head>
-          {/* // GA_TRACKING_ID が設定されていない場合は、なし */}
           {GA_TRACKING_ID && (
             <>
               <script
