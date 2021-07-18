@@ -1,0 +1,5 @@
+runtime: nodejs15
+handlers:
+  - url: /.*
+    secure: always
+    script: auto
