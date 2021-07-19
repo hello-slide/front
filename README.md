@@ -1,33 +1,58 @@
-# Hello Slide Front
+<div aligin="center">
+  <img src="./assets/logo.svg">
+</div>
+<h1  align="center">Front</h1>
+<div align="center">This repository is responsible for the frontend of Hello Slide.</div>
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Required Dependency
 
-## Getting Started
-
-First, run the development server:
+- node: latest
+- yarn: latest
 
 ```bash
-npm run dev
-# or
+yarn install
+```
+
+## Lint and Build
+
+- Lint
+
+  ```bash
+  # run linter
+  yarn run lint
+
+  # fix
+  yarn run fix
+  ```
+
+- Build
+
+  ```bash
+  yarn build
+  ```
+
+## Start (or dev start)
+
+```bash
+yarn start
+```
+
+To start for debugging purposes:
+
+```bash
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deploy
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Deploy to GAE.\
+Normally it will be automatically deployed when pushed to the main branch.\
+However, it can also be deployed explicitly.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+# notice: require gcloud.
+yarn deploy
+```
 
 ## LICENSE
 
