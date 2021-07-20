@@ -1,5 +1,5 @@
 /**********************************************************
- * [Module description.]
+ * Embed the Google Analytics script in the common Head of all pages.
  *
  * @author Yoshitsugu Tahara <arisahyper0000@gmail.com>
  * @version 1.0.0
@@ -7,7 +7,7 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 import Document, {Html, Head, Main, NextScript} from 'next/document';
-import {GA_TRACKING_ID} from '../src/lib/gtag';
+import {GA_TRACKING_ID} from '../utils/ga/gtag';
 
 export default class MyDocument extends Document {
   render(): JSX.Element {
@@ -29,7 +29,7 @@ export default class MyDocument extends Document {
             gtag('config', '${GA_TRACKING_ID}', {
               page_path: window.location.pathname,
             });
-        `,
+              `,
                 }}
               />
             </>

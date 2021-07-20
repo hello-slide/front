@@ -1,5 +1,5 @@
 /**********************************************************
- * [Module description.]
+ * This function counts up the PV when the URL is changed.
  *
  * @author Yoshitsugu Tahara <arisahyper0000@gmail.com>
  * @version 1.0.0
@@ -9,7 +9,7 @@
 import {AppProps} from 'next/app';
 import {useRouter} from 'next/router';
 import {useEffect} from 'react';
-import {GA_TRACKING_ID, pageview} from '../src/lib/gtag';
+import {GA_TRACKING_ID, pageview} from '../utils/ga/gtag';
 
 const App = ({Component, pageProps}: AppProps): JSX.Element => {
   const router = useRouter();

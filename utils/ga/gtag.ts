@@ -1,5 +1,5 @@
 /**********************************************************
- * [Module description.]
+ * Function to measure the PV.
  *
  * @author Yoshitsugu Tahara <arisahyper0000@gmail.com>
  * @version 1.0.0
