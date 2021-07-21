@@ -1,11 +1,12 @@
 /**********************************************************
- * This function counts up the PV when the URL is changed.
+ * App
  *
  * @author Yoshitsugu Tahara <arisahyper0000@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+
 import {AppProps} from 'next/app';
 import {useRouter} from 'next/router';
 import {useEffect} from 'react';

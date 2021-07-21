@@ -1,5 +1,5 @@
 /**********************************************************
- * Embed the Google Analytics script in the common Head of all pages.
+ * Documents
  *
  * @author Yoshitsugu Tahara <arisahyper0000@gmail.com>
  * @version 1.0.0
