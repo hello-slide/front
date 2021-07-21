@@ -22,33 +22,52 @@ import {
   useDisclosure,
   Heading,
   Text,
-  Link,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
+  MenuDivider,
 } from '@chakra-ui/react';
 import React from 'react';
 import {IoSettingsSharp, IoLogOutOutline} from 'react-icons/io5';
+import NoSSR from 'react-no-ssr';
 import {useRecoilState} from 'recoil';
 import Logo from '../../assets/svgs/logo.svg';
 import {UserDataState} from '../../utils/state/atom';
+import Link from './Link';
 import Login from './Login';
 
 const Header: React.FC<{isLogin: boolean}> = ({isLogin}) => {
   const IsLogin = () => {
-    const [userData] = useRecoilState(UserDataState);
+    const [userData, setUserData] = useRecoilState(UserDataState);
     return (
       <Menu>
         <MenuButton
           as={Avatar}
-          size="sm"
+          size="md"
           cursor="pointer"
           src={userData.image}
         />
-        <MenuList>
-          <MenuItem icon={<IoSettingsSharp />}>設定</MenuItem>
-          <MenuItem icon={<IoLogOutOutline />}>ログアウト</MenuItem>
+        <MenuList padding="0">
+          <MenuItem
+            fontSize="1rem"
+            fontWeight="bold"
+            padding="1rem 0 1rem 1rem"
+          >
+            {userData.name}
+          </MenuItem>
+          <MenuDivider margin="0" />
+          <MenuItem icon={<IoSettingsSharp />} padding=".5rem 0 .5rem 1rem">
+            設定
+          </MenuItem>
+          <MenuItem
+            height="100%"
+            icon={<IoLogOutOutline />}
+            onClick={() => setUserData({name: '', image: ''})}
+            padding=".5rem 0 .5rem 1rem"
+          >
+            ログアウト
+          </MenuItem>
         </MenuList>
       </Menu>
     );
@@ -76,8 +95,9 @@ const Header: React.FC<{isLogin: boolean}> = ({isLogin}) => {
               </Center>
               <Center margin="0 1rem 1.3rem 1rem">
                 <Text>
-                  ログインすると、<Link>利用規約</Link>と
-                  <Link>プライバシーポリシー</Link>に同意したとみなされます。
+                  ログインすると、<Link href="/terms">利用規約</Link>と
+                  <Link href="/privacy">プライバシーポリシー</Link>
+                  に同意したとみなされます。
                 </Text>
               </Center>
             </ModalBody>
@@ -95,11 +115,13 @@ const Header: React.FC<{isLogin: boolean}> = ({isLogin}) => {
         paddingTop={{base: '2rem', sm: '0'}}
       >
         <Box display="flex" alignItems="center">
-          <Logo width="15rem" />
+          <Link href="/">
+            <Logo width="15rem" />
+          </Link>
         </Box>
         <Spacer />
         <Box display={{base: 'none', sm: 'flex'}} alignItems="center">
-          {isLogin ? <IsLogin /> : <IsNoLogin />}
+          <NoSSR>{isLogin ? <IsLogin /> : <IsNoLogin />}</NoSSR>
         </Box>
       </Flex>
     </Box>

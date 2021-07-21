@@ -6,8 +6,9 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Heading, Link, Stack, Box} from '@chakra-ui/react';
+import {Heading, Stack, Box} from '@chakra-ui/react';
 import React from 'react';
+import Link from './Link';
 
 const FooterList: React.FC<{
   title: string;

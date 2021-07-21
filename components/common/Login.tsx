@@ -40,7 +40,6 @@ const Login = () => {
       )}
       buttonText="Login"
       onSuccess={response => handleGoogleLogin(response)}
-      onFailure={err => console.log('Google Login failed', err)}
       cookiePolicy={'single_host_origin'}
     />
   );

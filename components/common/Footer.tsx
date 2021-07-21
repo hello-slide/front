@@ -54,8 +54,8 @@ const Footer = () => {
               <FooterList
                 title="Legal"
                 elements={[
-                  {text: '利用規約', links: '/'},
-                  {text: 'プライバシーポリシー', links: '/'},
+                  {text: '利用規約', links: '/terms'},
+                  {text: 'プライバシーポリシー', links: '/privacy'},
                 ]}
               />
             </Box>
