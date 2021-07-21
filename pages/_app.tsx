@@ -11,9 +11,13 @@ import {Box} from '@chakra-ui/react';
 import {ChakraProvider} from '@chakra-ui/react';
 import {AppProps} from 'next/app';
 import {useRouter} from 'next/router';
+import nprogress from 'nprogress';
 import {useEffect} from 'react';
 import {RecoilRoot} from 'recoil';
 import {GA_TRACKING_ID, pageview} from '../utils/ga/gtag';
+import 'nprogress/nprogress.css';
+
+nprogress.configure({showSpinner: false, speed: 400, minimum: 0.25});
 
 const App = ({Component, pageProps}: AppProps): JSX.Element => {
   const router = useRouter();
@@ -28,6 +32,15 @@ const App = ({Component, pageProps}: AppProps): JSX.Element => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
+
+  if (process.browser) {
+    nprogress.start();
+  }
+
+  useEffect(() => {
+    // バーの表示終了
+    nprogress.done();
+  });
 
   return (
     <RecoilRoot>
