@@ -19,10 +19,10 @@ const FooterList: React.FC<{
 }> = ({title, elements}) => {
   return (
     <Box>
-      <Heading as="h4" fontSize="md" letterSpacing="wider" mb={4}>
+      <Heading as="h4" fontSize="1.1rem" letterSpacing="wider" mb={4}>
         {title}
       </Heading>
-      <Stack>
+      <Stack fontSize=".9rem">
         {elements.map((value, index) => {
           return (
             <Link href={value.links} key={index} isExternal={value.isExternal}>

@@ -7,6 +7,7 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 
+import {Box} from '@chakra-ui/react';
 import {ChakraProvider} from '@chakra-ui/react';
 import {AppProps} from 'next/app';
 import {useRouter} from 'next/router';
@@ -31,7 +32,9 @@ const App = ({Component, pageProps}: AppProps): JSX.Element => {
   return (
     <RecoilRoot>
       <ChakraProvider>
-        <Component {...pageProps} />
+        <Box fontFamily="'Noto Sans JP', sans-serif;">
+          <Component {...pageProps} />
+        </Box>
       </ChakraProvider>
     </RecoilRoot>
   );
