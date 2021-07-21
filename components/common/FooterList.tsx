@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Text, Link, ListItem, UnorderedList} from '@chakra-ui/react';
+import {Heading, Link, Stack, Box} from '@chakra-ui/react';
 import React from 'react';
 
 const FooterList: React.FC<{
@@ -18,20 +18,20 @@ const FooterList: React.FC<{
   }[];
 }> = ({title, elements}) => {
   return (
-    <React.Fragment>
-      <Text fontWeight="bold">{title}</Text>
-      <UnorderedList listStyleType="none" margin="0">
+    <Box>
+      <Heading as="h4" fontSize="md" letterSpacing="wider" mb={4}>
+        {title}
+      </Heading>
+      <Stack>
         {elements.map((value, index) => {
           return (
-            <ListItem key={index} margin=".5rem 0 .5rem 0">
-              <Link href={value.links} isExternal={value.isExternal}>
-                {value.text}
-              </Link>
-            </ListItem>
+            <Link href={value.links} key={index} isExternal={value.isExternal}>
+              {value.text}
+            </Link>
           );
         })}
-      </UnorderedList>
-    </React.Fragment>
+      </Stack>
+    </Box>
   );
 };
 

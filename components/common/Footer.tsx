@@ -7,57 +7,78 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 
-import {Box, SimpleGrid, Center} from '@chakra-ui/react';
+import {Box, StackDivider, Stack, Text, Center} from '@chakra-ui/react';
 import React from 'react';
 import Logo from '../../assets/svgs/logo.svg';
 import FooterList from './FooterList';
 
 const Footer = () => {
   return (
-    <Box width="100%" backgroundColor="#e3e3e3">
-      <Center>
-        <SimpleGrid
-          columns={[1, null, 4]}
-          spacing={[10, null, 40]}
-          margin="0 1rem 0 1rem"
+    <Box
+      as="footer"
+      role="contentinfo"
+      mx="auto"
+      maxW="7xl"
+      py="12"
+      px={{base: '4', md: '8'}}
+    >
+      <Stack spacing="10" divider={<StackDivider />}>
+        <Stack
+          direction={{base: 'column', lg: 'row'}}
+          spacing={{base: '10', lg: '28'}}
         >
-          <Box margin="2rem 0 0 0">
+          <Box flex="1">
             <Logo width="10rem" />
           </Box>
-          <Box>
-            <FooterList
-              title="About"
-              elements={[
-                {text: 'HelloSlideについて', links: '/'},
-                {text: 'よくある質問', links: '/'},
-                {text: '変更履歴', links: '/'},
-                {text: '使い方', links: '/'},
-              ]}
-            />
-          </Box>
-          <Box>
-            <FooterList
-              title="Legal"
-              elements={[
-                {text: '利用規約', links: '/'},
-                {text: 'プライバシーポリシー', links: '/'},
-              ]}
-            />
-          </Box>
-          <Box>
-            <FooterList
-              title="Links"
-              elements={[
-                {
-                  text: 'GitHub',
-                  links: 'https://github.com/hello-slide',
-                  isExternal: true,
-                },
-              ]}
-            />
-          </Box>
-        </SimpleGrid>
-      </Center>
+          <Stack
+            direction={{
+              base: 'column',
+              sm: 'row',
+              md: 'row',
+              lg: 'row',
+            }}
+            spacing={{base: '10', lg: '28'}}
+          >
+            <Box>
+              <FooterList
+                title="About"
+                elements={[
+                  {text: 'HelloSlideについて', links: '/'},
+                  {text: 'よくある質問', links: '/'},
+                  {text: '変更履歴', links: '/'},
+                  {text: '使い方', links: '/'},
+                ]}
+              />
+            </Box>
+            <Box>
+              <FooterList
+                title="Legal"
+                elements={[
+                  {text: '利用規約', links: '/'},
+                  {text: 'プライバシーポリシー', links: '/'},
+                ]}
+              />
+            </Box>
+            <Box>
+              <FooterList
+                title="Links"
+                elements={[
+                  {
+                    text: 'GitHub',
+                    links: 'https://github.com/hello-slide',
+                    isExternal: true,
+                  },
+                ]}
+              />
+            </Box>
+          </Stack>
+        </Stack>
+        <Center>
+          <Text fontSize="sm">
+            &copy; {new Date().getFullYear()} hello-slide
+          </Text>
+        </Center>
+      </Stack>
     </Box>
   );
 };
