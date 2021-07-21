@@ -1,15 +1,16 @@
 /**********************************************************
- * Root page.
+ * Define recoil atoms.
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import Page from '../components/common/Page';
 
-const Index = () => {
-  return <Page>Hello World</Page>;
-};
+import {atom} from 'recoil';
 
-export default Index;
+// Example:
+export const textState = atom({
+  key: 'textState', // unique ID (with respect to other atoms/selectors)
+  default: '', // default value (aka initial value)
+});
