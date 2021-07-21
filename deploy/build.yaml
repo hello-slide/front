@@ -1,12 +1,12 @@
 steps:
-  # Setting env
-  # - name: 'gcr.io/cloud-builders/gcloud'
-  #   entrypoint: 'bash'
-  #   args:
-  #     - '-c'
-  #     - |
-  #       echo 'EXAMPLE="${_EXAMPLE}"' > .env
-  #       cat .env
+  Setting env
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo 'GOOGLE_ANALYTICS_ID="${_GOOGLE_ANALYTICS_ID}"' > .env
+        cat .env
 
   - name: 'gcr.io/cloud-builders/yarn'
     args: ['install']
