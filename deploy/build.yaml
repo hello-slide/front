@@ -1,5 +1,4 @@
 steps:
-  Setting env
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
