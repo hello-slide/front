@@ -28,6 +28,7 @@ import {
   MenuItem,
   MenuDivider,
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import React from 'react';
 import {IoSettingsSharp, IoLogOutOutline} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
@@ -49,17 +50,21 @@ const Header: React.FC<{isLogin: boolean}> = ({isLogin}) => {
           src={userData.image}
         />
         <MenuList padding="0">
-          <MenuItem
-            fontSize="1rem"
-            fontWeight="bold"
-            padding="1rem 0 1rem 1rem"
-          >
-            {userData.name}
-          </MenuItem>
+          <NextLink href="/dashboard">
+            <MenuItem
+              fontSize="1rem"
+              fontWeight="bold"
+              padding="1rem 0 1rem 1rem"
+            >
+              {userData.name}
+            </MenuItem>
+          </NextLink>
           <MenuDivider margin="0" />
-          <MenuItem icon={<IoSettingsSharp />} padding=".5rem 0 .5rem 1rem">
-            設定
-          </MenuItem>
+          <NextLink href="/setting">
+            <MenuItem icon={<IoSettingsSharp />} padding=".5rem 0 .5rem 1rem">
+              設定
+            </MenuItem>
+          </NextLink>
           <MenuItem
             height="100%"
             icon={<IoLogOutOutline />}
