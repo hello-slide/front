@@ -38,7 +38,6 @@ const App = ({Component, pageProps}: AppProps): JSX.Element => {
   }
 
   useEffect(() => {
-    // バーの表示終了
     nprogress.done();
   });
 
