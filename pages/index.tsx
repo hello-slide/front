@@ -6,10 +6,13 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import {useRecoilState} from 'recoil';
 import Page from '../components/common/Page';
+import {UserDataState} from '../utils/state/atom';
 
 const Index = () => {
-  return <Page isLogin={true}></Page>;
+  const [userData] = useRecoilState(UserDataState);
+  return <Page isLogin={typeof userData.token !== 'undefined'}>aa</Page>;
 };
 
 export default Index;

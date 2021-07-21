@@ -23,17 +23,38 @@ import {
   Heading,
   Text,
   Link,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react';
 import React from 'react';
-import {FcGoogle} from 'react-icons/fc';
+import {IoSettingsSharp, IoLogOutOutline} from 'react-icons/io5';
+import {useRecoilState} from 'recoil';
 import Logo from '../../assets/svgs/logo.svg';
+import {UserDataState} from '../../utils/state/atom';
+import Login from './Login';
 
 const Header: React.FC<{isLogin: boolean}> = ({isLogin}) => {
-  const Login = () => {
-    return <Avatar size="sm" />;
+  const IsLogin = () => {
+    const [userData] = useRecoilState(UserDataState);
+    return (
+      <Menu>
+        <MenuButton
+          as={Avatar}
+          size="sm"
+          cursor="pointer"
+          src={userData.image}
+        />
+        <MenuList>
+          <MenuItem icon={<IoSettingsSharp />}>設定</MenuItem>
+          <MenuItem icon={<IoLogOutOutline />}>ログアウト</MenuItem>
+        </MenuList>
+      </Menu>
+    );
   };
 
-  const NoLogin = () => {
+  const IsNoLogin = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     return (
       <React.Fragment>
@@ -50,9 +71,7 @@ const Header: React.FC<{isLogin: boolean}> = ({isLogin}) => {
               </Center>
               <Center>
                 <Box height="6rem" display="flex" alignItems="center">
-                  <Button onClick={onOpen} leftIcon={<FcGoogle />}>
-                    Googleでログイン
-                  </Button>
+                  <Login />
                 </Box>
               </Center>
               <Center margin="0 1rem 1.3rem 1rem">
@@ -70,13 +89,17 @@ const Header: React.FC<{isLogin: boolean}> = ({isLogin}) => {
 
   return (
     <Box width="100%">
-      <Flex paddingLeft={{base: '1rem'}} paddingRight={{base: '3rem'}}>
+      <Flex
+        paddingLeft={{base: '2rem', sm: '1rem'}}
+        paddingRight={{base: '3rem'}}
+        paddingTop={{base: '2rem', sm: '0'}}
+      >
         <Box display="flex" alignItems="center">
           <Logo width="15rem" />
         </Box>
         <Spacer />
         <Box display={{base: 'none', sm: 'flex'}} alignItems="center">
-          {isLogin ? <Login /> : <NoLogin />}
+          {isLogin ? <IsLogin /> : <IsNoLogin />}
         </Box>
       </Flex>
     </Box>
