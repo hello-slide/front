@@ -6,9 +6,10 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import Page from '../components/common/Page';
 
 const Index = () => {
-  return <div>Hello World</div>;
+  return <Page>Hello World</Page>;
 };
 
 export default Index;
