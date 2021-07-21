@@ -11,11 +11,11 @@ import React from 'react';
 import Footer from './Footer';
 import Header from './Header';
 
-const Page: React.FC = ({children}) => {
+const Page: React.FC<{isLogin: boolean}> = ({children, isLogin}) => {
   return (
     <Box position="relative">
       <Box minHeight="calc(100vh)" paddingBottom="30px">
-        <Header isLogin={false} />
+        <Header isLogin={isLogin} />
         {children}
       </Box>
       <Box position="absolute" bottom={0} left={0} width="100%">

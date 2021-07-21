@@ -9,7 +9,7 @@
 import Page from '../components/common/Page';
 
 const Index = () => {
-  return <Page>Hello World</Page>;
+  return <Page isLogin={true}></Page>;
 };
 
 export default Index;
