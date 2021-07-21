@@ -11,6 +11,7 @@ import {ChakraProvider} from '@chakra-ui/react';
 import {AppProps} from 'next/app';
 import {useRouter} from 'next/router';
 import {useEffect} from 'react';
+import {RecoilRoot} from 'recoil';
 import {GA_TRACKING_ID, pageview} from '../utils/ga/gtag';
 
 const App = ({Component, pageProps}: AppProps): JSX.Element => {
@@ -28,9 +29,11 @@ const App = ({Component, pageProps}: AppProps): JSX.Element => {
   }, [router.events]);
 
   return (
-    <ChakraProvider>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <RecoilRoot>
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </RecoilRoot>
   );
 };
 
