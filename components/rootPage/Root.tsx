@@ -6,10 +6,16 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import Root from '../components/rootPage/Root';
+import React from 'react';
+import Footer from '../common/Footer';
 
-const Index = () => {
-  return <Root />;
+const Root = () => {
+  return (
+    <React.Fragment>
+      Hello Slide
+      <Footer />
+    </React.Fragment>
+  );
 };
 
-export default Index;
+export default Root;
