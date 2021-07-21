@@ -9,11 +9,13 @@
 import {Box} from '@chakra-ui/react';
 import React from 'react';
 import Footer from './Footer';
+import Header from './Header';
 
 const Page: React.FC = ({children}) => {
   return (
     <Box position="relative">
       <Box minHeight="calc(100vh)" paddingBottom="30px">
+        <Header isLogin={false} />
         {children}
       </Box>
       <Box position="absolute" bottom={0} left={0} width="100%">
