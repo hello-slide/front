@@ -7,6 +7,7 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 
+import {ChakraProvider} from '@chakra-ui/react';
 import {AppProps} from 'next/app';
 import {useRouter} from 'next/router';
 import {useEffect} from 'react';
@@ -26,7 +27,11 @@ const App = ({Component, pageProps}: AppProps): JSX.Element => {
     };
   }, [router.events]);
 
-  return <Component {...pageProps} />;
+  return (
+    <ChakraProvider>
+      <Component {...pageProps} />
+    </ChakraProvider>
+  );
 };
 
 export default App;
