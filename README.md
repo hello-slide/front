@@ -28,19 +28,19 @@ yarn install
 - Build
 
   ```bash
-  yarn build
+  yarn run build
   ```
 
 ## Start (or dev start)
 
 ```bash
-yarn start
+yarn run start
 ```
 
 To start for debugging purposes:
 
 ```bash
-yarn dev
+yarn run dev
 ```
 
 ## Deploy
@@ -51,7 +51,7 @@ However, it can also be deployed explicitly.
 
 ```bash
 # notice: require gcloud.
-yarn deploy
+yarn run deploy
 ```
 
 ## LICENSE
