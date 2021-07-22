@@ -6,10 +6,9 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import Page from '../common/Page';
 
 const PrivacyPage = () => {
-  return <Page>privacy policy</Page>;
+  return <>privacy policy</>;
 };
 
 export default PrivacyPage;

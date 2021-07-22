@@ -6,10 +6,9 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import Page from '../common/Page';
 
 const DashboardPage = () => {
-  return <Page>Dashboard</Page>;
+  return <>Dashboard</>;
 };
 
 export default DashboardPage;

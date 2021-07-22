@@ -6,10 +6,9 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import Page from '../common/Page';
 
 const TermsPage = () => {
-  return <Page>Terms</Page>;
+  return <>Terms</>;
 };
 
 export default TermsPage;

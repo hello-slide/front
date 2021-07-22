@@ -14,6 +14,7 @@ import {useRouter} from 'next/router';
 import nprogress from 'nprogress';
 import {useEffect} from 'react';
 import {RecoilRoot} from 'recoil';
+import Page from '../components/common/Page';
 import {GA_TRACKING_ID, pageview} from '../utils/ga/gtag';
 import 'nprogress/nprogress.css';
 
@@ -45,7 +46,9 @@ const App = ({Component, pageProps}: AppProps): JSX.Element => {
     <RecoilRoot>
       <ChakraProvider>
         <Box fontFamily="'Noto Sans JP', sans-serif;">
-          <Component {...pageProps} />
+          <Page>
+            <Component {...pageProps} />
+          </Page>
         </Box>
       </ChakraProvider>
     </RecoilRoot>
