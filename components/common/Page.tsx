@@ -13,12 +13,12 @@ import Header from './Header';
 
 const Page: React.FC = ({children}) => {
   return (
-    <Box position="relative">
-      <Box minHeight="calc(100vh)" paddingBottom="30px">
+    <Box display="flex" flexDirection="column" minHeight="100vh">
+      <Box>
         <Header />
         {children}
       </Box>
-      <Box position="absolute" bottom={0} left={0} width="100%">
+      <Box marginTop="auto">
         <Footer />
       </Box>
     </Box>
