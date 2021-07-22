@@ -1,15 +1,14 @@
 /**********************************************************
- * Root page.
+ * Usage Page
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import IndexPage from '../components/index/IndexPage';
 
-const Index = () => {
-  return <IndexPage />;
+const UsagePage = () => {
+  return <>usage</>;
 };
 
-export default Index;
+export default UsagePage;

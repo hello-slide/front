@@ -1,15 +1,15 @@
 /**********************************************************
- * Root page.
+ * privacy policy
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import IndexPage from '../components/index/IndexPage';
+import PrivacyPage from '../components/privacyPolicy/PrivacyPage';
 
-const Index = () => {
-  return <IndexPage />;
+const Privacy = () => {
+  return <PrivacyPage />;
 };
 
-export default Index;
+export default Privacy;
