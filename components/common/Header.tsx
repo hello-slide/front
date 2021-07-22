@@ -48,7 +48,7 @@ const Header: React.FC = React.memo(() => {
           as={Avatar}
           size="md"
           cursor="pointer"
-          src="https://cateiru.com/_next/image?url=%2FmyIcon.png&w=1080&q=75"
+          src={userData.image}
         />
         <MenuList padding="0">
           <NextLink href="/dashboard">
