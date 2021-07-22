@@ -6,10 +6,10 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import IndexPage from '../components/index/IndexPage';
+import Root from '../components/rootPage/Root';
 
 const Index = () => {
-  return <IndexPage />;
+  return <Root />;
 };
 
 export default Index;

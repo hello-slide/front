@@ -7,11 +7,20 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 import {Box, Flex} from '@chakra-ui/react';
-import React from 'react';
+import React, {useRef, useCallback} from 'react';
+import {IoCaretDownSharp} from 'react-icons/io5';
 import Logo from '../../assets/svgs/logo.svg';
-import Footer from '../common/Footer';
 
 const Root = () => {
+  const refContents = useRef<HTMLDivElement>();
+
+  const scrollToContents = useCallback(() => {
+    refContents.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  }, [refContents]);
+
   return (
     <React.Fragment>
       <Flex
@@ -19,12 +28,25 @@ const Root = () => {
         justifyContent="center"
         alignItems="center"
         flexDirection="column"
-        width="100vw"
+        width="100%"
         height="100vh"
       >
         <Logo width="30rem" />
+        <Box marginTop="10rem">
+          <IoCaretDownSharp onClick={scrollToContents} />
+        </Box>
       </Flex>
-      <Footer />
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+        width="100%"
+        height="100vh"
+        ref={refContents}
+      >
+        <h1>HelloSlide とは</h1>
+        <p></p>
+      </Flex>
     </React.Fragment>
   );
 };
