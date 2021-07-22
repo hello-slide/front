@@ -1,5 +1,5 @@
 <div aligin="center">
-  <img src="./assets/logo.svg">
+  <img src="./documents/logo.svg">
 </div>
 <h1  align="center">Front</h1>
 <div align="center">This repository is responsible for the frontend of Hello Slide.</div>
