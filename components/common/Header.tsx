@@ -97,9 +97,9 @@ const Header: React.FC = React.memo(() => {
                 <Heading fontSize="1.7rem">HelloSlideにログインする</Heading>
               </Center>
               <Center>
-                <Box height="6rem" display="flex" alignItems="center">
+                <Flex height="6rem" alignItems="center">
                   <Login />
-                </Box>
+                </Flex>
               </Center>
               <Center margin="0 1rem 1.3rem 1rem">
                 <Text>
@@ -124,11 +124,11 @@ const Header: React.FC = React.memo(() => {
         paddingRight={{base: '3rem'}}
         paddingTop={{base: '2rem', sm: '0'}}
       >
-        <Box display="flex" alignItems="center">
+        <Flex alignItems="center">
           <Link href="/">
             <Logo width="15rem" />
           </Link>
-        </Box>
+        </Flex>
         <Spacer />
         <Box display={{base: 'none', sm: 'flex'}} alignItems="center">
           <NoSSR>
