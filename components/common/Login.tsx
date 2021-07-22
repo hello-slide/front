@@ -18,7 +18,7 @@ const Login = () => {
   const [, setUserData] = useRecoilState(UserDataState);
 
   const handleGoogleLogin = response => {
-    console.log(response);
+    // TODO: Authentication process on the server
     setUserData({
       token: response.accessToken,
       name: response.profileObj.name,

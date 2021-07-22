@@ -43,10 +43,10 @@ const Footer = () => {
               <FooterList
                 title="About"
                 elements={[
-                  {text: 'HelloSlideについて', links: '/'},
-                  {text: 'よくある質問', links: '/'},
-                  {text: '変更履歴', links: '/'},
-                  {text: '使い方', links: '/'},
+                  {text: 'HelloSlideについて', links: '/about'},
+                  {text: 'よくある質問', links: '/question'},
+                  {text: '変更履歴', links: '/changelog'},
+                  {text: '使い方', links: '/usage'},
                 ]}
               />
             </Box>

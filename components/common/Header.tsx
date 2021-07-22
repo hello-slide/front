@@ -38,9 +38,10 @@ import {UserDataState} from '../../utils/state/atom';
 import Link from './Link';
 import Login from './Login';
 
-const Header: React.FC<{isLogin: boolean}> = ({isLogin}) => {
-  const IsLogin = () => {
+const Header: React.FC = React.memo(() => {
+  const IsLogin = React.memo(() => {
     const [userData, setUserData] = useRecoilState(UserDataState);
+
     return (
       <Menu>
         <MenuButton
@@ -76,7 +77,9 @@ const Header: React.FC<{isLogin: boolean}> = ({isLogin}) => {
         </MenuList>
       </Menu>
     );
-  };
+  });
+
+  IsLogin.displayName = 'IsLogin';
 
   const IsNoLogin = () => {
     const {isOpen, onOpen, onClose} = useDisclosure();
@@ -112,6 +115,8 @@ const Header: React.FC<{isLogin: boolean}> = ({isLogin}) => {
     );
   };
 
+  const [userData] = useRecoilState(UserDataState);
+
   return (
     <Box width="100%">
       <Flex
@@ -126,11 +131,21 @@ const Header: React.FC<{isLogin: boolean}> = ({isLogin}) => {
         </Box>
         <Spacer />
         <Box display={{base: 'none', sm: 'flex'}} alignItems="center">
-          <NoSSR>{isLogin ? <IsLogin /> : <IsNoLogin />}</NoSSR>
+          <NoSSR>
+            <NoSSR>
+              {typeof userData.token !== 'undefined' ? (
+                <IsLogin />
+              ) : (
+                <IsNoLogin />
+              )}
+            </NoSSR>
+          </NoSSR>
         </Box>
       </Flex>
     </Box>
   );
-};
+});
+
+Header.displayName = 'Header';
 
 export default Header;
