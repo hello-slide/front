@@ -14,11 +14,16 @@ import Footer from '../common/Footer';
 const Root = () => {
   return (
     <React.Fragment>
-      <Box backgroundColor={'#333'} width="100vw" height="100vh" m={0} p={0}>
-        <Flex justifyContent="center">
-          <Logo width="30rem" my="50vh" />
-        </Flex>
-      </Box>
+      <Flex
+        backgroundColor="#333"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+        width="100vw"
+        height="100vh"
+      >
+        <Logo width="30rem" />
+      </Flex>
       <Footer />
     </React.Fragment>
   );
