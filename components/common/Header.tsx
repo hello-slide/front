@@ -29,6 +29,7 @@ import {
   MenuDivider,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import {useRouter} from 'next/router';
 import React from 'react';
 import {IoSettingsSharp, IoLogOutOutline} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
@@ -82,7 +83,13 @@ const Header: React.FC = React.memo(() => {
   IsLogin.displayName = 'IsLogin';
 
   const IsNoLogin = () => {
+    const router = useRouter();
     const {isOpen, onOpen, onClose} = useDisclosure();
+
+    React.useEffect(() => {
+      router.events.on('routeChangeStart', onClose);
+    });
+
     return (
       <React.Fragment>
         <Button colorScheme="blue" onClick={onOpen}>
@@ -103,8 +110,14 @@ const Header: React.FC = React.memo(() => {
               </Center>
               <Center margin="0 1rem 1.3rem 1rem">
                 <Text>
-                  ログインすると、<Link href="/terms">利用規約</Link>と
-                  <Link href="/privacy">プライバシーポリシー</Link>
+                  ログインすると、
+                  <Link href="/terms" onClick={onClose}>
+                    利用規約
+                  </Link>
+                  と
+                  <Link href="/privacy" onClick={onClose}>
+                    プライバシーポリシー
+                  </Link>
                   に同意したとみなされます。
                 </Text>
               </Center>
