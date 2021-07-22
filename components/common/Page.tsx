@@ -6,15 +6,22 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import {Box} from '@chakra-ui/react';
 import React from 'react';
 import Footer from './Footer';
+import Header from './Header';
 
 const Page: React.FC = ({children}) => {
   return (
-    <React.Fragment>
-      {children}
-      <Footer />
-    </React.Fragment>
+    <Box position="relative">
+      <Box minHeight="calc(100vh)" paddingBottom="30px">
+        <Header />
+        {children}
+      </Box>
+      <Box position="absolute" bottom={0} left={0} width="100%">
+        <Footer />
+      </Box>
+    </Box>
   );
 };
 

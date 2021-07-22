@@ -1,15 +1,15 @@
 /**********************************************************
- * Root page.
+ * terms of use
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import IndexPage from '../components/index/IndexPage';
+import TermsPage from '../components/terms/TermsPage';
 
-const Index = () => {
-  return <IndexPage />;
+const Terms = () => {
+  return <TermsPage />;
 };
 
-export default Index;
+export default Terms;
