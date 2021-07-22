@@ -8,7 +8,7 @@
  **********************************************************/
 import {Box, Flex} from '@chakra-ui/react';
 import React, {useRef, useCallback} from 'react';
-import {IoCaretDownSharp} from 'react-icons/io5';
+import {IoCaretDown} from 'react-icons/io5';
 import Logo from '../../assets/svgs/logo.svg';
 
 const Root = () => {
@@ -24,7 +24,7 @@ const Root = () => {
   return (
     <React.Fragment>
       <Flex
-        backgroundColor="#333"
+        // backgroundColor="#333"
         justifyContent="center"
         alignItems="center"
         flexDirection="column"
@@ -33,7 +33,7 @@ const Root = () => {
       >
         <Logo width="30rem" />
         <Box marginTop="10rem">
-          <IoCaretDownSharp onClick={scrollToContents} />
+          <IoCaretDown size="1.75rem" onClick={scrollToContents} />
         </Box>
       </Flex>
       <Flex
@@ -44,7 +44,7 @@ const Root = () => {
         height="100vh"
         ref={refContents}
       >
-        <h1>HelloSlide とは</h1>
+        <h1>What is &quot;HelloSlide&quot; ? </h1>
         <p></p>
       </Flex>
     </React.Fragment>
