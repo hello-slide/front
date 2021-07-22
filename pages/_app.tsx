@@ -11,9 +11,14 @@ import {Box} from '@chakra-ui/react';
 import {ChakraProvider} from '@chakra-ui/react';
 import {AppProps} from 'next/app';
 import {useRouter} from 'next/router';
+import nprogress from 'nprogress';
 import {useEffect} from 'react';
 import {RecoilRoot} from 'recoil';
+import Page from '../components/common/Page';
 import {GA_TRACKING_ID, pageview} from '../utils/ga/gtag';
+import 'nprogress/nprogress.css';
+
+nprogress.configure({showSpinner: false, speed: 400, minimum: 0.25});
 
 const App = ({Component, pageProps}: AppProps): JSX.Element => {
   const router = useRouter();
@@ -29,11 +34,21 @@ const App = ({Component, pageProps}: AppProps): JSX.Element => {
     };
   }, [router.events]);
 
+  if (process.browser) {
+    nprogress.start();
+  }
+
+  useEffect(() => {
+    nprogress.done();
+  });
+
   return (
     <RecoilRoot>
       <ChakraProvider>
         <Box fontFamily="'Noto Sans JP', sans-serif;">
-          <Component {...pageProps} />
+          <Page>
+            <Component {...pageProps} />
+          </Page>
         </Box>
       </ChakraProvider>
     </RecoilRoot>

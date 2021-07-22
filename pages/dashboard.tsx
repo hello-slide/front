@@ -1,15 +1,15 @@
 /**********************************************************
- * Root page.
+ * Dashboard
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import IndexPage from '../components/index/IndexPage';
+import DashboardPage from '../components/dashboard/DashboardPage';
 
-const Index = () => {
-  return <IndexPage />;
+const Dashboard = () => {
+  return <DashboardPage />;
 };
 
-export default Index;
+export default Dashboard;

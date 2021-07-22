@@ -43,10 +43,10 @@ const Footer = () => {
               <FooterList
                 title="About"
                 elements={[
-                  {text: 'HelloSlideについて', links: '/'},
-                  {text: 'よくある質問', links: '/'},
-                  {text: '変更履歴', links: '/'},
-                  {text: '使い方', links: '/'},
+                  {text: 'HelloSlideについて', links: '/about'},
+                  {text: 'よくある質問', links: '/question'},
+                  {text: '変更履歴', links: '/changelog'},
+                  {text: '使い方', links: '/usage'},
                 ]}
               />
             </Box>
@@ -54,8 +54,8 @@ const Footer = () => {
               <FooterList
                 title="Legal"
                 elements={[
-                  {text: '利用規約', links: '/'},
-                  {text: 'プライバシーポリシー', links: '/'},
+                  {text: '利用規約', links: '/terms'},
+                  {text: 'プライバシーポリシー', links: '/privacy'},
                 ]}
               />
             </Box>
