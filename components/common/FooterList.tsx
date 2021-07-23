@@ -10,14 +10,14 @@ import {Heading, Stack, Box} from '@chakra-ui/react';
 import React from 'react';
 import Link from './Link';
 
-const FooterList: React.FC<{
+const FooterList = React.memo<{
   title: string;
   elements: {
     text: string;
     links: string;
     isExternal?: boolean;
   }[];
-}> = ({title, elements}) => {
+}>(({title, elements}) => {
   return (
     <Box>
       <Heading as="h4" fontSize="1.1rem" letterSpacing="wider" mb={4}>
@@ -34,6 +34,8 @@ const FooterList: React.FC<{
       </Stack>
     </Box>
   );
-};
+});
+
+FooterList.displayName = 'footerName';
 
 export default FooterList;

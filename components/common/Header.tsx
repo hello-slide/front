@@ -154,13 +154,15 @@ const Header: React.FC = React.memo(() => {
   return (
     <Box width="100%">
       <Flex
-        paddingLeft={{base: '2rem', sm: '1rem'}}
+        paddingLeft="1rem"
         paddingRight={{base: '3rem'}}
-        paddingTop={{base: '2rem', sm: '0'}}
+        paddingTop={{base: '1rem', sm: '0'}}
       >
         <Flex alignItems="center">
           <Link href="/">
-            <Logo width="15rem" />
+            <Box width={{base: '10rem', sm: '15rem'}}>
+              <Logo />
+            </Box>
           </Link>
         </Flex>
         <Spacer />

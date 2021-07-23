@@ -11,8 +11,9 @@ import {Box, StackDivider, Stack, Text, Center} from '@chakra-ui/react';
 import React from 'react';
 import Logo from '../../assets/svgs/logo.svg';
 import FooterList from './FooterList';
+import Link from './Link';
 
-const Footer = () => {
+const Footer = React.memo(() => {
   return (
     <Box
       as="footer"
@@ -28,7 +29,9 @@ const Footer = () => {
           spacing={{base: '10', lg: '28'}}
         >
           <Box flex="1">
-            <Logo width="10rem" />
+            <Link href="/">
+              <Logo width="10rem" />
+            </Link>
           </Box>
           <Stack
             direction={{
@@ -81,6 +84,8 @@ const Footer = () => {
       </Stack>
     </Box>
   );
-};
+});
+
+Footer.displayName = 'footer';
 
 export default Footer;
