@@ -6,7 +6,8 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Box, Flex} from '@chakra-ui/react';
+import {Box, Flex, Text} from '@chakra-ui/react';
+import {css} from '@emotion/react';
 import React, {useRef, useCallback} from 'react';
 import {IoCaretDown} from 'react-icons/io5';
 import Logo from '../../assets/svgs/logo.svg';
@@ -31,9 +32,13 @@ const Root = () => {
         width="100%"
         height="100vh"
       >
-        <Logo width="30rem" />
-        <Box marginTop="10rem">
-          <IoCaretDown size="1.75rem" onClick={scrollToContents} />
+        <Logo width="30rem" style={{}} />
+        <Box transition="1.0s" marginTop="10rem">
+          <IoCaretDown
+            size="1.75rem"
+            cursor="pointer"
+            onClick={scrollToContents}
+          />
         </Box>
       </Flex>
       <Flex
@@ -43,9 +48,23 @@ const Root = () => {
         width="100%"
         height="100vh"
         ref={refContents}
+        px="10em"
       >
-        <h1>What is &quot;HelloSlide&quot; ? </h1>
-        <p></p>
+        <Flex flexDirection="column">
+          <Text fontSize="2rem" my="2rem">
+            What is &quot;HelloSlide&quot; ?{' '}
+          </Text>
+        </Flex>
+
+        <Flex>
+          <Text lineHeight="1.75rem">
+            Hello
+            Slideはあなたと観客がリアルタイムにコミュニケーションを取りながらプレゼンテーションを行えるサービスです。
+            <br />
+            <br />
+            HelloSlideを使うことであなたは観客の反応の得られない寂しいプレゼンテーションとはお別れできます。
+          </Text>
+        </Flex>
       </Flex>
     </React.Fragment>
   );
