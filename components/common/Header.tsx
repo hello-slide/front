@@ -12,16 +12,6 @@ import {
   Flex,
   Spacer,
   Avatar,
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  Center,
-  ModalCloseButton,
-  ModalBody,
-  useDisclosure,
-  Heading,
-  Text,
   Menu,
   MenuButton,
   MenuList,
@@ -30,7 +20,6 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import {useRouter} from 'next/router';
 import React from 'react';
 import {useGoogleLogout} from 'react-google-login';
 import {IoSettingsSharp, IoLogOutOutline} from 'react-icons/io5';
@@ -39,7 +28,7 @@ import {useRecoilState} from 'recoil';
 import Logo from '../../assets/svgs/logo.svg';
 import {UserDataState} from '../../utils/state/atom';
 import Link from './Link';
-import Login from './Login';
+import LoginButton from './LoginButton';
 
 const Header: React.FC = React.memo(() => {
   const IsLogin = React.memo(() => {
@@ -103,52 +92,6 @@ const Header: React.FC = React.memo(() => {
 
   IsLogin.displayName = 'IsLogin';
 
-  const IsNoLogin = () => {
-    const router = useRouter();
-    const {isOpen, onOpen, onClose} = useDisclosure();
-
-    React.useEffect(() => {
-      router.events.on('routeChangeStart', onClose);
-    });
-
-    return (
-      <React.Fragment>
-        <Button colorScheme="blue" onClick={onOpen}>
-          Login
-        </Button>
-        <Modal isOpen={isOpen} onClose={onClose} isCentered>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalCloseButton size="lg" />
-            <ModalBody>
-              <Center margin="3rem 0 0 0">
-                <Heading fontSize="1.7rem">HelloSlideにログインする</Heading>
-              </Center>
-              <Center>
-                <Flex height="6rem" alignItems="center">
-                  <Login />
-                </Flex>
-              </Center>
-              <Center margin="0 1rem 1.3rem 1rem">
-                <Text>
-                  ログインすると、
-                  <Link href="/terms" onClick={onClose}>
-                    利用規約
-                  </Link>
-                  と
-                  <Link href="/privacy" onClick={onClose}>
-                    プライバシーポリシー
-                  </Link>
-                  に同意したとみなされます。
-                </Text>
-              </Center>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      </React.Fragment>
-    );
-  };
-
   const [userData] = useRecoilState(UserDataState);
 
   return (
@@ -168,13 +111,11 @@ const Header: React.FC = React.memo(() => {
         <Spacer />
         <Box display={{base: 'none', sm: 'flex'}} alignItems="center">
           <NoSSR>
-            <NoSSR>
-              {typeof userData.token !== 'undefined' ? (
-                <IsLogin />
-              ) : (
-                <IsNoLogin />
-              )}
-            </NoSSR>
+            {typeof userData.token !== 'undefined' ? (
+              <IsLogin />
+            ) : (
+              <LoginButton />
+            )}
           </NoSSR>
         </Box>
       </Flex>
