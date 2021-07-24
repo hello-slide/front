@@ -8,7 +8,7 @@
  **********************************************************/
 
 import {Button} from '@chakra-ui/react';
-import GoogleLogin from 'react-google-login';
+import {useGoogleLogin} from 'react-google-login';
 import {FcGoogle} from 'react-icons/fc';
 import {useRecoilState} from 'recoil';
 import {UserDataState} from '../../utils/state/atom';
@@ -26,22 +26,16 @@ const Login = () => {
     });
   };
 
+  const {signIn, loaded} = useGoogleLogin({
+    onSuccess: response => handleGoogleLogin(response),
+    clientId: googleClientId,
+    cookiePolicy: 'single_host_origin',
+  });
+
   return (
-    <GoogleLogin
-      clientId={googleClientId}
-      render={renderProps => (
-        <Button
-          onClick={renderProps.onClick}
-          disabled={renderProps.disabled}
-          leftIcon={<FcGoogle />}
-        >
-          Googleでログイン
-        </Button>
-      )}
-      buttonText="Login"
-      onSuccess={response => handleGoogleLogin(response)}
-      cookiePolicy={'single_host_origin'}
-    />
+    <Button onClick={signIn} disabled={!loaded} leftIcon={<FcGoogle />}>
+      Googleでログイン
+    </Button>
   );
 };
 

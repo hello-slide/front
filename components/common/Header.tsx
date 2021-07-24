@@ -27,10 +27,12 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+  useToast,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import {useRouter} from 'next/router';
 import React from 'react';
+import {useGoogleLogout} from 'react-google-login';
 import {IoSettingsSharp, IoLogOutOutline} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import {useRecoilState} from 'recoil';
@@ -41,7 +43,25 @@ import Login from './Login';
 
 const Header: React.FC = React.memo(() => {
   const IsLogin = React.memo(() => {
+    const toast = useToast();
     const [userData, setUserData] = useRecoilState(UserDataState);
+    const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+
+    const {signOut, loaded} = useGoogleLogout({
+      clientId: googleClientId,
+      onLogoutSuccess: () => {
+        toast({
+          title: 'ログアウトしました',
+          status: 'info',
+          isClosable: true,
+        });
+      },
+    });
+
+    const logout = () => {
+      setUserData({name: '', image: ''});
+      signOut();
+    };
 
     return (
       <Menu>
@@ -70,7 +90,8 @@ const Header: React.FC = React.memo(() => {
           <MenuItem
             height="100%"
             icon={<IoLogOutOutline />}
-            onClick={() => setUserData({name: '', image: ''})}
+            onClick={logout}
+            disabled={!loaded}
             padding=".5rem 0 .5rem 1rem"
           >
             ログアウト
@@ -133,13 +154,15 @@ const Header: React.FC = React.memo(() => {
   return (
     <Box width="100%">
       <Flex
-        paddingLeft={{base: '2rem', sm: '1rem'}}
+        paddingLeft="1rem"
         paddingRight={{base: '3rem'}}
-        paddingTop={{base: '2rem', sm: '0'}}
+        paddingTop={{base: '1rem', sm: '0'}}
       >
         <Flex alignItems="center">
           <Link href="/">
-            <Logo width="15rem" />
+            <Box width={{base: '10rem', sm: '15rem'}}>
+              <Logo />
+            </Box>
           </Link>
         </Flex>
         <Spacer />
