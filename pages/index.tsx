@@ -1,15 +1,15 @@
 /**********************************************************
  * Root page.
  *
- * @author Yuto Watanabe <yuto.w51942@gmail.com>
+ * @author Yuto Watanabe <yuto.w51942@gmail.com>, Yoshitsugu Tahara <arisahyper0000@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import Root from '../components/rootPage/Root';
+import RootPage from '../components/root/RootPage';
 
 const Index = () => {
-  return <Root />;
+  return <RootPage />;
 };
 
 export default Index;

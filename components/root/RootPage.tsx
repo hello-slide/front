@@ -1,18 +1,18 @@
 /**********************************************************
  * Root page.
  *
- * @author Yuto Watanabe <yuto.w51942@gmail.com>
+ * @author Yuto Watanabe <yuto.w51942@gmail.com>, Yoshitsugu Tahara <arisahyper0000@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+
 import {Box, Flex, Text} from '@chakra-ui/react';
-import {css} from '@emotion/react';
 import React, {useRef, useCallback} from 'react';
 import {IoCaretDown} from 'react-icons/io5';
 import Logo from '../../assets/svgs/logo.svg';
 
-const Root = () => {
+const RootPage = () => {
   const refContents = useRef<HTMLDivElement>();
 
   const scrollToContents = useCallback(() => {
@@ -70,4 +70,4 @@ const Root = () => {
   );
 };
 
-export default Root;
+export default RootPage;
