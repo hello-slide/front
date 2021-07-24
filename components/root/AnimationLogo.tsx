@@ -30,15 +30,15 @@ const AnimationLogo = () => {
                     fill:url(#grad1);
                 }
                 #stop1 {
-                    animation: change-color1 5s ease-in-out infinite alternate;
+                    animation: change-color1 2s ease-in-out infinite alternate;
                 }
 
                 #stop2 {
-                    animation: change-color2 5s ease-in-out infinite alternate;
+                    animation: change-color2 2s ease-in-out infinite alternate;
                 }
 
                 #stop3 {
-                    animation: change-color3 5s ease-in-out infinite alternate;
+                    animation: change-color3 2s ease-in-out infinite alternate;
                 }
 
                 @keyframes change-color1 {
