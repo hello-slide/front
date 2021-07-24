@@ -10,7 +10,7 @@
 import {Box, Flex, Text} from '@chakra-ui/react';
 import React, {useRef, useCallback} from 'react';
 import {IoCaretDown} from 'react-icons/io5';
-import Logo from '../../assets/svgs/logo.svg';
+import AnimationLogo from './AnimationLogo';
 
 const RootPage = () => {
   const refContents = useRef<HTMLDivElement>();
@@ -23,7 +23,7 @@ const RootPage = () => {
   }, [refContents]);
 
   return (
-    <React.Fragment>
+    <Box>
       <Flex
         // backgroundColor="#333"
         justifyContent="center"
@@ -32,7 +32,10 @@ const RootPage = () => {
         width="100%"
         height="100vh"
       >
-        <Logo width="30rem" style={{}} />
+        {/* <Logo width="30rem" style={{}} /> */}
+        <Box width="30rem">
+          <AnimationLogo />
+        </Box>
         <Box transition="1.0s" marginTop="10rem">
           <IoCaretDown
             size="1.75rem"
@@ -66,7 +69,7 @@ const RootPage = () => {
           </Text>
         </Flex>
       </Flex>
-    </React.Fragment>
+    </Box>
   );
 };
 
