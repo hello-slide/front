@@ -10,7 +10,7 @@ import {Box, Heading, Center} from '@chakra-ui/react';
 
 const InfoText: React.FC<{title: string}> = props => {
   return (
-    <Box>
+    <Box marginY="5rem">
       <Center>
         <Heading fontSize="1.75rem" margin="1rem 0 1rem 0">
           {props.title}
