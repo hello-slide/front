@@ -8,8 +8,7 @@
  **********************************************************/
 import {readFileSync} from 'fs';
 import path from 'path';
-import {GetStaticProps} from 'next';
-import {InferGetStaticPropsType} from 'next';
+import {GetStaticProps, InferGetStaticPropsType} from 'next';
 import ChangeLogType from '../@types/changelog';
 import ChangelogPage from '../components/changelog/ChangelogPage';
 

@@ -6,9 +6,17 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import {Box, Center} from '@chakra-ui/react';
+import Markdown from '../markdown/Markdown';
 
-const PrivacyPage = () => {
-  return <>privacy policy</>;
+const PrivacyPage: React.FC<{contents: string}> = ({contents}) => {
+  return (
+    <Center>
+      <Box>
+        <Markdown text={contents} />
+      </Box>
+    </Center>
+  );
 };
 
 export default PrivacyPage;
