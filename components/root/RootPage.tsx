@@ -12,8 +12,8 @@ import React, {useRef, useCallback} from 'react';
 import {IoCaretDown} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import LoginButton from '../common/LoginButton';
+import SlideContents from '../common/SlideContents';
 import AnimationLogo from './AnimationLogo';
-import SlideContents from './SlideContents';
 
 const RootPage = () => {
   const refContentsFirst = useRef<HTMLDivElement>();
