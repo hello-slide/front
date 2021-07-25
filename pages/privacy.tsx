@@ -6,10 +6,25 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import {readFileSync} from 'fs';
+import path from 'path';
+import {GetStaticProps, InferGetStaticPropsType} from 'next';
 import PrivacyPage from '../components/privacyPolicy/PrivacyPage';
 
-const Privacy = () => {
-  return <PrivacyPage />;
+const Privacy: React.FC<InferGetStaticPropsType<typeof getStaticProps>> =
+  props => {
+    return <PrivacyPage contents={props.contents} />;
+  };
+
+export const getStaticProps: GetStaticProps = async () => {
+  const filePath = path.join(process.cwd(), 'contents', 'privacy_policy.md');
+  const contents = readFileSync(filePath, 'utf8');
+
+  return {
+    props: {
+      contents: contents,
+    },
+  };
 };
 
 export default Privacy;
