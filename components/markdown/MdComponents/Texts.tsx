@@ -11,7 +11,7 @@ import Link_ from '../../common/Link';
 
 export const P: React.FC = ({children}) => {
   return (
-    <Text as="p" fontWeight="medium" fontSize="1rem" marginLeft=".75rem">
+    <Text as="p" fontSize="1rem" marginLeft=".75rem" lineHeight="1.9rem">
       {children}
     </Text>
   );

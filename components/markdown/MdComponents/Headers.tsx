@@ -10,8 +10,8 @@ import {Heading, Divider, Box} from '@chakra-ui/react';
 
 export const H1: React.FC = ({children}) => {
   return (
-    <Box marginY="1rem">
-      <Heading fontSize="2.3rem" paddingLeft=".5rem">
+    <Box marginBottom="1.5rem" marginTop="4rem">
+      <Heading fontSize="1.9rem" paddingLeft=".5rem">
         {children}
       </Heading>
       <Divider borderWidth="1px" />
@@ -21,8 +21,8 @@ export const H1: React.FC = ({children}) => {
 
 export const H2: React.FC = ({children}) => {
   return (
-    <Box marginY="1rem">
-      <Heading fontSize="2.1rem" paddingLeft=".5rem">
+    <Box marginBottom="1.5rem" marginTop="4rem">
+      <Heading fontSize="1.7rem" paddingLeft=".5rem">
         {children}
       </Heading>
       <Divider borderWidth="1px" />
@@ -32,8 +32,8 @@ export const H2: React.FC = ({children}) => {
 
 export const H3: React.FC = ({children}) => {
   return (
-    <Box marginY="1rem">
-      <Heading fontSize="1.9rem" paddingLeft=".5rem">
+    <Box marginBottom="1.5rem" marginTop="4rem">
+      <Heading fontSize="1.5rem" paddingLeft=".5rem">
         {children}
       </Heading>
       <Divider borderWidth="1px" />
@@ -43,33 +43,30 @@ export const H3: React.FC = ({children}) => {
 
 export const H4: React.FC = ({children}) => {
   return (
-    <Box marginY="1rem">
-      <Heading fontSize="1.7rem" paddingLeft=".5rem">
+    <Box marginBottom="1.5rem" marginTop="4rem">
+      <Heading fontSize="1.4rem" paddingLeft=".5rem">
         {children}
       </Heading>
-      <Divider borderWidth="1px" />
     </Box>
   );
 };
 
 export const H5: React.FC = ({children}) => {
   return (
-    <Box marginY="1rem">
-      <Heading fontSize="1.5rem" paddingLeft=".5rem">
+    <Box marginBottom="1.5rem" marginTop="4rem">
+      <Heading fontSize="1.3rem" paddingLeft=".5rem">
         {children}
       </Heading>
-      <Divider borderWidth="1px" />
     </Box>
   );
 };
 
 export const H6: React.FC = ({children}) => {
   return (
-    <Box marginY="1rem">
-      <Heading fontSize="1.3rem" paddingLeft=".5rem">
+    <Box marginBottom="1.5rem" marginTop="4rem">
+      <Heading fontSize="1.2rem" paddingLeft=".5rem">
         {children}
       </Heading>
-      <Divider borderWidth="1px" />
     </Box>
   );
 };

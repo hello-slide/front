@@ -14,7 +14,7 @@ const PrivacyPage: React.FC<{contents: string}> = ({contents}) => {
   return (
     <InfoText title="プライバシーポリシー">
       <Center>
-        <Box>
+        <Box width={{base: '90%', md: '70%'}}>
           <Markdown text={contents} />
         </Box>
       </Center>
