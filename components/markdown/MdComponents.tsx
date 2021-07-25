@@ -9,6 +9,7 @@
 import {Components} from 'react-markdown/src/ast-to-react';
 import * as headers from './MdComponents/Headers';
 import * as lists from './MdComponents/Lists';
+import * as other from './MdComponents/Other';
 import * as texts from './MdComponents/Texts';
 
 export const components: Components = {
@@ -27,4 +28,5 @@ export const components: Components = {
   ul: lists.Ul,
   li: lists.Li,
   ol: lists.Ol,
+  hr: other.Hr,
 };
