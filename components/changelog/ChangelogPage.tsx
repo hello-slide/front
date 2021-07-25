@@ -6,25 +6,13 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {
-  Box,
-  Heading,
-  Center,
-  Text,
-  Flex,
-  Spacer,
-  Divider,
-} from '@chakra-ui/react';
+import {Box, Center, Text, Flex, Spacer, Divider} from '@chakra-ui/react';
 import ChangeLogType from '../../@types/changelog';
+import InfoText from '../common/InfoText';
 
 const ChangelogPage: React.FC<{logData: ChangeLogType[]}> = ({logData}) => {
   return (
-    <Box>
-      <Center>
-        <Heading fontSize="1.75rem" margin="1rem 0 1rem 0">
-          変更履歴
-        </Heading>
-      </Center>
+    <InfoText title="変更履歴">
       {logData.map(value => {
         return (
           <Center key={value.version}>
@@ -58,7 +46,7 @@ const ChangelogPage: React.FC<{logData: ChangeLogType[]}> = ({logData}) => {
           </Center>
         );
       })}
-    </Box>
+    </InfoText>
   );
 };
 
