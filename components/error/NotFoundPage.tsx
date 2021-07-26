@@ -6,17 +6,40 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Box, Center, Text} from '@chakra-ui/react';
+import {Box, Text} from '@chakra-ui/react';
+import React from 'react';
+import SlideContents from '../common/SlideContents';
 
 const NotFoundPage = () => {
+  const refContents = React.useRef<HTMLDivElement>();
+
+  React.useEffect(() => {
+    refContents.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  }, []);
+
   return (
-    <Center padding="30vh">
-      <Box>
-        <Text fontSize="3rem" fontWeight="light">
+    <Box ref={refContents}>
+      <SlideContents>
+        <Text fontSize="2.5rem" fontWeight="light" marginBottom="1.5rem">
           404 | Not Found.
         </Text>
-      </Box>
-    </Center>
+        <Text fontSize="1.5rem" fontWeight="light">
+          ﾊﾞﾝﾊﾞﾝﾊﾞﾝﾊﾞﾝﾊﾞﾝﾊﾞﾝﾊﾞﾝ
+          <br />
+          ﾊﾞﾝ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ﾊﾞﾝﾊﾞﾝﾊﾞﾝ
+          <br />
+          ﾊﾞﾝ&nbsp;&nbsp;(∩`･ω･)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ﾊﾞﾝﾊﾞﾝ
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;＿/_ﾐつ/￣￣￣/
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;＼/＿＿＿/￣￣
+          <br />
+        </Text>
+      </SlideContents>
+    </Box>
   );
 };
 
