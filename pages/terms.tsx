@@ -6,10 +6,10 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import TermsPage from '../components/terms/TermsPage';
 import {readFileSync} from 'fs';
 import path from 'path';
 import {GetStaticProps, InferGetStaticPropsType} from 'next';
+import TermsPage from '../components/terms/TermsPage';
 
 const Terms: React.FC<InferGetStaticPropsType<typeof getStaticProps>> =
   props => {
