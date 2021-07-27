@@ -18,7 +18,7 @@ const Usage: React.FC<InferGetStaticPropsType<typeof getStaticProps>> =
   };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const filePath = path.join(process.cwd(), 'contents', 'question.md');
+  const filePath = path.join(process.cwd(), 'contents', 'usage.md');
   const contents = readFileSync(filePath, 'utf8');
 
   return {
