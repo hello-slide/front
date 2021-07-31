@@ -83,8 +83,8 @@ const LoginButton = () => {
         <ModalContent>
           <ModalCloseButton size="lg" />
           <ModalBody>
-            {window.matchMedia &&
-            window.matchMedia('(max-device-width: 640px)').matches ? (
+            {Math.min(window.parent.screen.width, window.parent.screen.height) <
+            640 ? (
               <NoForm />
             ) : (
               <From />
