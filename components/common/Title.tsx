@@ -8,10 +8,14 @@
  **********************************************************/
 import Head from 'next/head';
 
-const Title: React.FC<{title: string}> = ({title}) => {
+const Title: React.FC<{title?: string}> = ({title}) => {
   return (
     <Head>
-      <title>{title}</title>
+      <title>
+        {typeof title !== 'undefined'
+          ? `${title} | Hello Slide`
+          : 'Hello Slide'}
+      </title>
     </Head>
   );
 };
