@@ -9,11 +9,17 @@
 import {readFileSync} from 'fs';
 import path from 'path';
 import {GetStaticProps, InferGetStaticPropsType} from 'next';
+import Title from '../components/common/Title';
 import PrivacyPage from '../components/privacyPolicy/PrivacyPage';
 
 const Privacy: React.FC<InferGetStaticPropsType<typeof getStaticProps>> =
   props => {
-    return <PrivacyPage contents={props.contents} />;
+    return (
+      <>
+        <Title title="プライバシーポリシー" />
+        <PrivacyPage contents={props.contents} />
+      </>
+    );
   };
 
 export const getStaticProps: GetStaticProps = async () => {
