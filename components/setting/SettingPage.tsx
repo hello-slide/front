@@ -42,6 +42,19 @@ const SettingPage = () => {
     });
   };
 
+  const isLogin = () => {
+    if (typeof userData.token === 'undefined') {
+      toast({
+        title: 'おっと、ログインされていないようです。',
+        status: 'warning',
+        duration: 9000,
+        isClosable: true,
+      });
+    } else {
+      onOpen();
+    }
+  };
+
   return (
     <Box marginY="3rem">
       <Center>
@@ -56,7 +69,7 @@ const SettingPage = () => {
         <Text
           _hover={{textDecoration: 'underline'}}
           cursor="pointer"
-          onClick={onOpen}
+          onClick={isLogin}
         >
           アカウントを削除する
         </Text>
