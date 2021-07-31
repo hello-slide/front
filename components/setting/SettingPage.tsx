@@ -23,6 +23,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import {useRouter} from 'next/router';
+import React from 'react';
 import {useRecoilState} from 'recoil';
 import {UserDataState} from '../../utils/state/atom';
 
@@ -31,6 +32,12 @@ const SettingPage = () => {
   const toast = useToast();
   const {isOpen, onOpen, onClose} = useDisclosure();
   const router = useRouter();
+
+  React.useEffect(() => {
+    if (typeof userData.token === 'undefined') {
+      router.push('/');
+    }
+  });
 
   const deleteAccount = () => {
     router.push('/');
