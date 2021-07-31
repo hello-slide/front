@@ -18,11 +18,15 @@ import {
   Flex,
   ModalContent,
   Text,
+  Checkbox,
 } from '@chakra-ui/react';
 import {useRouter} from 'next/router';
 import React from 'react';
+import {useGoogleLogin} from 'react-google-login';
+import {FcGoogle} from 'react-icons/fc';
+import {useRecoilState} from 'recoil';
+import {IsCanLoginState, UserDataState} from '../../utils/state/atom';
 import Link from './Link';
-import Login from './Login';
 
 const LoginButton = () => {
   const router = useRouter();
@@ -33,6 +37,25 @@ const LoginButton = () => {
   });
 
   const From = () => {
+    const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    const [, setUserData] = useRecoilState(UserDataState);
+    const [isCanLogin, setIsCanLogin] = useRecoilState(IsCanLoginState);
+
+    const handleGoogleLogin = response => {
+      // TODO: Authentication process on the server
+      setUserData({
+        token: response.accessToken,
+        name: response.profileObj.name,
+        image: response.profileObj.imageUrl,
+      });
+    };
+
+    const {signIn, loaded} = useGoogleLogin({
+      onSuccess: response => handleGoogleLogin(response),
+      clientId: googleClientId,
+      cookiePolicy: 'single_host_origin',
+    });
+
     return (
       <React.Fragment>
         <Center margin="3rem 0 0 0">
@@ -40,21 +63,29 @@ const LoginButton = () => {
         </Center>
         <Center>
           <Flex height="6rem" alignItems="center">
-            <Login />
+            <Button
+              onClick={signIn}
+              disabled={!(loaded && isCanLogin)}
+              leftIcon={<FcGoogle />}
+            >
+              Googleでログイン
+            </Button>
           </Flex>
         </Center>
         <Center margin="0 1rem 1.3rem 1rem">
-          <Text>
-            ログインすると、
-            <Link href="/terms" onClick={onClose}>
+          <Checkbox
+            isChecked={isCanLogin}
+            onChange={() => setIsCanLogin(!isCanLogin)}
+          >
+            <Link href="/terms" onClick={onClose} fontWeight="bold">
               利用規約
             </Link>
             と
-            <Link href="/privacy" onClick={onClose}>
+            <Link href="/privacy" onClick={onClose} fontWeight="bold">
               プライバシーポリシー
             </Link>
-            に同意したとみなされます。
-          </Text>
+            に同意する。
+          </Checkbox>
         </Center>
       </React.Fragment>
     );
