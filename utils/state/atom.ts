@@ -40,3 +40,8 @@ export const UserDataState = atom<UserData>({
   default: {name: '', image: ''},
   effects_UNSTABLE: [localStorageEffect('userData')],
 });
+
+export const IsCanLoginState = atom<boolean>({
+  key: 'isCanLogin',
+  default: false,
+});
