@@ -6,10 +6,16 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import Title from '../components/common/Title';
 import InternalServerErrorPage from '../components/error/InternalServerErrorPage';
 
 const InternalServerError = () => {
-  return <InternalServerErrorPage />;
+  return (
+    <>
+      <Title title="500" />
+      <InternalServerErrorPage />
+    </>
+  );
 };
 
 export default InternalServerError;

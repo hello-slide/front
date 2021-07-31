@@ -9,11 +9,17 @@
 import {readFileSync} from 'fs';
 import path from 'path';
 import {GetStaticProps, InferGetStaticPropsType} from 'next';
+import Title from '../components/common/Title';
 import TermsPage from '../components/terms/TermsPage';
 
 const Terms: React.FC<InferGetStaticPropsType<typeof getStaticProps>> =
   props => {
-    return <TermsPage contents={props.contents} />;
+    return (
+      <>
+        <Title title="利用規約" />
+        <TermsPage contents={props.contents} />
+      </>
+    );
   };
 
 export const getStaticProps: GetStaticProps = async () => {

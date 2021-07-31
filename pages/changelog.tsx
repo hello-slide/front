@@ -11,10 +11,16 @@ import path from 'path';
 import {GetStaticProps, InferGetStaticPropsType} from 'next';
 import ChangeLogType from '../@types/changelog';
 import ChangelogPage from '../components/changelog/ChangelogPage';
+import Title from '../components/common/Title';
 
 const Changelog: React.FC<InferGetStaticPropsType<typeof getStaticProps>> =
   props => {
-    return <ChangelogPage logData={props.logData} />;
+    return (
+      <>
+        <Title title="変更履歴" />
+        <ChangelogPage logData={props.logData} />
+      </>
+    );
   };
 
 export const getStaticProps: GetStaticProps = async () => {

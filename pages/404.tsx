@@ -6,10 +6,16 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import Title from '../components/common/Title';
 import NotFoundPage from '../components/error/NotFoundPage';
 
 const NotFound = () => {
-  return <NotFoundPage />;
+  return (
+    <>
+      <Title title="404" />
+      <NotFoundPage />
+    </>
+  );
 };
 
 export default NotFound;

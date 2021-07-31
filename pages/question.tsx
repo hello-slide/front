@@ -10,11 +10,17 @@
 import {readFileSync} from 'fs';
 import path from 'path';
 import {GetStaticProps, InferGetStaticPropsType} from 'next';
+import Title from '../components/common/Title';
 import QuestionPage from '../components/question/QuestionPage';
 
 const Question: React.FC<InferGetStaticPropsType<typeof getStaticProps>> =
   props => {
-    return <QuestionPage contents={props.contents} />;
+    return (
+      <>
+        <Title title="質問" />
+        <QuestionPage contents={props.contents} />
+      </>
+    );
   };
 
 export const getStaticProps: GetStaticProps = async () => {
