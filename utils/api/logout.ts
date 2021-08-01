@@ -1,5 +1,5 @@
 /**********************************************************
- * Api Login
+ * Logout logic
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
@@ -8,17 +8,12 @@
  **********************************************************/
 import axios, {AxiosRequestConfig} from 'axios';
 
-export interface Login {
-  loginToken: string;
-  sessionToken: string;
-}
 /**
- * Connect to backend. login.
+ * Logout.
  *
- * @param {string} token - Google OAuth id token.
- * @returns {Login} - User data.
+ * @param {string} token - Login token
  */
-export default async function login(token: string): Promise<Login> {
+export default async function logout(token: string) {
   const config: AxiosRequestConfig = {
     url: '/account/login',
     method: 'post',
@@ -27,7 +22,7 @@ export default async function login(token: string): Promise<Login> {
       'content-type': 'application/json',
     },
     data: JSON.stringify({
-      Token: token,
+      LoginToken: token,
     }),
     responseType: 'json',
   };
@@ -36,9 +31,4 @@ export default async function login(token: string): Promise<Login> {
   if (response.status !== 200) {
     throw new Error(response.statusText);
   }
-
-  return {
-    loginToken: response.data['login_token'],
-    sessionToken: response.data['session_token'],
-  };
 }
