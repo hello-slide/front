@@ -12,12 +12,6 @@ export interface Login {
   loginToken: string;
   sessionToken: string;
 }
-
-interface ReturnData {
-  login_token: string;
-  session_token: string;
-}
-
 /**
  * Connect to backend. login.
  *
@@ -35,16 +29,18 @@ export default async function login(token: string): Promise<Login> {
     data: JSON.stringify({
       Token: token,
     }),
+    responseType: 'json',
   };
 
   const response = await axios(config);
   if (response.status !== 200) {
     throw new Error('status code is not 200.');
   }
-  const returnData = JSON.parse(response.data) as ReturnData;
+
+  console.log(response);
 
   return {
-    loginToken: returnData.login_token,
-    sessionToken: returnData.session_token,
+    loginToken: response.data['login_token'],
+    sessionToken: response.data['session_token'],
   };
 }
