@@ -49,7 +49,6 @@ const LoginButton = () => {
     const handleGoogleLogin = (
       response: GoogleLoginResponse | GoogleLoginResponseOffline
     ) => {
-      // TODO: Authentication process on the server
       if (response.code) {
         return;
       }
