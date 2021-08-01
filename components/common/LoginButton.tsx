@@ -19,6 +19,7 @@ import {
   ModalContent,
   Text,
   Checkbox,
+  useToast,
 } from '@chakra-ui/react';
 import {useRouter} from 'next/router';
 import React from 'react';
@@ -36,6 +37,7 @@ import Link from './Link';
 const LoginButton = () => {
   const router = useRouter();
   const {isOpen, onOpen, onClose} = useDisclosure();
+  const toast = useToast();
 
   React.useEffect(() => {
     router.events.on('routeChangeStart', onClose);
@@ -66,7 +68,11 @@ const LoginButton = () => {
           });
         })
         .catch(error => {
-          console.log(error);
+          toast({
+            title: 'ログインできませんでした',
+            description: error,
+            status: 'error',
+          });
         });
     };
 

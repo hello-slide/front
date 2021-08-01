@@ -26,6 +26,7 @@ import {IoSettingsSharp, IoLogOutOutline} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import {useRecoilState} from 'recoil';
 import Logo from '../../assets/svgs/logo.svg';
+import logout from '../../utils/api/logout';
 import {UserDataState} from '../../utils/state/atom';
 import Link from './Link';
 import LoginButton from './LoginButton';
@@ -39,18 +40,24 @@ const Header: React.FC = React.memo(() => {
     const {signOut, loaded} = useGoogleLogout({
       clientId: googleClientId,
       onLogoutSuccess: () => {
-        toast({
-          title: 'ログアウトしました',
-          status: 'info',
-          isClosable: true,
-        });
+        logout(userData.loginToken)
+          .then(() => {
+            setUserData({name: '', image: ''});
+            toast({
+              title: 'ログアウトしました',
+              status: 'info',
+              isClosable: true,
+            });
+          })
+          .catch(error => {
+            toast({
+              title: 'ログアウトできませんでした',
+              description: error,
+              status: 'error',
+            });
+          });
       },
     });
-
-    const logout = () => {
-      setUserData({name: '', image: ''});
-      signOut();
-    };
 
     return (
       <Menu>
@@ -79,7 +86,7 @@ const Header: React.FC = React.memo(() => {
           <MenuItem
             height="100%"
             icon={<IoLogOutOutline />}
-            onClick={logout}
+            onClick={signOut}
             disabled={!loaded}
             padding=".5rem 0 .5rem 1rem"
           >
