@@ -111,7 +111,7 @@ const Header: React.FC = React.memo(() => {
         <Spacer />
         <Box display={{base: 'none', sm: 'flex'}} alignItems="center">
           <NoSSR>
-            {typeof userData.token !== 'undefined' ? (
+            {typeof userData.loginToken !== 'undefined' ? (
               <IsLogin />
             ) : (
               <LoginButton />
