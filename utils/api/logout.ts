@@ -15,7 +15,7 @@ import axios, {AxiosRequestConfig} from 'axios';
  */
 export default async function logout(token: string) {
   const config: AxiosRequestConfig = {
-    url: '/account/login',
+    url: '/account/logout',
     method: 'post',
     baseURL: 'https://api.hello-slide.jp/',
     headers: {
