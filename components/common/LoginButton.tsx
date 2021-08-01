@@ -22,9 +22,14 @@ import {
 } from '@chakra-ui/react';
 import {useRouter} from 'next/router';
 import React from 'react';
-import {useGoogleLogin} from 'react-google-login';
+import {
+  useGoogleLogin,
+  GoogleLoginResponse,
+  GoogleLoginResponseOffline,
+} from 'react-google-login';
 import {FcGoogle} from 'react-icons/fc';
 import {useRecoilState} from 'recoil';
+import login from '../../utils/api/login';
 import {IsCanLoginState, UserDataState} from '../../utils/state/atom';
 import Link from './Link';
 
@@ -41,13 +46,29 @@ const LoginButton = () => {
     const [, setUserData] = useRecoilState(UserDataState);
     const [isCanLogin, setIsCanLogin] = useRecoilState(IsCanLoginState);
 
-    const handleGoogleLogin = response => {
+    const handleGoogleLogin = (
+      response: GoogleLoginResponse | GoogleLoginResponseOffline
+    ) => {
       // TODO: Authentication process on the server
-      setUserData({
-        token: response.accessToken,
-        name: response.profileObj.name,
-        image: response.profileObj.imageUrl,
-      });
+      if (response.code) {
+        return;
+      }
+
+      const profile = (response as GoogleLoginResponse).getBasicProfile();
+      const token = (response as GoogleLoginResponse).getAuthResponse();
+
+      login(token.id_token)
+        .then(response => {
+          setUserData({
+            loginToken: response.loginToken,
+            sessionToken: response.sessionToken,
+            name: profile.getName(),
+            image: profile.getImageUrl(),
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
     };
 
     const {signIn, loaded} = useGoogleLogin({

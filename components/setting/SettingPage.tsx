@@ -34,7 +34,7 @@ const SettingPage = () => {
   const router = useRouter();
 
   React.useEffect(() => {
-    if (typeof userData.token === 'undefined') {
+    if (typeof userData.loginToken === 'undefined') {
       router.push('/');
     }
   });
@@ -50,7 +50,7 @@ const SettingPage = () => {
   };
 
   const isLogin = () => {
-    if (typeof userData.token === 'undefined') {
+    if (typeof userData.loginToken === 'undefined') {
       toast({
         title: 'おっと、ログインされていないようです。',
         status: 'warning',
