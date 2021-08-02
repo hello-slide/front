@@ -9,13 +9,21 @@
 import {UnorderedList, ListItem, OrderedList} from '@chakra-ui/react';
 
 export const Ul: React.FC = ({children}) => {
-  return <UnorderedList paddingLeft="1.75rem">{children}</UnorderedList>;
+  return (
+    <UnorderedList paddingLeft="1.75rem" marginY="1rem">
+      {children}
+    </UnorderedList>
+  );
 };
 
 export const Ol: React.FC = ({children}) => {
-  return <OrderedList paddingLeft="1.75rem">{children}</OrderedList>;
+  return (
+    <OrderedList paddingLeft="1.75rem" marginY="1rem">
+      {children}
+    </OrderedList>
+  );
 };
 
 export const Li: React.FC = ({children}) => {
-  return <ListItem>{children}</ListItem>;
+  return <ListItem marginY=".5rem">{children}</ListItem>;
 };

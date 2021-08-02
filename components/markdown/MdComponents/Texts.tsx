@@ -57,7 +57,12 @@ export const Pre: React.FC = ({children}) => {
 
 export const Link: React.FC<LinkProps> = props => {
   return (
-    <Link_ color="#0031D4" fontWeight="bold" {...props}>
+    <Link_
+      {...props}
+      color="#1f84d1"
+      _hover={{color: 'black'}}
+      textDecoration="underline"
+    >
       {props.children}
     </Link_>
   );
