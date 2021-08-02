@@ -15,7 +15,7 @@ const AboutPage: React.FC<{contents: string}> = ({contents}) => {
   return (
     <InfoText title="HelloSlideについて">
       <Center>
-        <Box width={{base: '90%', sm: '70%', md: '50%'}}>
+        <Box width={{base: '90%', sm: '80%', md: '70%'}}>
           <Markdown text={contents} />
         </Box>
       </Center>
