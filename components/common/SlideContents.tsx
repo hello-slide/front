@@ -6,10 +6,10 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Flex} from '@chakra-ui/react';
+import {Flex, FlexProps} from '@chakra-ui/react';
 import React from 'react';
 
-const SlideContents: React.FC = ({children}) => {
+const SlideContents: React.FC<FlexProps> = props => {
   return (
     <Flex
       justifyContent="center"
@@ -18,8 +18,9 @@ const SlideContents: React.FC = ({children}) => {
       width="100%"
       height="100vh"
       px={{base: '1rem', md: '5rem'}}
+      {...props}
     >
-      {children}
+      {props.children}
     </Flex>
   );
 };

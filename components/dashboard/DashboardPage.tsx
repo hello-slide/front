@@ -8,11 +8,13 @@
  **********************************************************/
 import {useRouter} from 'next/router';
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import NoSSR from 'react-no-ssr';
+import {useRecoilValue} from 'recoil';
 import {UserDataState} from '../../utils/state/atom';
+import SlideList from './SlideList';
 
 const DashboardPage = () => {
-  const [userData] = useRecoilState(UserDataState);
+  const userData = useRecoilValue(UserDataState);
   const router = useRouter();
 
   React.useEffect(() => {
@@ -21,7 +23,11 @@ const DashboardPage = () => {
     }
   });
 
-  return <>Dashboard</>;
+  return (
+    <NoSSR>
+      <SlideList />
+    </NoSSR>
+  );
 };
 
 export default DashboardPage;
