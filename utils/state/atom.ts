@@ -8,6 +8,7 @@
  **********************************************************/
 
 import {atom, DefaultValue} from 'recoil';
+import Slide from '../../@types/slides';
 import {UserData} from '../../@types/userData';
 
 /**
@@ -35,13 +36,20 @@ const localStorageEffect =
     }
   };
 
+/**
+ * Keeps the user logged in.
+ */
 export const UserDataState = atom<UserData>({
   key: 'userData',
   default: {name: '', image: ''},
   effects_UNSTABLE: [localStorageEffect('userData')],
 });
 
-export const IsCanLoginState = atom<boolean>({
-  key: 'isCanLogin',
-  default: false,
+/**
+ * Holds list data for slides.
+ */
+export const SlideState = atom<Slide[]>({
+  key: 'slides',
+  default: [],
+  effects_UNSTABLE: [localStorageEffect('slideList')],
 });
