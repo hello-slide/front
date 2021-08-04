@@ -7,14 +7,14 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 
-import {Box, Text, Center} from '@chakra-ui/react';
+import {Box, Text, Center, Button, useDisclosure} from '@chakra-ui/react';
 import {useRouter} from 'next/router';
 import React, {useRef, useCallback} from 'react';
 import {IoCaretDown} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import {useRecoilValue} from 'recoil';
 import {UserDataState} from '../../utils/state/atom';
-import LoginButton from '../common/LoginButton';
+import Login from '../common/Login';
 import SlideContents from '../common/SlideContents';
 import AnimationLogo from './AnimationLogo';
 
@@ -24,12 +24,13 @@ const RootPage = () => {
   const refContentsFirst = useRef<HTMLDivElement>();
   const refContentsSecond = useRef<HTMLDivElement>();
   const refContentsThird = useRef<HTMLDivElement>();
+  const {isOpen, onOpen, onClose} = useDisclosure();
 
   React.useEffect(() => {
     if (typeof userData.loginToken !== 'undefined') {
       router.push('/dashboard');
+      return;
     }
-
     refContentsFirst.current.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
@@ -95,8 +96,11 @@ const RootPage = () => {
           </Text>
         </Center>
         <Center marginBottom="15rem">
+          <Button onClick={onOpen} colorScheme="blue">
+            ログイン
+          </Button>
           <NoSSR>
-            <LoginButton />
+            <Login isOpen={isOpen} onClose={onClose} />
           </NoSSR>
         </Center>
       </Box>
