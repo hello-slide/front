@@ -21,7 +21,7 @@ const Loading = () => {
         position="fixed"
         width="100vw"
         height="100vh"
-        zIndex="999"
+        zIndex="9999"
         top="0"
         left="0"
         hidden={!isLoad}
@@ -32,7 +32,7 @@ const Loading = () => {
         position="fixed"
         top="0"
         left="0"
-        zIndex="999"
+        zIndex="9999"
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
