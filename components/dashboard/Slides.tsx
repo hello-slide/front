@@ -13,16 +13,16 @@ import {
   WrapItem,
   Box,
   ChakraComponent,
+  Menu,
+  MenuList,
+  MenuItem as ChakuraMenuItem,
+  MenuDivider,
 } from '@chakra-ui/react';
 import React from 'react';
+import {ContextMenu, MenuItem, ContextMenuTrigger} from 'react-contextmenu';
 import {IoAdd, IoTimeOutline} from 'react-icons/io5';
 import Slide from '../../@types/slides';
 import updateDate from '../../utils/updateDate';
-import {
-  ContextMenuTrigger,
-  ContextMenuList,
-  ContextMenuItem,
-} from './ContextMenu';
 
 const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
   slides,
@@ -75,7 +75,7 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
         const lastChangeDate = new Date(value.lastChange);
         return (
           <React.Fragment key={value.id}>
-            <ContextMenuTrigger menuId={value.id}>
+            <ContextMenuTrigger id={value.id}>
               <ListContents
                 padding=".5rem"
                 onClick={() => {
@@ -95,10 +95,26 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
                 </Flex>
               </ListContents>
             </ContextMenuTrigger>
-            <ContextMenuList menuId={value.id}>
-              <Text p={2}>{value.title}</Text>
-              <ContextMenuItem>Action</ContextMenuItem>
-            </ContextMenuList>
+            <ContextMenu id={value.id}>
+              <Menu isOpen={true}>
+                <MenuList padding={0}>
+                  <Text
+                    fontSize="1rem"
+                    fontWeight="bold"
+                    padding="1rem 0 1rem 1rem"
+                  >
+                    {value.title}
+                  </Text>
+                  <MenuDivider margin="0" />
+                  <ChakuraMenuItem padding=".5rem 0 .5rem 1rem">
+                    詳細
+                  </ChakuraMenuItem>
+                  <ChakuraMenuItem height="100%" padding=".5rem 0 .5rem 1rem">
+                    削除
+                  </ChakuraMenuItem>
+                </MenuList>
+              </Menu>
+            </ContextMenu>
           </React.Fragment>
         );
       })}
