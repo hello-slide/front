@@ -32,6 +32,7 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
 }) => {
   const deleteSlideModal = useDisclosure();
   const [deleteSlide, setDeleteSlide] = React.useState<Slide>();
+  const [show, setShow] = React.useState(false);
 
   const ListContents: ChakraComponent<'div', {}> = props => {
     return (
@@ -101,8 +102,16 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
                   </Flex>
                 </ListContents>
               </ContextMenuTrigger>
-              <ContextMenu id={value.id}>
-                <Menu isOpen={true}>
+              <ContextMenu
+                id={value.id}
+                onShow={() => {
+                  setShow(true);
+                }}
+                onHide={() => {
+                  setShow(false);
+                }}
+              >
+                <Menu isOpen={show}>
                   <MenuList padding={0}>
                     <Text
                       fontSize="1rem"

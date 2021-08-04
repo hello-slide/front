@@ -43,7 +43,7 @@ const DeleteSlide: React.FC<{
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{slide?.title}を削除しますか？</ModalHeader>
+        <ModalHeader>「{slide?.title}」を削除しますか？</ModalHeader>
         <ModalCloseButton size="lg" />
         <ModalBody>この操作は戻すことはできません。</ModalBody>
 
