@@ -24,11 +24,13 @@ import {
 } from '@chakra-ui/react';
 import {useRouter} from 'next/router';
 import React from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {UserDataState, LoadState} from '../../utils/state/atom';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import _deleteAccount from '../../utils/api/delete';
+import {UserDataState, LoadState, SlideState} from '../../utils/state/atom';
 
 const SettingPage = () => {
-  const userData = useRecoilValue(UserDataState);
+  const [userData, setUserData] = useRecoilState(UserDataState);
+  const setSlides = useSetRecoilState(SlideState);
   const setIsLoad = useSetRecoilState(LoadState);
   const toast = useToast();
   const {isOpen, onOpen, onClose} = useDisclosure();
@@ -41,16 +43,29 @@ const SettingPage = () => {
   });
 
   const deleteAccount = () => {
-    // TODO: delete account logic
     setIsLoad(true);
-    router.push('/');
-    toast({
-      title: 'アカウントを削除しました。',
-      status: 'info',
-      duration: 9000,
-      isClosable: true,
-    });
-    setIsLoad(false);
+    _deleteAccount(userData.loginToken)
+      .then(() => {
+        setUserData({name: '', image: ''});
+        setSlides([]);
+
+        router.push('/');
+        toast({
+          title: 'アカウントを削除しました。',
+          status: 'info',
+          duration: 9000,
+          isClosable: true,
+        });
+        setIsLoad(false);
+      })
+      .catch(error => {
+        toast({
+          title: 'アカウントを削除できませんでした',
+          description: error,
+          status: 'error',
+        });
+        setIsLoad(false);
+      });
   };
 
   const isLogin = () => {
@@ -91,7 +106,11 @@ const SettingPage = () => {
         <ModalContent>
           <ModalHeader>本当に削除しますか？</ModalHeader>
           <ModalCloseButton size="lg" />
-          <ModalBody>この操作は戻すことはできません。</ModalBody>
+          <ModalBody>
+            すべてのスライドが削除されます。
+            <br />
+            この操作は戻すことはできません。
+          </ModalBody>
 
           <ModalFooter marginBottom=".3rem">
             <Button variant="blue" mr={3} onClick={onClose}>

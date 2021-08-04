@@ -24,12 +24,10 @@ import React from 'react';
 import {useGoogleLogout} from 'react-google-login';
 import {IoSettingsSharp, IoLogOutOutline} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import Logo from '../../assets/svgs/logo.svg';
 import logout from '../../utils/api/logout';
-import {UserDataState} from '../../utils/state/atom';
-import {LoadState} from '../../utils/state/atom';
+import {UserDataState, LoadState, SlideState} from '../../utils/state/atom';
 import Link from './Link';
 import LoginButton from './LoginButton';
 
@@ -39,6 +37,7 @@ const Header: React.FC = React.memo(() => {
     const [userData, setUserData] = useRecoilState(UserDataState);
     const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
     const setIsLoad = useSetRecoilState(LoadState);
+    const setSlides = useSetRecoilState(SlideState);
 
     const {signOut, loaded} = useGoogleLogout({
       clientId: googleClientId,
@@ -47,6 +46,7 @@ const Header: React.FC = React.memo(() => {
         logout(userData.loginToken)
           .then(() => {
             setUserData({name: '', image: ''});
+            setSlides([]);
             toast({
               title: 'ログアウトしました',
               status: 'info',
