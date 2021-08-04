@@ -24,12 +24,13 @@ import {
 } from '@chakra-ui/react';
 import {useRouter} from 'next/router';
 import React from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import _deleteAccount from '../../utils/api/delete';
-import {UserDataState, LoadState} from '../../utils/state/atom';
+import {UserDataState, LoadState, SlideState} from '../../utils/state/atom';
 
 const SettingPage = () => {
-  const userData = useRecoilValue(UserDataState);
+  const [userData, setUserData] = useRecoilState(UserDataState);
+  const setSlides = useSetRecoilState(SlideState);
   const setIsLoad = useSetRecoilState(LoadState);
   const toast = useToast();
   const {isOpen, onOpen, onClose} = useDisclosure();
@@ -42,10 +43,12 @@ const SettingPage = () => {
   });
 
   const deleteAccount = () => {
-    // TODO: delete account logic
     setIsLoad(true);
     _deleteAccount(userData.loginToken)
       .then(() => {
+        setUserData({name: '', image: ''});
+        setSlides([]);
+
         router.push('/');
         toast({
           title: 'アカウントを削除しました。',
