@@ -46,7 +46,7 @@ const NewSlide: React.FC<{
     setSlides([
       ...slides,
       {
-        id: '123456',
+        id: `${Math.random() * 100}`,
         title: title,
         createDate: new Date(),
         lastChange: new Date(),

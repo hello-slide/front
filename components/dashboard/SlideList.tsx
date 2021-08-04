@@ -8,17 +8,20 @@
  **********************************************************/
 import {
   Box,
-  SimpleGrid,
+  Wrap,
   Text,
   Button,
   Center,
   useDisclosure,
   Flex,
   ChakraComponent,
+  WrapItem,
 } from '@chakra-ui/react';
+import React from 'react';
 import {IoAdd, IoTimeOutline} from 'react-icons/io5';
 import {useRecoilValue} from 'recoil';
 import {SlideState} from '../../utils/state/atom';
+import updateDate from '../../utils/updateDate';
 import SlideContents from '../common/SlideContents';
 import NewSlide from './NewSlide';
 
@@ -41,33 +44,60 @@ const SlideList = () => {
 
   const ListContents: ChakraComponent<'div', {}> = props => {
     return (
-      <Box
-        width="250px"
-        height="100px"
-        borderWidth="1.5px"
-        borderRadius="lg"
-        {...props}
-      >
-        {props.children}
-      </Box>
+      <WrapItem>
+        <Box
+          width="250px"
+          height="100px"
+          borderWidth="1.5px"
+          borderRadius="lg"
+          {...props}
+        >
+          {props.children}
+        </Box>
+      </WrapItem>
     );
   };
 
+  const handleChange = (id: string) => {
+    // TODO: Jump to edit page
+    console.log(id);
+  };
+
   const Slides = () => {
+    const [update, setUpdate] = React.useState(false);
+
+    // Re-render every minute to update the date and time.
+    React.useEffect(() => {
+      setTimeout(() => {
+        setUpdate(!update);
+      }, 61000);
+    }, [update]);
+
     return (
-      <SimpleGrid minChildWidth="250px" spacing={5}>
+      <Wrap
+        spacing="40px"
+        marginX={{base: '5%', sm: '10%', md: '13%', lg: '17%'}}
+      >
         {slides.map(value => {
           const createDate = new Date(value.createDate);
+          const lastChangeDate = new Date(value.lastChange);
           return (
-            <ListContents key={value.id} padding=".5rem">
+            <ListContents
+              key={value.id}
+              padding=".5rem"
+              onClick={() => {
+                handleChange(value.id);
+              }}
+              cursor="pointer"
+            >
               <Text fontWeight="bold" fontSize="1.2rem" marginBottom="1rem">
                 {value.title}
               </Text>
               <Flex alignItems="center" fontSize=".9rem">
                 <IoTimeOutline size="17" />
-                <Text marginLeft=".5rem">{`${createDate.getFullYear()}年 ${
-                  createDate.getMonth() + 1
-                }月${createDate.getDay() + 1}日 作成`}</Text>
+                <Text marginLeft=".5rem">
+                  {updateDate(lastChangeDate, createDate)}
+                </Text>
               </Flex>
             </ListContents>
           );
@@ -82,12 +112,12 @@ const SlideList = () => {
             <IoAdd size="50" />
           </Flex>
         </ListContents>
-      </SimpleGrid>
+      </Wrap>
     );
   };
 
   return (
-    <Box marginX={{base: '5%', sm: '10%', md: '13%', lg: '17%'}} marginY="5%">
+    <Box marginY="5%">
       {slides.length !== 0 ? <Slides /> : <Empty />}
       <NewSlide isOpen={isOpen} onClose={onClose} />
     </Box>
