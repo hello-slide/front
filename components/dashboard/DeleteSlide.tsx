@@ -16,9 +16,9 @@ import {
   ModalCloseButton,
   Button,
 } from '@chakra-ui/react';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
-import {SlideState} from '../../utils/state/atom';
+import {SlideState, LoadState} from '../../utils/state/atom';
 
 const DeleteSlide: React.FC<{
   isOpen: boolean;
@@ -26,15 +26,17 @@ const DeleteSlide: React.FC<{
   slide?: Slide;
 }> = ({isOpen, onClose, slide}) => {
   const [slides, setSlides] = useRecoilState(SlideState);
+  const setIsLoad = useSetRecoilState(LoadState);
 
   const handleChange = () => {
     // TODO: delete api logic
-
+    setIsLoad(true);
     const _slides = [...slides];
     const index = _slides.findIndex(value => value.id === slide?.id);
     _slides.splice(index, 1);
     setSlides(_slides);
     onClose();
+    setIsLoad(false);
   };
 
   return (

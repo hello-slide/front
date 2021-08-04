@@ -14,6 +14,7 @@ import {useRouter} from 'next/router';
 import nprogress from 'nprogress';
 import {useEffect} from 'react';
 import {RecoilRoot} from 'recoil';
+import Loading from '../components/common/Loading';
 import Page from '../components/common/Page';
 import {GA_TRACKING_ID, pageview} from '../utils/ga/gtag';
 import 'nprogress/nprogress.css';
@@ -48,6 +49,7 @@ const App = ({Component, pageProps}: AppProps): JSX.Element => {
         <Box fontFamily="'Noto Sans JP', sans-serif;">
           <Page>
             <Component {...pageProps} />
+            <Loading />
           </Page>
         </Box>
       </ChakraProvider>

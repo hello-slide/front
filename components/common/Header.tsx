@@ -25,9 +25,11 @@ import {useGoogleLogout} from 'react-google-login';
 import {IoSettingsSharp, IoLogOutOutline} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import {useRecoilState, useRecoilValue} from 'recoil';
+import {useSetRecoilState} from 'recoil';
 import Logo from '../../assets/svgs/logo.svg';
 import logout from '../../utils/api/logout';
 import {UserDataState} from '../../utils/state/atom';
+import {LoadState} from '../../utils/state/atom';
 import Link from './Link';
 import LoginButton from './LoginButton';
 
@@ -36,10 +38,12 @@ const Header: React.FC = React.memo(() => {
     const toast = useToast();
     const [userData, setUserData] = useRecoilState(UserDataState);
     const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    const setIsLoad = useSetRecoilState(LoadState);
 
     const {signOut, loaded} = useGoogleLogout({
       clientId: googleClientId,
       onLogoutSuccess: () => {
+        setIsLoad(true);
         logout(userData.loginToken)
           .then(() => {
             setUserData({name: '', image: ''});
@@ -48,6 +52,7 @@ const Header: React.FC = React.memo(() => {
               status: 'info',
               isClosable: true,
             });
+            setIsLoad(false);
           })
           .catch(error => {
             toast({
@@ -55,6 +60,7 @@ const Header: React.FC = React.memo(() => {
               description: error,
               status: 'error',
             });
+            setIsLoad(false);
           });
       },
     });
