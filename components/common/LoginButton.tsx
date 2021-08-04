@@ -31,7 +31,7 @@ import {
 import {FcGoogle} from 'react-icons/fc';
 import {useRecoilState} from 'recoil';
 import login from '../../utils/api/login';
-import {IsCanLoginState, UserDataState} from '../../utils/state/atom';
+import {UserDataState} from '../../utils/state/atom';
 import Link from './Link';
 
 const LoginButton = () => {
@@ -46,7 +46,7 @@ const LoginButton = () => {
   const From = () => {
     const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
     const [, setUserData] = useRecoilState(UserDataState);
-    const [isCanLogin, setIsCanLogin] = useRecoilState(IsCanLoginState);
+    const [isCanLogin, setIsCanLogin] = React.useState(false);
 
     const handleGoogleLogin = (
       response: GoogleLoginResponse | GoogleLoginResponseOffline

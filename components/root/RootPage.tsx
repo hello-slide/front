@@ -12,14 +12,14 @@ import {useRouter} from 'next/router';
 import React, {useRef, useCallback} from 'react';
 import {IoCaretDown} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
-import {useRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {UserDataState} from '../../utils/state/atom';
 import LoginButton from '../common/LoginButton';
 import SlideContents from '../common/SlideContents';
 import AnimationLogo from './AnimationLogo';
 
 const RootPage = () => {
-  const [userData] = useRecoilState(UserDataState);
+  const userData = useRecoilValue(UserDataState);
   const router = useRouter();
   const refContentsFirst = useRef<HTMLDivElement>();
   const refContentsSecond = useRef<HTMLDivElement>();

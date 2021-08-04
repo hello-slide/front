@@ -24,11 +24,11 @@ import {
 } from '@chakra-ui/react';
 import {useRouter} from 'next/router';
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {UserDataState} from '../../utils/state/atom';
 
 const SettingPage = () => {
-  const [userData] = useRecoilState(UserDataState);
+  const userData = useRecoilValue(UserDataState);
   const toast = useToast();
   const {isOpen, onOpen, onClose} = useDisclosure();
   const router = useRouter();

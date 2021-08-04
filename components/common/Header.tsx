@@ -24,7 +24,7 @@ import React from 'react';
 import {useGoogleLogout} from 'react-google-login';
 import {IoSettingsSharp, IoLogOutOutline} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import Logo from '../../assets/svgs/logo.svg';
 import logout from '../../utils/api/logout';
 import {UserDataState} from '../../utils/state/atom';
@@ -99,7 +99,7 @@ const Header: React.FC = React.memo(() => {
 
   IsLogin.displayName = 'IsLogin';
 
-  const [userData] = useRecoilState(UserDataState);
+  const userData = useRecoilValue(UserDataState);
 
   return (
     <Box width="100%">
