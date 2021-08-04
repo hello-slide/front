@@ -20,8 +20,8 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import React from 'react';
-import {useRecoilState} from 'recoil';
-import {SlideState} from '../../utils/state/atom';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import {SlideState, LoadState} from '../../utils/state/atom';
 
 const NewSlide: React.FC<{
   isOpen: boolean;
@@ -30,6 +30,7 @@ const NewSlide: React.FC<{
   const [title, setTitle] = React.useState('');
   const [isEmpty, setIsEmpty] = React.useState(false);
   const [slides, setSlides] = useRecoilState(SlideState);
+  const setIsLoad = useSetRecoilState(LoadState);
 
   // The slide name will be reset once the modal is closed.
   React.useEffect(() => {
@@ -42,6 +43,7 @@ const NewSlide: React.FC<{
       setIsEmpty(true);
       return;
     }
+    setIsLoad(true);
     // TODO: Slide create api logic.
     setSlides([
       ...slides,
@@ -53,6 +55,7 @@ const NewSlide: React.FC<{
       },
     ]);
     onClose();
+    setIsLoad(false);
   };
 
   const textInput = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -53,3 +53,11 @@ export const SlideState = atom<Slide[]>({
   default: [],
   effects_UNSTABLE: [localStorageEffect('slideList')],
 });
+
+/**
+ * Shows the speaker being loaded.
+ */
+export const LoadState = atom<boolean>({
+  key: 'loading',
+  default: false,
+});

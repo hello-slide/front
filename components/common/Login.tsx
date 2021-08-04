@@ -28,8 +28,10 @@ import {
 } from 'react-google-login';
 import {FcGoogle} from 'react-icons/fc';
 import {useRecoilState} from 'recoil';
+import {useSetRecoilState} from 'recoil';
 import login from '../../utils/api/login';
 import {UserDataState} from '../../utils/state/atom';
+import {LoadState} from '../../utils/state/atom';
 import Link from './Link';
 
 const Login: React.FC<{isOpen: boolean; onClose: () => void}> = ({
@@ -37,6 +39,7 @@ const Login: React.FC<{isOpen: boolean; onClose: () => void}> = ({
   onClose,
 }) => {
   const toast = useToast();
+  const setIsLoad = useSetRecoilState(LoadState);
 
   const From = () => {
     const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
@@ -49,6 +52,7 @@ const Login: React.FC<{isOpen: boolean; onClose: () => void}> = ({
       if (response.code) {
         return;
       }
+      setIsLoad(true);
 
       const profile = (response as GoogleLoginResponse).getBasicProfile();
       const token = (response as GoogleLoginResponse).getAuthResponse();
@@ -61,6 +65,7 @@ const Login: React.FC<{isOpen: boolean; onClose: () => void}> = ({
             name: profile.getName(),
             image: profile.getImageUrl(),
           });
+          setIsLoad(false);
         })
         .catch(error => {
           toast({
@@ -68,6 +73,7 @@ const Login: React.FC<{isOpen: boolean; onClose: () => void}> = ({
             description: error,
             status: 'error',
           });
+          setIsLoad(false);
         });
     };
 
