@@ -27,7 +27,7 @@ const RootPage = () => {
   const {isOpen, onOpen, onClose} = useDisclosure();
 
   React.useEffect(() => {
-    if (typeof userData.loginToken !== 'undefined') {
+    if (typeof userData.refreshToken !== 'undefined') {
       router.push('/dashboard');
       return;
     }

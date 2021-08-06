@@ -60,7 +60,7 @@ const Login: React.FC<{isOpen: boolean; onClose: () => void}> = ({
       login(token.id_token)
         .then(response => {
           setUserData({
-            loginToken: response.loginToken,
+            refreshToken: response.refreshToken,
             sessionToken: response.sessionToken,
             name: profile.getName(),
             image: profile.getImageUrl(),

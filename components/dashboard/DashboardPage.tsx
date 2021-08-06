@@ -18,7 +18,7 @@ const DashboardPage = () => {
   const router = useRouter();
 
   React.useEffect(() => {
-    if (typeof userData.loginToken === 'undefined') {
+    if (typeof userData.refreshToken === 'undefined') {
       router.push('/');
     }
   });

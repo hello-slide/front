@@ -37,14 +37,14 @@ const SettingPage = () => {
   const router = useRouter();
 
   React.useEffect(() => {
-    if (typeof userData.loginToken === 'undefined') {
+    if (typeof userData.refreshToken === 'undefined') {
       router.push('/');
     }
   });
 
   const deleteAccount = () => {
     setIsLoad(true);
-    _deleteAccount(userData.loginToken)
+    _deleteAccount(userData.refreshToken)
       .then(() => {
         setUserData({name: '', image: ''});
         setSlides([]);
