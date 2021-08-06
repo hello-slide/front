@@ -9,7 +9,7 @@
 import axios, {AxiosRequestConfig} from 'axios';
 
 export interface Login {
-  loginToken: string;
+  refreshToken: string;
   sessionToken: string;
 }
 /**
@@ -38,7 +38,7 @@ export default async function login(token: string): Promise<Login> {
   }
 
   return {
-    loginToken: response.data['login_token'],
+    refreshToken: response.data['refresh_token'],
     sessionToken: response.data['session_token'],
   };
 }

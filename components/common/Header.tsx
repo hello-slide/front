@@ -43,7 +43,7 @@ const Header: React.FC = React.memo(() => {
       clientId: googleClientId,
       onLogoutSuccess: () => {
         setIsLoad(true);
-        logout(userData.loginToken)
+        logout(userData.refreshToken)
           .then(() => {
             setUserData({name: '', image: ''});
             setSlides([]);
@@ -124,7 +124,7 @@ const Header: React.FC = React.memo(() => {
         <Spacer />
         <Box display={{base: 'none', sm: 'flex'}} alignItems="center">
           <NoSSR>
-            {typeof userData.loginToken !== 'undefined' ? (
+            {typeof userData.refreshToken !== 'undefined' ? (
               <IsLogin />
             ) : (
               <LoginButton />
