@@ -69,7 +69,7 @@ const SettingPage = () => {
   };
 
   const isLogin = () => {
-    if (typeof userData.loginToken === 'undefined') {
+    if (typeof userData.sessionToken === 'undefined') {
       toast({
         title: 'おっと、ログインされていないようです。',
         status: 'warning',
