@@ -6,18 +6,15 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {useToast} from '@chakra-ui/react';
+import {useToast, IconButton, Flex, Icon} from '@chakra-ui/react';
 import {useRouter} from 'next/router';
 import React from 'react';
+import {IoReload} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
 import listSlide from '../../utils/api/listSlide';
-import {
-  UserDataState,
-  SlideState,
-  IsInitializedState,
-} from '../../utils/state/atom';
+import {UserDataState, SlideState} from '../../utils/state/atom';
 import SlideList from './SlideList';
 
 const DashboardPage = () => {
@@ -25,20 +22,16 @@ const DashboardPage = () => {
   const router = useRouter();
   const toast = useToast();
   const setSlides = useSetRecoilState(SlideState);
-  const isInitializedRef = useRecoilValue(IsInitializedState);
+  const [update, setUpdate] = React.useState(false);
+  const [isLoad, setIsLoad] = React.useState(false);
 
   React.useEffect(() => {
-    // Since the component is updated every time Recoil is updated,
-    // the initialization process is performed only once at the time of loading.
-    // See more: https://zenn.dev/airtoxin/articles/7be9f0ffa5b90f#%E6%9C%80%E7%B5%82%E7%9A%84%E3%81%AA%E3%82%B3%E3%83%BC%E3%83%89
-    if (isInitializedRef.value) return;
-    isInitializedRef.value = true;
-
     let isMounted = true;
 
     if (typeof userData.refreshToken === 'undefined') {
       router.push('/');
     } else if (isMounted) {
+      setIsLoad(true);
       listSlide(userData.sessionToken)
         .then(response => {
           const newSlides: Slide[] = [];
@@ -61,6 +54,7 @@ const DashboardPage = () => {
             });
           }
           setSlides(newSlides);
+          setIsLoad(false);
         })
         .catch(error => {
           toast({
@@ -68,15 +62,29 @@ const DashboardPage = () => {
             description: `${error}`,
             status: 'error',
           });
+          setIsLoad(false);
         });
     }
 
     return () => {
       isMounted = false;
     };
-  });
+  }, [update]);
+
   return (
     <NoSSR>
+      <Flex justifyContent="flex-end" margin=".5rem 3.2rem .5rem 0">
+        <IconButton
+          variant="outline"
+          aria-label="Reload"
+          fontSize="20px"
+          icon={<IoReload />}
+          isLoading={isLoad}
+          onClick={() => {
+            setUpdate(value => !value);
+          }}
+        />
+      </Flex>
       <SlideList />
     </NoSSR>
   );

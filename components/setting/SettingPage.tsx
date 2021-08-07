@@ -40,7 +40,7 @@ const SettingPage = () => {
     if (typeof userData.refreshToken === 'undefined') {
       router.push('/');
     }
-  });
+  }, []);
 
   const deleteAccount = () => {
     setIsLoad(true);

@@ -21,18 +21,27 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import {ContextMenu, ContextMenuTrigger} from 'react-contextmenu';
-import {IoAdd, IoTimeOutline} from 'react-icons/io5';
+import {
+  IoAdd,
+  IoTimeOutline,
+  IoAlertCircleOutline,
+  IoTrashOutline,
+  IoOpenOutline,
+} from 'react-icons/io5';
 import Slide from '../../@types/slides';
-import updateDate from '../../utils/updateDate';
+import updateDate from '../../utils/date/updateDate';
 import DeleteSlide from './DeleteSlide';
+import SlideInfo from './SlideInfo';
 
 const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
   slides,
   onOpen,
 }) => {
   const deleteSlideModal = useDisclosure();
+  const detailModal = useDisclosure();
   const [deleteSlide, setDeleteSlide] = React.useState<Slide>();
   const [show, setShow] = React.useState(false);
+  const [details, setDetails] = React.useState<Slide>();
 
   const ListContents: ChakraComponent<'div', {}> = props => {
     return (
@@ -130,8 +139,22 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
                       {value.title}
                     </Text>
                     <MenuDivider margin="0" />
-                    {/* TODO */}
-                    {/* <MenuItem padding=".5rem 0 .5rem 1rem">詳細</MenuItem> */}
+                    <MenuItem
+                      padding=".5rem 0 .5rem 1rem"
+                      icon={<IoOpenOutline size="18px" />}
+                    >
+                      開く
+                    </MenuItem>
+                    <MenuItem
+                      padding=".5rem 0 .5rem 1rem"
+                      onClick={() => {
+                        setDetails(value);
+                        detailModal.onOpen();
+                      }}
+                      icon={<IoAlertCircleOutline size="18px" />}
+                    >
+                      詳細
+                    </MenuItem>
                     <MenuItem
                       height="100%"
                       padding=".5rem 0 .5rem 1rem"
@@ -139,6 +162,7 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
                         deleteSlideModal.onOpen();
                         setDeleteSlide(value);
                       }}
+                      icon={<IoTrashOutline size="18px" />}
                     >
                       削除
                     </MenuItem>
@@ -163,6 +187,11 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
         slide={deleteSlide}
         onClose={deleteSlideModal.onClose}
         isOpen={deleteSlideModal.isOpen}
+      />
+      <SlideInfo
+        onClose={detailModal.onClose}
+        isOpen={detailModal.isOpen}
+        slide={details}
       />
     </>
   );

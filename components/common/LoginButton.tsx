@@ -17,7 +17,7 @@ const LoginButton = () => {
 
   React.useEffect(() => {
     router.events.on('routeChangeStart', onClose);
-  });
+  }, []);
 
   return (
     <React.Fragment>
