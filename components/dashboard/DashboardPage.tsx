@@ -6,9 +6,10 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {useToast} from '@chakra-ui/react';
+import {useToast, IconButton, Flex, Icon} from '@chakra-ui/react';
 import {useRouter} from 'next/router';
 import React from 'react';
+import {IoReload} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
@@ -21,6 +22,8 @@ const DashboardPage = () => {
   const router = useRouter();
   const toast = useToast();
   const setSlides = useSetRecoilState(SlideState);
+  const [update, setUpdate] = React.useState(false);
+  const [isLoad, setIsLoad] = React.useState(false);
 
   React.useEffect(() => {
     let isMounted = true;
@@ -28,6 +31,7 @@ const DashboardPage = () => {
     if (typeof userData.refreshToken === 'undefined') {
       router.push('/');
     } else if (isMounted) {
+      setIsLoad(true);
       listSlide(userData.sessionToken)
         .then(response => {
           const newSlides: Slide[] = [];
@@ -50,6 +54,7 @@ const DashboardPage = () => {
             });
           }
           setSlides(newSlides);
+          setIsLoad(false);
         })
         .catch(error => {
           toast({
@@ -57,16 +62,29 @@ const DashboardPage = () => {
             description: `${error}`,
             status: 'error',
           });
+          setIsLoad(false);
         });
     }
 
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [update]);
 
   return (
     <NoSSR>
+      <Flex justifyContent="flex-end" margin=".5rem 3.2rem .5rem 0">
+        <IconButton
+          variant="outline"
+          aria-label="Reload"
+          fontSize="20px"
+          icon={<IoReload />}
+          isLoading={isLoad}
+          onClick={() => {
+            setUpdate(value => !value);
+          }}
+        />
+      </Flex>
       <SlideList />
     </NoSSR>
   );
