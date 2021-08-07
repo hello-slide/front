@@ -15,10 +15,12 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
+  useToast,
 } from '@chakra-ui/react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState, useRecoilValue} from 'recoil';
 import Slide from '../../@types/slides';
-import {SlideState, LoadState} from '../../utils/state/atom';
+import deleteSlide from '../../utils/api/deleteSlide';
+import {SlideState, LoadState, UserDataState} from '../../utils/state/atom';
 
 const DeleteSlide: React.FC<{
   isOpen: boolean;
@@ -27,16 +29,28 @@ const DeleteSlide: React.FC<{
 }> = ({isOpen, onClose, slide}) => {
   const [slides, setSlides] = useRecoilState(SlideState);
   const setIsLoad = useSetRecoilState(LoadState);
+  const userData = useRecoilValue(UserDataState);
+  const toast = useToast();
 
   const handleChange = () => {
-    // TODO: delete api logic
     setIsLoad(true);
-    const _slides = [...slides];
-    const index = _slides.findIndex(value => value.id === slide?.id);
-    _slides.splice(index, 1);
-    setSlides(_slides);
-    onClose();
-    setIsLoad(false);
+    deleteSlide(userData.sessionToken, slide?.id)
+      .then(() => {
+        const _slides = [...slides];
+        const index = _slides.findIndex(value => value.id === slide?.id);
+        _slides.splice(index, 1);
+        setSlides(_slides);
+        onClose();
+        setIsLoad(false);
+      })
+      .catch(error => {
+        toast({
+          title: 'スライドを削除できませんでした',
+          description: `${error}`,
+          status: 'error',
+        });
+        setIsLoad(false);
+      });
   };
 
   return (

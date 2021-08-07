@@ -12,7 +12,7 @@ import SlideConfig from '../../@types/slideApi';
 /**
  * Create Slide API
  *
- * @param {string} token - Google OAuth id token.
+ * @param {string} token - Session token
  * @returns {SlideConfig} - Slide data.
  */
 export default async function listSlide(token: string): Promise<SlideConfig> {
