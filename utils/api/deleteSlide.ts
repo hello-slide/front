@@ -1,5 +1,5 @@
 /**********************************************************
- * Create Slide APi
+ * Delete Slide APi
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
@@ -12,15 +12,11 @@ import axios, {AxiosRequestConfig} from 'axios';
  * Create Slide API
  *
  * @param {string} token - Session token
- * @param {string} title - Slide title.
- * @returns {string} - Slide id.
+ * @param {string} id - Slide id.
  */
-export default async function createSlide(
-  token: string,
-  title: string
-): Promise<string> {
+export default async function deleteSlide(token: string, id: string) {
   const config: AxiosRequestConfig = {
-    url: '/slide/create',
+    url: '/slide/delete',
     method: 'post',
     baseURL: 'https://api.hello-slide.jp/',
     headers: {
@@ -28,7 +24,7 @@ export default async function createSlide(
     },
     data: JSON.stringify({
       SessionToken: token,
-      Title: title,
+      SlideID: id,
     }),
     responseType: 'json',
   };
@@ -38,5 +34,4 @@ export default async function createSlide(
   if (response.status !== 200) {
     throw new Error(response.statusText);
   }
-  return response.data['slide_id'];
 }
