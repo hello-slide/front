@@ -46,8 +46,18 @@ const DashboardPage = () => {
             newSlides.push({
               title: element.title,
               id: element.id,
-              createDate: new Date(element.create_date),
-              lastChange: new Date(element.change_date),
+              createDate: new Date(
+                element.create_date.replace(
+                  /^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)$/,
+                  '$4:$5:$6 $2/$3/$1'
+                )
+              ),
+              lastChange: new Date(
+                element.change_date.replace(
+                  /^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)$/,
+                  '$4:$5:$6 $2/$3/$1'
+                )
+              ),
             });
           }
           setSlides(newSlides);
