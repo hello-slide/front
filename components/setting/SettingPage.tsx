@@ -61,7 +61,7 @@ const SettingPage = () => {
       .catch(error => {
         toast({
           title: 'アカウントを削除できませんでした',
-          description: error,
+          description: `${error}`,
           status: 'error',
         });
         setIsLoad(false);

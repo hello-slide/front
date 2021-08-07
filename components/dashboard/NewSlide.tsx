@@ -18,10 +18,12 @@ import {
   Input,
   FormControl,
   FormErrorMessage,
+  useToast,
 } from '@chakra-ui/react';
 import React from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {SlideState, LoadState} from '../../utils/state/atom';
+import {useRecoilState, useSetRecoilState, useRecoilValue} from 'recoil';
+import createSlide from '../../utils/api/createSlide';
+import {SlideState, LoadState, UserDataState} from '../../utils/state/atom';
 
 const NewSlide: React.FC<{
   isOpen: boolean;
@@ -31,6 +33,8 @@ const NewSlide: React.FC<{
   const [isEmpty, setIsEmpty] = React.useState(false);
   const [slides, setSlides] = useRecoilState(SlideState);
   const setIsLoad = useSetRecoilState(LoadState);
+  const userData = useRecoilValue(UserDataState);
+  const toast = useToast();
 
   // The slide name will be reset once the modal is closed.
   React.useEffect(() => {
@@ -43,19 +47,30 @@ const NewSlide: React.FC<{
       setIsEmpty(true);
       return;
     }
+
     setIsLoad(true);
-    // TODO: Slide create api logic.
-    setSlides([
-      ...slides,
-      {
-        id: `${Math.random() * 100}`,
-        title: title,
-        createDate: new Date(),
-        lastChange: new Date(),
-      },
-    ]);
-    onClose();
-    setIsLoad(false);
+    createSlide(userData.sessionToken, title)
+      .then(slideId => {
+        setSlides([
+          ...slides,
+          {
+            id: slideId,
+            title: title,
+            createDate: new Date(),
+            lastChange: new Date(),
+          },
+        ]);
+        onClose();
+        setIsLoad(false);
+      })
+      .catch(error => {
+        toast({
+          title: 'スライドを作成できませんでした',
+          description: `${error}`,
+          status: 'error',
+        });
+        setIsLoad(false);
+      });
   };
 
   const textInput = (event: React.ChangeEvent<HTMLInputElement>) => {

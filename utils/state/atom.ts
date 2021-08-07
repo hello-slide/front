@@ -61,3 +61,9 @@ export const LoadState = atom<boolean>({
   key: 'loading',
   default: false,
 });
+
+export const IsInitializedState = atom({
+  key: 'isInitializedState',
+  default: {value: false},
+  dangerouslyAllowMutability: true,
+});

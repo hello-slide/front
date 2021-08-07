@@ -1,5 +1,5 @@
 /**********************************************************
- * Delete logic
+ * Show Slide APi
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
@@ -7,28 +7,32 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 import axios, {AxiosRequestConfig} from 'axios';
+import SlideConfig from '../../@types/slideApi';
 
 /**
- * delete account.
+ * Create Slide API
  *
- * @param {string} token - Login token
+ * @param {string} token - Google OAuth id token.
+ * @returns {SlideConfig} - Slide data.
  */
-export default async function deleteAccount(token: string) {
+export default async function listSlide(token: string): Promise<SlideConfig> {
   const config: AxiosRequestConfig = {
-    url: '/account/delete',
+    url: '/slide/list',
     method: 'post',
     baseURL: 'https://api.hello-slide.jp/',
     headers: {
       'content-type': 'application/json',
     },
     data: JSON.stringify({
-      LoginToken: token,
+      SessionToken: token,
     }),
     responseType: 'json',
   };
 
   const response = await axios(config);
+
   if (response.status !== 200) {
     throw new Error(response.statusText);
   }
+  return response.data as SlideConfig;
 }
