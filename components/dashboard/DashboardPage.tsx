@@ -33,11 +33,12 @@ const DashboardPage = () => {
     // See more: https://zenn.dev/airtoxin/articles/7be9f0ffa5b90f#%E6%9C%80%E7%B5%82%E7%9A%84%E3%81%AA%E3%82%B3%E3%83%BC%E3%83%89
     if (isInitializedRef.value) return;
     isInitializedRef.value = true;
-    console.log('Update');
+
+    let isMounted = true;
 
     if (typeof userData.refreshToken === 'undefined') {
       router.push('/');
-    } else {
+    } else if (isMounted) {
       listSlide(userData.sessionToken)
         .then(response => {
           const newSlides: Slide[] = [];
@@ -59,6 +60,10 @@ const DashboardPage = () => {
           });
         });
     }
+
+    return () => {
+      isMounted = false;
+    };
   });
   return (
     <NoSSR>

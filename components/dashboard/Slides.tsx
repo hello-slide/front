@@ -57,9 +57,18 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
     const [update, setUpdate] = React.useState(false);
 
     // Re-render every minute to update the date and time.
-    setTimeout(() => {
-      setUpdate(!update);
-    }, 61000);
+    React.useEffect(() => {
+      let isMounted = true;
+      setTimeout(() => {
+        if (isMounted) {
+          setUpdate(!update);
+        }
+      }, 61000);
+
+      return () => {
+        isMounted = false;
+      };
+    }, [update]);
 
     return (
       <Text marginLeft=".5rem">{updateDate(lastChangeDate, createDate)}</Text>
