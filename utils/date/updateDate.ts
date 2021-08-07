@@ -7,6 +7,8 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 
+import formatDate from './formantDate';
+
 /**
  * Formats and returns how many days ago it was created or modified.
  *
@@ -30,8 +32,6 @@ export default function updateDate(targetDate: Date, createDate: Date): string {
   } else if (diffSec < 86400 * 7) {
     return `${Math.floor(diffSec / 86400)}日前に${updateOrCreate}`;
   } else {
-    return `${targetDate.getFullYear()}年 ${targetDate.getMonth() + 1}月${
-      targetDate.getDate() + 1
-    }日 ${updateOrCreate}`;
+    return `${formatDate(targetDate)} ${updateOrCreate}`;
   }
 }

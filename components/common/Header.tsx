@@ -22,7 +22,7 @@ import {
 import NextLink from 'next/link';
 import React from 'react';
 import {useGoogleLogout} from 'react-google-login';
-import {IoSettingsSharp, IoLogOutOutline} from 'react-icons/io5';
+import {IoSettingsOutline, IoLogOutOutline} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import Logo from '../../assets/svgs/logo.svg';
@@ -85,13 +85,16 @@ const Header: React.FC = React.memo(() => {
           </NextLink>
           <MenuDivider margin="0" />
           <NextLink href="/setting">
-            <MenuItem icon={<IoSettingsSharp />} padding=".5rem 0 .5rem 1rem">
+            <MenuItem
+              icon={<IoSettingsOutline size="18px" />}
+              padding=".5rem 0 .5rem 1rem"
+            >
               設定
             </MenuItem>
           </NextLink>
           <MenuItem
             height="100%"
-            icon={<IoLogOutOutline />}
+            icon={<IoLogOutOutline size="18px" />}
             onClick={signOut}
             disabled={!loaded}
             padding=".5rem 0 .5rem 1rem"
