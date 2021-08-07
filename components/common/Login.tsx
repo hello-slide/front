@@ -70,7 +70,7 @@ const Login: React.FC<{isOpen: boolean; onClose: () => void}> = ({
         .catch(error => {
           toast({
             title: 'ログインできませんでした',
-            description: error,
+            description: `${error}`,
             status: 'error',
           });
           setIsLoad(false);

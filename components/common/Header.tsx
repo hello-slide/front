@@ -57,7 +57,7 @@ const Header: React.FC = React.memo(() => {
           .catch(error => {
             toast({
               title: 'ログアウトできませんでした',
-              description: error,
+              description: `${error}`,
               status: 'error',
             });
             setIsLoad(false);
