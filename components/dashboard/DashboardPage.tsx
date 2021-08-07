@@ -13,11 +13,7 @@ import NoSSR from 'react-no-ssr';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
 import listSlide from '../../utils/api/listSlide';
-import {
-  UserDataState,
-  SlideState,
-  IsInitializedState,
-} from '../../utils/state/atom';
+import {UserDataState, SlideState} from '../../utils/state/atom';
 import SlideList from './SlideList';
 
 const DashboardPage = () => {
@@ -25,15 +21,8 @@ const DashboardPage = () => {
   const router = useRouter();
   const toast = useToast();
   const setSlides = useSetRecoilState(SlideState);
-  const isInitializedRef = useRecoilValue(IsInitializedState);
 
   React.useEffect(() => {
-    // Since the component is updated every time Recoil is updated,
-    // the initialization process is performed only once at the time of loading.
-    // See more: https://zenn.dev/airtoxin/articles/7be9f0ffa5b90f#%E6%9C%80%E7%B5%82%E7%9A%84%E3%81%AA%E3%82%B3%E3%83%BC%E3%83%89
-    if (isInitializedRef.value) return;
-    isInitializedRef.value = true;
-
     let isMounted = true;
 
     if (typeof userData.refreshToken === 'undefined') {
@@ -74,7 +63,8 @@ const DashboardPage = () => {
     return () => {
       isMounted = false;
     };
-  });
+  }, []);
+
   return (
     <NoSSR>
       <SlideList />

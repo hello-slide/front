@@ -35,7 +35,7 @@ const RootPage = () => {
       behavior: 'smooth',
       block: 'start',
     });
-  });
+  }, []);
 
   const scrollToSecond = useCallback(() => {
     refContentsSecond.current.scrollIntoView({
