@@ -27,8 +27,12 @@ export default async function logout(token: string) {
     responseType: 'json',
   };
 
-  const response = await axios(config);
-  if (response.status !== 200) {
-    throw new Error(response.statusText);
+  try {
+    const response = await axios(config);
+    if (response.status !== 200) {
+      throw new Error(response.statusText);
+    }
+  } catch (error) {
+    throw new Error(error);
   }
 }
