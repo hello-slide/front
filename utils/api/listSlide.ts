@@ -48,8 +48,8 @@ export default async function listSlide(
       (error as AxiosError).code === '401' ||
       (error as AxiosError).response.status === 401
     ) {
-      await updateToken(updateFunc, refreshToken);
-      return listSlide(token, refreshToken, updateFunc);
+      const newToken = await updateToken(updateFunc, refreshToken);
+      return await listSlide(newToken, refreshToken, updateFunc);
     }
     throw new Error(
       (error as AxiosError).response.data || (error as AxiosError).message

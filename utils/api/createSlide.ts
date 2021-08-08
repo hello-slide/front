@@ -50,8 +50,8 @@ export default async function createSlide(
       (error as AxiosError).code === '401' ||
       (error as AxiosError).response.status === 401
     ) {
-      await updateToken(updateFunc, refreshToken);
-      return createSlide(token, title, refreshToken, updateFunc);
+      const newToken = await updateToken(updateFunc, refreshToken);
+      return await createSlide(newToken, title, refreshToken, updateFunc);
     }
     throw new Error(
       (error as AxiosError).response.data || (error as AxiosError).message

@@ -11,6 +11,7 @@ import axios, {AxiosRequestConfig} from 'axios';
 /**
  * @param {(sessionToken: string, refreshToken: string, isFailed?: boolean) => void} updateFunc - Update function.
  * @param {string} refreshToken - refresh token.
+ * @returns {string} - Session token.
  */
 export async function updateToken(
   updateFunc: (
@@ -19,7 +20,7 @@ export async function updateToken(
     isFailed?: boolean
   ) => void,
   refreshToken: string
-) {
+): Promise<string> {
   const config: AxiosRequestConfig = {
     url: '/account/update',
     method: 'post',
@@ -36,7 +37,8 @@ export async function updateToken(
   try {
     const response = await axios(config);
 
-    updateFunc(response['session_token'], response['refresh_token']);
+    updateFunc(response.data['session_token'], response.data['refresh_token']);
+    return response.data['session_token'];
   } catch (error) {
     updateFunc('', '', true);
     throw new Error(error);

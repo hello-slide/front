@@ -48,8 +48,8 @@ export default async function deleteSlide(
       (error as AxiosError).code === '401' ||
       (error as AxiosError).response.status === 401
     ) {
-      await updateToken(updateFunc, refreshToken);
-      deleteSlide(token, id, refreshToken, updateFunc);
+      const newToken = await updateToken(updateFunc, refreshToken);
+      await deleteSlide(newToken, id, refreshToken, updateFunc);
     }
     throw new Error(
       (error as AxiosError).response.data || (error as AxiosError).message
