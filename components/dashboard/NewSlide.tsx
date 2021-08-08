@@ -21,7 +21,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import React from 'react';
-import {useRecoilState, useSetRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import createSlide from '../../utils/api/createSlide';
 import {SlideState, LoadState, UserDataState} from '../../utils/state/atom';
 
@@ -33,7 +33,7 @@ const NewSlide: React.FC<{
   const [isEmpty, setIsEmpty] = React.useState(false);
   const [slides, setSlides] = useRecoilState(SlideState);
   const setIsLoad = useSetRecoilState(LoadState);
-  const userData = useRecoilValue(UserDataState);
+  const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
 
   // The slide name will be reset once the modal is closed.
@@ -49,7 +49,19 @@ const NewSlide: React.FC<{
     }
 
     setIsLoad(true);
-    createSlide(userData.sessionToken, title)
+    createSlide(
+      userData.sessionToken,
+      title,
+      userData.refreshToken,
+      (sessionToken, refreshToken) => {
+        setUserData(value => ({
+          name: value.name,
+          image: value.image,
+          sessionToken: sessionToken,
+          refreshToken: refreshToken,
+        }));
+      }
+    )
       .then(slideId => {
         setSlides([
           ...slides,

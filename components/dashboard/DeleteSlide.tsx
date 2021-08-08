@@ -17,7 +17,7 @@ import {
   Button,
   useToast,
 } from '@chakra-ui/react';
-import {useRecoilState, useSetRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
 import deleteSlide from '../../utils/api/deleteSlide';
 import {SlideState, LoadState, UserDataState} from '../../utils/state/atom';
@@ -29,12 +29,24 @@ const DeleteSlide: React.FC<{
 }> = ({isOpen, onClose, slide}) => {
   const [slides, setSlides] = useRecoilState(SlideState);
   const setIsLoad = useSetRecoilState(LoadState);
-  const userData = useRecoilValue(UserDataState);
+  const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
 
   const handleChange = () => {
     setIsLoad(true);
-    deleteSlide(userData.sessionToken, slide?.id)
+    deleteSlide(
+      userData.sessionToken,
+      slide?.id,
+      userData.refreshToken,
+      (sessionToken, refreshToken) => {
+        setUserData(value => ({
+          name: value.name,
+          image: value.image,
+          sessionToken: sessionToken,
+          refreshToken: refreshToken,
+        }));
+      }
+    )
       .then(() => {
         const _slides = [...slides];
         const index = _slides.findIndex(value => value.id === slide?.id);
