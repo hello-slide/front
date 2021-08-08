@@ -38,13 +38,20 @@ const DeleteSlide: React.FC<{
       userData.sessionToken,
       slide?.id,
       userData.refreshToken,
-      (sessionToken, refreshToken) => {
-        setUserData(value => ({
-          name: value.name,
-          image: value.image,
-          sessionToken: sessionToken,
-          refreshToken: refreshToken,
-        }));
+      (sessionToken, refreshToken, isFailed) => {
+        if (isFailed) {
+          setUserData({
+            name: '',
+            image: '',
+          });
+        } else {
+          setUserData(value => ({
+            name: value.name,
+            image: value.image,
+            sessionToken: sessionToken,
+            refreshToken: refreshToken,
+          }));
+        }
       }
     )
       .then(() => {

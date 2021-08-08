@@ -9,11 +9,15 @@
 import axios, {AxiosRequestConfig} from 'axios';
 
 /**
- * @param {(sessionToken: string, refreshToken: string) => void} updateFunc - Update function.
+ * @param {(sessionToken: string, refreshToken: string, isFailed?: boolean) => void} updateFunc - Update function.
  * @param {string} refreshToken - refresh token.
  */
 export async function updateToken(
-  updateFunc: (sessionToken: string, refreshToken: string) => void,
+  updateFunc: (
+    sessionToken: string,
+    refreshToken: string,
+    isFailed?: boolean
+  ) => void,
   refreshToken: string
 ) {
   const config: AxiosRequestConfig = {
@@ -29,7 +33,11 @@ export async function updateToken(
     responseType: 'json',
   };
 
-  const response = await axios(config);
+  try {
+    const response = await axios(config);
 
-  updateFunc(response['session_token'], response['refresh_token']);
+    updateFunc(response['session_token'], response['refresh_token']);
+  } catch (_) {
+    updateFunc('', '', true);
+  }
 }

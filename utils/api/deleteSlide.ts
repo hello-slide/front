@@ -15,13 +15,17 @@ import {updateToken} from './refresh';
  * @param {string} token - Session token
  * @param {string} id - Slide id.
  * @param {string} refreshToken - refresh token.
- * @param {(sessionToken: string, refreshToken: string) => void} updateFunc - Update function.
+ * @param {(sessionToken: string, refreshToken: string, isFailed?: boolean) => void} updateFunc - Update function.
  */
 export default async function deleteSlide(
   token: string,
   id: string,
   refreshToken: string,
-  updateFunc: (sessionToken: string, refreshToken: string) => void
+  updateFunc: (
+    sessionToken: string,
+    refreshToken: string,
+    isFailed?: boolean
+  ) => void
 ) {
   const config: AxiosRequestConfig = {
     url: '/slide/delete',

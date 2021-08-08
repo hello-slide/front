@@ -15,14 +15,18 @@ import {updateToken} from './refresh';
  * @param {string} token - Session token
  * @param {string} title - Slide title.
  * @param {string} refreshToken - refresh token.
- * @param {(sessionToken: string, refreshToken: string) => void} updateFunc - Update function.
+ * @param {(sessionToken: string, refreshToken: string, isFailed?: boolean) => void} updateFunc - Update function.
  * @returns {string} - Slide id.
  */
 export default async function createSlide(
   token: string,
   title: string,
   refreshToken: string,
-  updateFunc: (sessionToken: string, refreshToken: string) => void
+  updateFunc: (
+    sessionToken: string,
+    refreshToken: string,
+    isFailed?: boolean
+  ) => void
 ): Promise<string> {
   const config: AxiosRequestConfig = {
     url: '/slide/create',
