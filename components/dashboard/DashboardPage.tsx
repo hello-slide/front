@@ -11,14 +11,14 @@ import {useRouter} from 'next/router';
 import React from 'react';
 import {IoReload} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
 import listSlide from '../../utils/api/listSlide';
 import {UserDataState, SlideState} from '../../utils/state/atom';
 import SlideList from './SlideList';
 
 const DashboardPage = () => {
-  const userData = useRecoilValue(UserDataState);
+  const [userData, setUserData] = useRecoilState(UserDataState);
   const router = useRouter();
   const toast = useToast();
   const setSlides = useSetRecoilState(SlideState);
@@ -32,7 +32,25 @@ const DashboardPage = () => {
       router.push('/');
     } else if (isMounted) {
       setIsLoad(true);
-      listSlide(userData.sessionToken)
+      listSlide(
+        userData.sessionToken,
+        userData.refreshToken,
+        (sessionToken, refreshToken, isFailed) => {
+          if (isFailed) {
+            setUserData({
+              name: '',
+              image: '',
+            });
+          } else {
+            setUserData(value => ({
+              name: value.name,
+              image: value.image,
+              sessionToken: sessionToken,
+              refreshToken: refreshToken,
+            }));
+          }
+        }
+      )
         .then(response => {
           const newSlides: Slide[] = [];
           for (const element of response.slides) {
