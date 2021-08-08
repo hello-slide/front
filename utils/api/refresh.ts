@@ -37,7 +37,8 @@ export async function updateToken(
     const response = await axios(config);
 
     updateFunc(response['session_token'], response['refresh_token']);
-  } catch (_) {
+  } catch (error) {
     updateFunc('', '', true);
+    throw new Error(error);
   }
 }
