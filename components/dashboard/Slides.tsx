@@ -19,6 +19,7 @@ import {
   MenuDivider,
   useDisclosure,
 } from '@chakra-ui/react';
+import {useRouter} from 'next/router';
 import React from 'react';
 import {ContextMenu, ContextMenuTrigger} from 'react-contextmenu';
 import {
@@ -42,6 +43,7 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
   const [deleteSlide, setDeleteSlide] = React.useState<Slide>();
   const [show, setShow] = React.useState(false);
   const [details, setDetails] = React.useState<Slide>();
+  const router = useRouter();
 
   const ListContents: ChakraComponent<'div', {}> = props => {
     return (
@@ -85,8 +87,7 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
   };
 
   const handleChange = (id: string) => {
-    // TODO: Jump to edit page
-    console.log(id);
+    router.push(`/edit/${id}`);
   };
 
   return (
@@ -142,6 +143,9 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
                     <MenuItem
                       padding=".5rem 0 .5rem 1rem"
                       icon={<IoOpenOutline size="18px" />}
+                      onClick={() => {
+                        handleChange(value.id);
+                      }}
                     >
                       開く
                     </MenuItem>
