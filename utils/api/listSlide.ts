@@ -6,16 +6,23 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import axios, {AxiosRequestConfig} from 'axios';
+import axios, {AxiosRequestConfig, AxiosError} from 'axios';
 import SlideConfig from '../../@types/slideApi';
+import {updateToken} from './refresh';
 
 /**
  * Create Slide API
  *
  * @param {string} token - Session token
+ * @param {string} refreshToken - refresh token.
+ * @param {(sessionToken: string, refreshToken: string) => void} updateFunc - Update function.
  * @returns {SlideConfig} - Slide data.
  */
-export default async function listSlide(token: string): Promise<SlideConfig> {
+export default async function listSlide(
+  token: string,
+  refreshToken: string,
+  updateFunc: (sessionToken: string, refreshToken: string) => void
+): Promise<SlideConfig> {
   const config: AxiosRequestConfig = {
     url: '/slide/list',
     method: 'post',
@@ -29,10 +36,19 @@ export default async function listSlide(token: string): Promise<SlideConfig> {
     responseType: 'json',
   };
 
-  const response = await axios(config);
-
-  if (response.status !== 200) {
-    throw new Error(response.statusText);
+  try {
+    const response = await axios(config);
+    return response.data as SlideConfig;
+  } catch (error) {
+    if (
+      (error as AxiosError).code === '401' ||
+      (error as AxiosError).response.status === 401
+    ) {
+      await updateToken(updateFunc, refreshToken);
+      return listSlide(token, refreshToken, updateFunc);
+    }
+    throw new Error(
+      (error as AxiosError).response.data || (error as AxiosError).message
+    );
   }
-  return response.data as SlideConfig;
 }

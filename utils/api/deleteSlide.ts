@@ -6,15 +6,23 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import axios, {AxiosRequestConfig} from 'axios';
+import axios, {AxiosRequestConfig, AxiosError} from 'axios';
+import {updateToken} from './refresh';
 
 /**
  * Create Slide API
  *
  * @param {string} token - Session token
  * @param {string} id - Slide id.
+ * @param {string} refreshToken - refresh token.
+ * @param {(sessionToken: string, refreshToken: string) => void} updateFunc - Update function.
  */
-export default async function deleteSlide(token: string, id: string) {
+export default async function deleteSlide(
+  token: string,
+  id: string,
+  refreshToken: string,
+  updateFunc: (sessionToken: string, refreshToken: string) => void
+) {
   const config: AxiosRequestConfig = {
     url: '/slide/delete',
     method: 'post',
@@ -29,9 +37,18 @@ export default async function deleteSlide(token: string, id: string) {
     responseType: 'json',
   };
 
-  const response = await axios(config);
-
-  if (response.status !== 200) {
-    throw new Error(response.statusText);
+  try {
+    await axios(config);
+  } catch (error) {
+    if (
+      (error as AxiosError).code === '401' ||
+      (error as AxiosError).response.status === 401
+    ) {
+      await updateToken(updateFunc, refreshToken);
+      deleteSlide(token, id, refreshToken, updateFunc);
+    }
+    throw new Error(
+      (error as AxiosError).response.data || (error as AxiosError).message
+    );
   }
 }

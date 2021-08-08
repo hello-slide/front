@@ -6,18 +6,23 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import axios, {AxiosRequestConfig} from 'axios';
+import axios, {AxiosRequestConfig, AxiosError} from 'axios';
+import {updateToken} from './refresh';
 
 /**
  * Create Slide API
  *
  * @param {string} token - Session token
  * @param {string} title - Slide title.
+ * @param {string} refreshToken - refresh token.
+ * @param {(sessionToken: string, refreshToken: string) => void} updateFunc - Update function.
  * @returns {string} - Slide id.
  */
 export default async function createSlide(
   token: string,
-  title: string
+  title: string,
+  refreshToken: string,
+  updateFunc: (sessionToken: string, refreshToken: string) => void
 ): Promise<string> {
   const config: AxiosRequestConfig = {
     url: '/slide/create',
@@ -33,10 +38,19 @@ export default async function createSlide(
     responseType: 'json',
   };
 
-  const response = await axios(config);
-
-  if (response.status !== 200) {
-    throw new Error(response.statusText);
+  try {
+    const response = await axios(config);
+    return response.data['slide_id'];
+  } catch (error) {
+    if (
+      (error as AxiosError).code === '401' ||
+      (error as AxiosError).response.status === 401
+    ) {
+      await updateToken(updateFunc, refreshToken);
+      return createSlide(token, title, refreshToken, updateFunc);
+    }
+    throw new Error(
+      (error as AxiosError).response.data || (error as AxiosError).message
+    );
   }
-  return response.data['slide_id'];
 }
