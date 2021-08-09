@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {useToast, IconButton, Flex, Icon} from '@chakra-ui/react';
+import {useToast, IconButton, Flex} from '@chakra-ui/react';
 import {useRouter} from 'next/router';
 import React from 'react';
 import {IoReload} from 'react-icons/io5';
@@ -26,11 +26,15 @@ const DashboardPage = () => {
   const [isLoad, setIsLoad] = React.useState(false);
 
   React.useEffect(() => {
-    let isMounted = true;
-
     if (typeof userData.refreshToken === 'undefined') {
       router.push('/');
-    } else if (isMounted) {
+    }
+  }, [userData]);
+
+  React.useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted && typeof userData.refreshToken !== 'undefined') {
       setIsLoad(true);
       listSlide(
         userData.sessionToken,

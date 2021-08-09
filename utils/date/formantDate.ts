@@ -15,9 +15,9 @@
  * @returns {string} - formatted date.
  */
 export default function formatDate(date: Date, isDetail?: boolean): string {
-  const formattedDate = `${date.getFullYear()}年 ${date.getMonth() + 1}月${
-    date.getDate() + 1
-  }日`;
+  const formattedDate = `${date.getFullYear()}年 ${
+    date.getMonth() + 1
+  }月${date.getDate()}日`;
 
   if (isDetail) {
     return `${formattedDate} ${date.getHours()}時${date.getMinutes()}分`;
