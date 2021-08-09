@@ -27,15 +27,18 @@ const RootPage = () => {
   const {isOpen, onOpen, onClose} = useDisclosure();
 
   React.useEffect(() => {
-    if (typeof userData.refreshToken !== 'undefined') {
-      router.push('/dashboard');
-      return;
-    }
     refContentsFirst.current.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
     });
   }, []);
+
+  React.useEffect(() => {
+    if (typeof userData.refreshToken !== 'undefined') {
+      router.push('/dashboard');
+      return;
+    }
+  }, [userData]);
 
   const scrollToSecond = useCallback(() => {
     refContentsSecond.current.scrollIntoView({
