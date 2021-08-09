@@ -26,11 +26,15 @@ const DashboardPage = () => {
   const [isLoad, setIsLoad] = React.useState(false);
 
   React.useEffect(() => {
-    let isMounted = true;
-
     if (typeof userData.refreshToken === 'undefined') {
       router.push('/');
-    } else if (isMounted) {
+    }
+  }, [userData]);
+
+  React.useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted && typeof userData.refreshToken !== 'undefined') {
       setIsLoad(true);
       listSlide(
         userData.sessionToken,
