@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {useToast, IconButton, Flex, Icon} from '@chakra-ui/react';
+import {useToast, IconButton, Flex} from '@chakra-ui/react';
 import {useRouter} from 'next/router';
 import React from 'react';
 import {IoReload} from 'react-icons/io5';
