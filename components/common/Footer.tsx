@@ -29,7 +29,7 @@ const Footer = React.memo(() => {
           spacing={{base: '10', lg: '28'}}
         >
           <Box flex="1">
-            <Link href="/">
+            <Link href="/" _focus={{boxShadow: 'none'}}>
               <Logo width="10rem" />
             </Link>
           </Box>
