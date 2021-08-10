@@ -17,7 +17,6 @@ import {updateToken} from './refresh';
  * @param {string} token - Session token
  * @param {string} refreshToken - refresh token.
  * @param {(sessionToken: string, refreshToken: string, isFailed?: boolean) => void} updateFunc - Update function.
- * @returns {SlideConfig} - Slide data.
  */
 export default async function renameSlide(
   slideId: string,
