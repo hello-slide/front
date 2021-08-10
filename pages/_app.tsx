@@ -7,17 +7,18 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 
-import {Box} from '@chakra-ui/react';
 import {ChakraProvider} from '@chakra-ui/react';
 import {AppProps} from 'next/app';
 import {useRouter} from 'next/router';
 import nprogress from 'nprogress';
 import {useEffect} from 'react';
 import {RecoilRoot} from 'recoil';
+import Font from '../components/common/Font';
 import Loading from '../components/common/Loading';
 import Page from '../components/common/Page';
 import {GA_TRACKING_ID, pageview} from '../utils/ga/gtag';
 import 'nprogress/nprogress.css';
+import theme from '../utils/theme/theme';
 
 nprogress.configure({showSpinner: false, speed: 400, minimum: 0.25});
 
@@ -45,13 +46,12 @@ const App = ({Component, pageProps}: AppProps): JSX.Element => {
 
   return (
     <RecoilRoot>
-      <ChakraProvider>
-        <Box fontFamily="'Noto Sans JP', sans-serif;">
-          <Page>
-            <Component {...pageProps} />
-            <Loading />
-          </Page>
-        </Box>
+      <ChakraProvider theme={theme}>
+        <Font />
+        <Page>
+          <Component {...pageProps} />
+          <Loading />
+        </Page>
       </ChakraProvider>
     </RecoilRoot>
   );

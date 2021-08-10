@@ -118,7 +118,7 @@ const Header: React.FC = React.memo(() => {
         paddingTop={{base: '1rem', sm: '0'}}
       >
         <Flex alignItems="center">
-          <Link href="/">
+          <Link href="/" _focus={{boxShadow: 'none'}}>
             <Box width={{base: '10rem', sm: '15rem'}}>
               <Logo />
             </Box>
