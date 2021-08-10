@@ -107,7 +107,7 @@ const SlideRename: React.FC<{
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
+    <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader marginTop=".5rem">
