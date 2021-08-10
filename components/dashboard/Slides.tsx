@@ -27,11 +27,13 @@ import {
   IoAlertCircleOutline,
   IoTrashOutline,
   IoOpenOutline,
+  IoTextOutline,
 } from 'react-icons/io5';
 import Slide from '../../@types/slides';
 import updateDate from '../../utils/date/updateDate';
 import DeleteSlide from './DeleteSlide';
 import SlideInfo from './SlideInfo';
+import SlideRename from './SlideRename';
 
 const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
   slides,
@@ -39,9 +41,9 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
 }) => {
   const deleteSlideModal = useDisclosure();
   const detailModal = useDisclosure();
-  const [deleteSlide, setDeleteSlide] = React.useState<Slide>();
+  const renameModal = useDisclosure();
+  const [operationSlide, setOperationSlide] = React.useState<Slide>();
   const [show, setShow] = React.useState(false);
-  const [details, setDetails] = React.useState<Slide>();
 
   const ListContents: ChakraComponent<'div', {}> = props => {
     return (
@@ -148,7 +150,17 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
                     <MenuItem
                       padding=".5rem 0 .5rem 1rem"
                       onClick={() => {
-                        setDetails(value);
+                        setOperationSlide(value);
+                        renameModal.onOpen();
+                      }}
+                      icon={<IoTextOutline size="18px" />}
+                    >
+                      名前変更
+                    </MenuItem>
+                    <MenuItem
+                      padding=".5rem 0 .5rem 1rem"
+                      onClick={() => {
+                        setOperationSlide(value);
                         detailModal.onOpen();
                       }}
                       icon={<IoAlertCircleOutline size="18px" />}
@@ -160,7 +172,7 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
                       padding=".5rem 0 .5rem 1rem"
                       onClick={() => {
                         deleteSlideModal.onOpen();
-                        setDeleteSlide(value);
+                        setOperationSlide(value);
                       }}
                       icon={<IoTrashOutline size="18px" />}
                     >
@@ -184,14 +196,19 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
         </ListContents>
       </Wrap>
       <DeleteSlide
-        slide={deleteSlide}
+        slide={operationSlide}
         onClose={deleteSlideModal.onClose}
         isOpen={deleteSlideModal.isOpen}
       />
       <SlideInfo
         onClose={detailModal.onClose}
         isOpen={detailModal.isOpen}
-        slide={details}
+        slide={operationSlide}
+      />
+      <SlideRename
+        onClose={renameModal.onClose}
+        isOpen={renameModal.isOpen}
+        slide={operationSlide}
       />
     </>
   );
