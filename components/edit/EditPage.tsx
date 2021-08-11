@@ -23,7 +23,10 @@ const EditPage: React.FC<{id: string | string[]}> = ({id}) => {
           }}
           nowPageId={currentPage?.id}
         />
-        <Box>現在のページID{currentPage?.id}</Box>
+        <Box>
+          * 現在のページID: {currentPage?.id}
+          <br />* 現在のページタイプ: {currentPage?.type}
+        </Box>
       </Flex>
     </NoSSR>
   );

@@ -6,13 +6,14 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Box, Menu, MenuList, MenuItem} from '@chakra-ui/react';
+import {Box, Menu, MenuList, MenuItem, useDisclosure} from '@chakra-ui/react';
 import React from 'react';
 import {ContextMenuTrigger, ContextMenu} from 'react-contextmenu';
 import {IoAdd, IoOpenOutline, IoTrashOutline} from 'react-icons/io5';
 import {useRecoilState} from 'recoil';
 import Page from '../../@types/page';
 import {PagesState} from '../../utils/state/atom';
+import NewPage from './NewPage';
 
 interface Props {
   setCurrentPage: (page: Page) => void;
@@ -21,20 +22,24 @@ interface Props {
 
 const PageList = React.memo<Props>(({setCurrentPage, nowPageId}) => {
   const [pages, setPages] = useRecoilState(PagesState);
+  const createPageModel = useDisclosure();
 
-  const newPage = () => {
-    // TODO: new page
+  const newPage = (type: string, id: string) => {
+    const newElement = {
+      id: id,
+      type: type,
+    };
+    setCurrentPage(newElement);
+
     setPages(value => {
       const a = [...value];
-      a.push({
-        id: `${Math.random()}`,
-        type: 'hoge',
-      });
+      a.push(newElement);
       return a;
     });
   };
 
   const deletePage = (pageId: string) => {
+    // TODO: Delete logic
     const _pages = [...pages];
     const index = _pages.findIndex(value => value.id === pageId);
 
@@ -89,9 +94,7 @@ const PageList = React.memo<Props>(({setCurrentPage, nowPageId}) => {
               <MenuItem
                 padding=".5rem 0 .5rem 1rem"
                 icon={<IoAdd size="18px" />}
-                onClick={() => {
-                  newPage();
-                }}
+                onClick={createPageModel.onOpen}
               >
                 新規作成
               </MenuItem>
@@ -112,47 +115,54 @@ const PageList = React.memo<Props>(({setCurrentPage, nowPageId}) => {
   };
 
   return (
-    <Box width="18rem" height="100%" backgroundColor="gray.200">
-      <ContextMenuTrigger id="pageList">
-        <Box height="calc(100vh - 84px)">
-          <Box
-            width="100%"
-            height="100%"
-            overflowY="scroll"
-            css={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              '&::-webkit-scrollbar': {
-                display: 'none',
-              },
-            }}
-          >
-            {pages.map(value => {
-              return (
-                <PageListItem
-                  page={value}
-                  selected={value.id === nowPageId}
-                  key={value.id}
-                />
-              );
-            })}
-          </Box>
-        </Box>
-      </ContextMenuTrigger>
-      <ContextMenu id="pageList">
-        <Menu isOpen={true}>
-          <MenuList padding={0}>
-            <MenuItem
-              padding=".5rem 0 .5rem 1rem"
-              icon={<IoAdd size="18px" />}
-              onClick={newPage}
+    <>
+      <Box width="18rem" height="100%" backgroundColor="gray.200">
+        <ContextMenuTrigger id="pageList">
+          <Box height="calc(100vh - 84px)">
+            <Box
+              width="100%"
+              height="100%"
+              overflowY="scroll"
+              css={{
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+                '&::-webkit-scrollbar': {
+                  display: 'none',
+                },
+              }}
             >
-              新規作成
-            </MenuItem>
-          </MenuList>
-        </Menu>
-      </ContextMenu>
-    </Box>
+              {pages.map(value => {
+                return (
+                  <PageListItem
+                    page={value}
+                    selected={value.id === nowPageId}
+                    key={value.id}
+                  />
+                );
+              })}
+            </Box>
+          </Box>
+        </ContextMenuTrigger>
+        <ContextMenu id="pageList">
+          <Menu isOpen={true}>
+            <MenuList padding={0}>
+              <MenuItem
+                padding=".5rem 0 .5rem 1rem"
+                icon={<IoAdd size="18px" />}
+                onClick={createPageModel.onOpen}
+              >
+                新規作成
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </ContextMenu>
+      </Box>
+      <NewPage
+        isOpen={createPageModel.isOpen}
+        onClose={createPageModel.onClose}
+        handleChange={newPage}
+      />
+    </>
   );
 });
 
