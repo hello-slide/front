@@ -44,7 +44,6 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
   const detailModal = useDisclosure();
   const renameModal = useDisclosure();
   const [operationSlide, setOperationSlide] = React.useState<Slide>();
-  const [show, setShow] = React.useState(false);
   const router = useRouter();
 
   const ListContents: ChakraComponent<'div', {}> = props => {
@@ -111,7 +110,13 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
                   }}
                   cursor="pointer"
                 >
-                  <Text fontWeight="bold" fontSize="1.2rem" marginBottom="1rem">
+                  <Text
+                    fontWeight="bold"
+                    fontSize="1.2rem"
+                    marginBottom="1rem"
+                    overflow="hidden"
+                    maxHeight="2.1rem"
+                  >
                     {value.title}
                   </Text>
                   <Flex alignItems="center" fontSize=".9rem">
@@ -123,16 +128,8 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
                   </Flex>
                 </ListContents>
               </ContextMenuTrigger>
-              <ContextMenu
-                id={value.id}
-                onShow={() => {
-                  setShow(true);
-                }}
-                onHide={() => {
-                  setShow(false);
-                }}
-              >
-                <Menu isOpen={show}>
+              <ContextMenu id={value.id}>
+                <Menu isOpen={true}>
                   <MenuList padding={0}>
                     <Text
                       fontSize="1rem"

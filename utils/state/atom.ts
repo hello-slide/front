@@ -8,6 +8,7 @@
  **********************************************************/
 
 import {atom, DefaultValue} from 'recoil';
+import Page from '../../@types/page';
 import Slide from '../../@types/slides';
 import {UserData} from '../../@types/userData';
 
@@ -60,4 +61,12 @@ export const SlideState = atom<Slide[]>({
 export const LoadState = atom<boolean>({
   key: 'loading',
   default: false,
+});
+
+/**
+ * Pages
+ */
+export const PagesState = atom<Page[]>({
+  key: 'pages',
+  default: [],
 });
