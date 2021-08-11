@@ -16,12 +16,14 @@ import {PagesState} from '../../utils/state/atom';
 
 interface Props {
   setCurrentPage: (page: Page) => void;
+  nowPageId: string;
 }
 
-const PageList = React.memo<Props>(({setCurrentPage}) => {
+const PageList = React.memo<Props>(({setCurrentPage, nowPageId}) => {
   const [pages, setPages] = useRecoilState(PagesState);
 
   const newPage = () => {
+    // TODO: new page
     setPages(value => {
       const a = [...value];
       a.push({
@@ -32,7 +34,27 @@ const PageList = React.memo<Props>(({setCurrentPage}) => {
     });
   };
 
-  const PageListItem: React.FC<{page: Page}> = ({page}) => {
+  const deletePage = (pageId: string) => {
+    const _pages = [...pages];
+    const index = _pages.findIndex(value => value.id === pageId);
+
+    if (pageId === nowPageId) {
+      if (index !== _pages.length - 1) {
+        setCurrentPage(pages[index + 1]);
+      } else {
+        setCurrentPage(pages[index - 1]);
+      }
+    }
+
+    _pages.splice(index, 1);
+    setPages(_pages);
+  };
+
+  const PageListItem: React.FC<{page: Page; selected: boolean}> = ({
+    page,
+    selected,
+  }) => {
+    const [, setRender] = React.useState(false);
     return (
       <>
         <ContextMenuTrigger id={page.id}>
@@ -45,6 +67,8 @@ const PageList = React.memo<Props>(({setCurrentPage}) => {
             onClick={() => {
               setCurrentPage(page);
             }}
+            borderWidth="1px"
+            borderColor={selected ? 'red' : 'white'}
           >
             {page.type}
           </Box>
@@ -55,21 +79,28 @@ const PageList = React.memo<Props>(({setCurrentPage}) => {
               <MenuItem
                 padding=".5rem 0 .5rem 1rem"
                 icon={<IoOpenOutline size="18px" />}
-                onClick={() => {}}
+                onClick={() => {
+                  setCurrentPage(page);
+                  setRender(value => !value);
+                }}
               >
                 開く
               </MenuItem>
               <MenuItem
                 padding=".5rem 0 .5rem 1rem"
                 icon={<IoAdd size="18px" />}
-                onClick={newPage}
+                onClick={() => {
+                  newPage();
+                }}
               >
                 新規作成
               </MenuItem>
               <MenuItem
                 padding=".5rem 0 .5rem 1rem"
                 icon={<IoTrashOutline size="18px" />}
-                onClick={() => {}}
+                onClick={() => {
+                  deletePage(page.id);
+                }}
               >
                 削除
               </MenuItem>
@@ -97,7 +128,13 @@ const PageList = React.memo<Props>(({setCurrentPage}) => {
             }}
           >
             {pages.map(value => {
-              return <PageListItem page={value} key={value.id} />;
+              return (
+                <PageListItem
+                  page={value}
+                  selected={value.id === nowPageId}
+                  key={value.id}
+                />
+              );
             })}
           </Box>
         </Box>
