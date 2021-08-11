@@ -48,7 +48,7 @@ const App = ({Component, pageProps}: AppProps): JSX.Element => {
     <RecoilRoot>
       <ChakraProvider theme={theme}>
         <Font />
-        <Page>
+        <Page noFooter={pageProps.noFooter}>
           <Component {...pageProps} />
           <Loading />
         </Page>

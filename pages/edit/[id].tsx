@@ -6,6 +6,7 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import {GetServerSideProps} from 'next';
 import {useRouter} from 'next/router';
 import Title from '../../components/common/Title';
 import EditPage from '../../components/edit/EditPage';
@@ -19,6 +20,14 @@ const Edit = () => {
       <EditPage id={id} />
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    props: {
+      noFooter: true,
+    },
+  };
 };
 
 export default Edit;
