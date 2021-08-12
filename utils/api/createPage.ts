@@ -1,5 +1,5 @@
 /**********************************************************
- * Page List api
+ * Create page api
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
@@ -7,30 +7,32 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 import axios, {AxiosRequestConfig, AxiosError} from 'axios';
-import {GetAPIPages} from '../../@types/page';
+import {GetAPIPageData} from '../../@types/page';
 import {updateToken} from './refresh';
 
 /**
- * List Slide API
+ * Create page API
  *
  * @param {string} token - Session token
  * @param {string} refreshToken - refresh token.
- * @param {string} slideId - Slide id.
+ * @param {string} slideId - id of slide.
+ * @param {string} pageType - page type.
  * @param {(sessionToken: string, refreshToken: string, isFailed?: boolean) => void} updateFunc - Update function.
- * @returns {GetAPIPage} - Slide data.
+ * @returns {string} - Slide id.
  */
-export default async function listPage(
+export default async function createPage(
   token: string,
   refreshToken: string,
   slideId: string,
+  pageType: string,
   updateFunc: (
     sessionToken: string,
     refreshToken: string,
     isFailed?: boolean
   ) => void
-): Promise<GetAPIPages> {
+): Promise<GetAPIPageData> {
   const config: AxiosRequestConfig = {
-    url: '/slide/details',
+    url: '/slide/createpage',
     method: 'post',
     baseURL: 'https://api.hello-slide.jp/',
     headers: {
@@ -39,20 +41,27 @@ export default async function listPage(
     data: JSON.stringify({
       SessionToken: token,
       SlideID: slideId,
+      PageType: pageType,
     }),
     responseType: 'json',
   };
 
   try {
     const response = await axios(config);
-    return response.data as GetAPIPages;
+    return response.data as GetAPIPageData;
   } catch (error) {
     if (
       (error as AxiosError).code === '401' ||
       (error as AxiosError).response.status === 401
     ) {
       const newToken = await updateToken(updateFunc, refreshToken);
-      return await listPage(newToken, refreshToken, slideId, updateFunc);
+      return await createPage(
+        newToken,
+        refreshToken,
+        slideId,
+        pageType,
+        updateFunc
+      );
     }
     throw new Error(
       (error as AxiosError).response.data || (error as AxiosError).message

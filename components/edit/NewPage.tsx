@@ -21,6 +21,9 @@ import {
   Center,
 } from '@chakra-ui/react';
 import React from 'react';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import createPage from '../../utils/api/createPage';
+import {UserDataState, NowPageData} from '../../utils/state/atom';
 
 const NewPage: React.FC<{
   isOpen: boolean;
@@ -28,16 +31,46 @@ const NewPage: React.FC<{
   handleChange: (type: string, id: string) => void;
 }> = ({isOpen, onClose, handleChange}) => {
   const [selectItem, setSelectItem] = React.useState('');
+  const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
+  const nowPageData = useRecoilValue(NowPageData);
 
   React.useEffect(() => {
     setSelectItem('');
   }, [isOpen]);
 
   const create = () => {
-    // TODO: Create page api logic.
-    const id = Math.floor(Math.random() * 100000).toString();
-    handleChange(selectItem, id);
+    createPage(
+      userData.sessionToken,
+      userData.refreshToken,
+      nowPageData?.id,
+      selectItem,
+      (sessionToken, refreshToken, isFailed) => {
+        if (isFailed) {
+          setUserData({
+            name: '',
+            image: '',
+          });
+        } else {
+          setUserData(value => ({
+            name: value.name,
+            image: value.image,
+            sessionToken: sessionToken,
+            refreshToken: refreshToken,
+          }));
+        }
+      }
+    )
+      .then(value => {
+        handleChange(value.type, value.page_id);
+      })
+      .catch(error => {
+        toast({
+          title: '新しいページを作成できませんでした',
+          description: `${error}`,
+          status: 'error',
+        });
+      });
     onClose();
   };
 

@@ -9,6 +9,7 @@
 
 import {atom, DefaultValue} from 'recoil';
 import Page from '../../@types/page';
+import {GetAPIPages} from '../../@types/page';
 import Slide from '../../@types/slides';
 import {UserData} from '../../@types/userData';
 
@@ -69,4 +70,12 @@ export const LoadState = atom<boolean>({
 export const PagesState = atom<Page[]>({
   key: 'pages',
   default: [],
+});
+
+/**
+ * Now edit slide data.
+ */
+export const NowPageData = atom<GetAPIPages>({
+  key: 'nowPageData',
+  default: null,
 });

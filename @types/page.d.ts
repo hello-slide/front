@@ -13,10 +13,12 @@ export default interface Page {
   type: string;
 }
 
-export interface GetAPIPage extends Slide {
+export interface GetAPIPages extends Slide {
   number_of_pages: string;
-  pages: {
-    page_id: string;
-    type: string;
-  }[];
+  pages: GetAPIPageData[];
+}
+
+export interface GetAPIPageData {
+  page_id: string;
+  type: string;
 }

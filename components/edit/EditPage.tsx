@@ -12,7 +12,7 @@ import NoSSR from 'react-no-ssr';
 import {useSetRecoilState, useRecoilState} from 'recoil';
 import Page from '../../@types/page';
 import listPage from '../../utils/api/listPage';
-import {PagesState, UserDataState} from '../../utils/state/atom';
+import {PagesState, UserDataState, NowPageData} from '../../utils/state/atom';
 import EditHeader from './EditHeader';
 import PageList from './PageList';
 
@@ -20,6 +20,7 @@ const EditPage: React.FC<{id: string | string[]}> = ({id}) => {
   const [currentPage, setCurrentPage] = React.useState<Page | undefined>();
   const setPages = useSetRecoilState(PagesState);
   const [userData, setUserData] = useRecoilState(UserDataState);
+  const setNowPageData = useSetRecoilState(NowPageData);
   const toast = useToast();
 
   React.useEffect(() => {
@@ -56,6 +57,7 @@ const EditPage: React.FC<{id: string | string[]}> = ({id}) => {
             });
           }
           setPages(pages);
+          setNowPageData(value);
         })
         .catch(error => {
           toast({
