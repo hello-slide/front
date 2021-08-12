@@ -10,24 +10,28 @@ import {Box, Flex} from '@chakra-ui/react';
 import React from 'react';
 import NoSSR from 'react-no-ssr';
 import Page from '../../@types/page';
+import EditHeader from './EditHeader';
 import PageList from './PageList';
 
 const EditPage: React.FC<{id: string | string[]}> = ({id}) => {
   const [currentPage, setCurrentPage] = React.useState<Page | undefined>();
   return (
     <NoSSR>
-      <Flex width="100%" height="calc(100vh - 84px)" margin="0" padding="0">
-        <PageList
-          setCurrentPage={page => {
-            setCurrentPage(page);
-          }}
-          nowPageId={currentPage?.id}
-        />
-        <Box>
-          * 現在のページID: {currentPage?.id}
-          <br />* 現在のページタイプ: {currentPage?.type}
-        </Box>
-      </Flex>
+      <Box width="100%" height="calc(100vh - 84px)" margin="0" padding="0">
+        <EditHeader />
+        <Flex>
+          <PageList
+            setCurrentPage={page => {
+              setCurrentPage(page);
+            }}
+            nowPageId={currentPage?.id}
+          />
+          <Box>
+            * 現在のページID: {currentPage?.id}
+            <br />* 現在のページタイプ: {currentPage?.type}
+          </Box>
+        </Flex>
+      </Box>
     </NoSSR>
   );
 };

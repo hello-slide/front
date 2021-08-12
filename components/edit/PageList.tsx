@@ -6,13 +6,22 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Box, Menu, MenuList, MenuItem, useDisclosure} from '@chakra-ui/react';
+import {
+  Box,
+  Menu,
+  MenuList,
+  MenuItem,
+  useDisclosure,
+  Text,
+  Flex,
+} from '@chakra-ui/react';
 import React from 'react';
 import {ContextMenuTrigger, ContextMenu} from 'react-contextmenu';
 import {IoAdd, IoOpenOutline, IoTrashOutline} from 'react-icons/io5';
 import {useRecoilState} from 'recoil';
 import Page from '../../@types/page';
 import {PagesState} from '../../utils/state/atom';
+import ListTitle from './ListTitle';
 import NewPage from './NewPage';
 
 interface Props {
@@ -55,28 +64,33 @@ const PageList = React.memo<Props>(({setCurrentPage, nowPageId}) => {
     setPages(_pages);
   };
 
-  const PageListItem: React.FC<{page: Page; selected: boolean}> = ({
-    page,
-    selected,
-  }) => {
+  const PageListItem = React.memo<{
+    page: Page;
+    index: number;
+    selected: boolean;
+  }>(({page, index, selected}) => {
     const [, setRender] = React.useState(false);
     return (
       <>
         <ContextMenuTrigger id={page.id}>
-          <Box
+          <Flex
             margin=".5rem"
-            padding="3rem"
-            backgroundColor="white"
+            padding="0 1.5rem 0"
+            backgroundColor="gray.100"
             borderRadius="10px"
             cursor="pointer"
             onClick={() => {
               setCurrentPage(page);
             }}
-            borderWidth="1px"
-            borderColor={selected ? 'red' : 'white'}
+            borderWidth="4px"
+            borderColor={selected ? 'blue.400' : 'gray.100'}
+            justifyContent="space-between"
           >
-            {page.type}
-          </Box>
+            <Text as="span" fontWeight="bold" fontSize="3rem" color="gray.600">
+              {index}
+            </Text>
+            <ListTitle type={page.type} color="gray.500" />
+          </Flex>
         </ContextMenuTrigger>
         <ContextMenu id={page.id}>
           <Menu isOpen={true}>
@@ -112,13 +126,20 @@ const PageList = React.memo<Props>(({setCurrentPage, nowPageId}) => {
         </ContextMenu>
       </>
     );
-  };
+  });
+
+  PageListItem.displayName = 'pageListItem';
 
   return (
     <>
-      <Box width="18rem" height="100%" backgroundColor="gray.200">
+      <Box
+        width="18rem"
+        height="100%"
+        borderRightWidth="1px"
+        borderRightColor="gray.300"
+      >
         <ContextMenuTrigger id="pageList">
-          <Box height="calc(100vh - 84px)">
+          <Box height="calc(100vh - 116px)">
             <Box
               width="100%"
               height="100%"
@@ -131,10 +152,11 @@ const PageList = React.memo<Props>(({setCurrentPage, nowPageId}) => {
                 },
               }}
             >
-              {pages.map(value => {
+              {pages.map((value, index) => {
                 return (
                   <PageListItem
                     page={value}
+                    index={index}
                     selected={value.id === nowPageId}
                     key={value.id}
                   />

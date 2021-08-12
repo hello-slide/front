@@ -49,7 +49,7 @@ const NewPage: React.FC<{
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        backgroundColor={props.type === selectItem ? 'red.300' : 'gray.100'}
+        backgroundColor={props.type === selectItem ? 'blue.300' : 'gray.100'}
         borderRadius="5px"
         onClick={() => {
           setSelectItem(props.type);
