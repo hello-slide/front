@@ -11,7 +11,7 @@ import SlideConfig from '../../@types/slideApi';
 import {updateToken} from './refresh';
 
 /**
- * Create Slide API
+ * List Slide API
  *
  * @param {string} token - Session token
  * @param {string} refreshToken - refresh token.

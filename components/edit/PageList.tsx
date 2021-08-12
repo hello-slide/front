@@ -24,12 +24,10 @@ import {PagesState} from '../../utils/state/atom';
 import ListTitle from './ListTitle';
 import NewPage from './NewPage';
 
-interface Props {
+const PageList = React.memo<{
   setCurrentPage: (page: Page) => void;
   nowPageId: string;
-}
-
-const PageList = React.memo<Props>(({setCurrentPage, nowPageId}) => {
+}>(({setCurrentPage, nowPageId}) => {
   const [pages, setPages] = useRecoilState(PagesState);
   const createPageModel = useDisclosure();
 
@@ -69,7 +67,6 @@ const PageList = React.memo<Props>(({setCurrentPage, nowPageId}) => {
     index: number;
     selected: boolean;
   }>(({page, index, selected}) => {
-    const [, setRender] = React.useState(false);
     return (
       <>
         <ContextMenuTrigger id={page.id}>
@@ -87,7 +84,7 @@ const PageList = React.memo<Props>(({setCurrentPage, nowPageId}) => {
             justifyContent="space-between"
           >
             <Text as="span" fontWeight="bold" fontSize="3rem" color="gray.600">
-              {index}
+              {index + 1}
             </Text>
             <ListTitle type={page.type} color="gray.500" />
           </Flex>
@@ -100,7 +97,6 @@ const PageList = React.memo<Props>(({setCurrentPage, nowPageId}) => {
                 icon={<IoOpenOutline size="18px" />}
                 onClick={() => {
                   setCurrentPage(page);
-                  setRender(value => !value);
                 }}
               >
                 開く
