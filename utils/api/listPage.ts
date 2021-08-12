@@ -55,7 +55,8 @@ export default async function listPage(
       return await listPage(newToken, refreshToken, slideId, updateFunc);
     }
     throw new Error(
-      (error as AxiosError).response.data || (error as AxiosError).message
+      (error as AxiosError).response.data.status ||
+        (error as AxiosError).message
     );
   }
 }
