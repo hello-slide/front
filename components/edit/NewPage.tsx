@@ -21,9 +21,9 @@ import {
   Center,
 } from '@chakra-ui/react';
 import React from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import createPage from '../../utils/api/createPage';
-import {UserDataState, NowPageData} from '../../utils/state/atom';
+import {UserDataState, NowPageData, LoadState} from '../../utils/state/atom';
 
 const NewPage: React.FC<{
   isOpen: boolean;
@@ -34,12 +34,14 @@ const NewPage: React.FC<{
   const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
   const nowPageData = useRecoilValue(NowPageData);
+  const setLoad = useSetRecoilState(LoadState);
 
   React.useEffect(() => {
     setSelectItem('');
   }, [isOpen]);
 
   const create = () => {
+    setLoad(true);
     createPage(
       userData.sessionToken,
       userData.refreshToken,
@@ -63,8 +65,10 @@ const NewPage: React.FC<{
     )
       .then(value => {
         handleChange(value.type, value.page_id);
+        setLoad(false);
       })
       .catch(error => {
+        setLoad(false);
         toast({
           title: '新しいページを作成できませんでした',
           description: `${error}`,

@@ -13,14 +13,21 @@ import {
   MenuItem,
   useDisclosure,
   Text,
+  useToast,
   Flex,
 } from '@chakra-ui/react';
 import React from 'react';
 import {ContextMenuTrigger, ContextMenu} from 'react-contextmenu';
 import {IoAdd, IoOpenOutline, IoTrashOutline} from 'react-icons/io5';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import Page from '../../@types/page';
-import {PagesState} from '../../utils/state/atom';
+import _deletePage from '../../utils/api/deletePage';
+import {
+  PagesState,
+  UserDataState,
+  NowPageData,
+  LoadState,
+} from '../../utils/state/atom';
 import ListTitle from './ListTitle';
 import NewPage from './NewPage';
 
@@ -30,6 +37,10 @@ const PageList = React.memo<{
 }>(({setCurrentPage, nowPageId}) => {
   const [pages, setPages] = useRecoilState(PagesState);
   const createPageModel = useDisclosure();
+  const [userData, setUserData] = useRecoilState(UserDataState);
+  const nowPageData = useRecoilValue(NowPageData);
+  const toast = useToast();
+  const setLoad = useSetRecoilState(LoadState);
 
   const newPage = (type: string, id: string) => {
     const newElement = {
@@ -46,20 +57,51 @@ const PageList = React.memo<{
   };
 
   const deletePage = (pageId: string) => {
-    // TODO: Delete logic
-    const _pages = [...pages];
-    const index = _pages.findIndex(value => value.id === pageId);
-
-    if (pageId === nowPageId) {
-      if (index !== _pages.length - 1) {
-        setCurrentPage(pages[index + 1]);
-      } else {
-        setCurrentPage(pages[index - 1]);
+    setLoad(true);
+    _deletePage(
+      userData.sessionToken,
+      userData.refreshToken,
+      nowPageData?.id,
+      pageId,
+      (sessionToken, refreshToken, isFailed) => {
+        if (isFailed) {
+          setUserData({
+            name: '',
+            image: '',
+          });
+        } else {
+          setUserData(value => ({
+            name: value.name,
+            image: value.image,
+            sessionToken: sessionToken,
+            refreshToken: refreshToken,
+          }));
+        }
       }
-    }
+    )
+      .then(() => {
+        const _pages = [...pages];
+        const index = _pages.findIndex(value => value.id === pageId);
 
-    _pages.splice(index, 1);
-    setPages(_pages);
+        if (pageId === nowPageId) {
+          if (index !== _pages.length - 1) {
+            setCurrentPage(pages[index + 1]);
+          } else {
+            setCurrentPage(pages[index - 1]);
+          }
+        }
+        _pages.splice(index, 1);
+        setPages(_pages);
+        setLoad(false);
+      })
+      .catch(error => {
+        setLoad(false);
+        toast({
+          title: 'ページを削除できませんでした',
+          description: `${error}`,
+          status: 'error',
+        });
+      });
   };
 
   const PageListItem = React.memo<{
