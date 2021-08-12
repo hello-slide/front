@@ -17,7 +17,7 @@ import {updateToken} from './refresh';
  * @param {string} refreshToken - refresh token.
  * @param {string} slideId - Slide id.
  * @param {(sessionToken: string, refreshToken: string, isFailed?: boolean) => void} updateFunc - Update function.
- * @returns {GetAPIPage} - Slide data.
+ * @returns {GetAPIPages} - Slide data.
  */
 export default async function listPage(
   token: string,
