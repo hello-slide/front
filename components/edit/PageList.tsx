@@ -25,7 +25,7 @@ import _deletePage from '../../utils/api/deletePage';
 import {
   PagesState,
   UserDataState,
-  NowPageData,
+  NowPageDataState,
   LoadState,
 } from '../../utils/state/atom';
 import ListTitle from './ListTitle';
@@ -38,7 +38,7 @@ const PageList = React.memo<{
   const [pages, setPages] = useRecoilState(PagesState);
   const createPageModel = useDisclosure();
   const [userData, setUserData] = useRecoilState(UserDataState);
-  const nowPageData = useRecoilValue(NowPageData);
+  const nowPageData = useRecoilValue(NowPageDataState);
   const toast = useToast();
   const setLoad = useSetRecoilState(LoadState);
 

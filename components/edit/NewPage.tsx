@@ -23,7 +23,11 @@ import {
 import React from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import createPage from '../../utils/api/createPage';
-import {UserDataState, NowPageData, LoadState} from '../../utils/state/atom';
+import {
+  UserDataState,
+  NowPageDataState,
+  LoadState,
+} from '../../utils/state/atom';
 
 const NewPage: React.FC<{
   isOpen: boolean;
@@ -33,7 +37,7 @@ const NewPage: React.FC<{
   const [selectItem, setSelectItem] = React.useState('');
   const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
-  const nowPageData = useRecoilValue(NowPageData);
+  const nowPageData = useRecoilValue(NowPageDataState);
   const setLoad = useSetRecoilState(LoadState);
 
   React.useEffect(() => {

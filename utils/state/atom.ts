@@ -75,7 +75,7 @@ export const PagesState = atom<Page[]>({
 /**
  * Now edit slide data.
  */
-export const NowPageData = atom<GetAPIPages>({
+export const NowPageDataState = atom<GetAPIPages>({
   key: 'nowPageData',
   default: null,
 });
