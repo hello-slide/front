@@ -6,54 +6,28 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import axios, {AxiosRequestConfig, AxiosError} from 'axios';
-import {updateToken} from './refresh';
+import {AxiosRequestConfig} from 'axios';
+import AbstractApiConnector, {DeletePageAPI} from './abstractApiConnector';
 
-/**
- * Delete Slide API
- *
- * @param {string} token - Session token
- * @param {string} id - Slide id.
- * @param {string} refreshToken - refresh token.
- * @param {(sessionToken: string, refreshToken: string, isFailed?: boolean) => void} updateFunc - Update function.
- */
-export default async function deleteSlide(
-  token: string,
-  id: string,
-  refreshToken: string,
-  updateFunc: (
-    sessionToken: string,
-    refreshToken: string,
-    isFailed?: boolean
-  ) => void
-) {
-  const config: AxiosRequestConfig = {
-    url: '/slide/delete',
-    method: 'post',
-    baseURL: 'https://api.hello-slide.jp/',
-    headers: {
-      'content-type': 'application/json',
-    },
-    data: JSON.stringify({
-      SessionToken: token,
-      SlideID: id,
-    }),
-    responseType: 'json',
-  };
+export default class DeleteSlide
+  extends AbstractApiConnector
+  implements DeletePageAPI
+{
+  async run(slideId: string): Promise<void> {
+    const config: AxiosRequestConfig = {
+      url: '/slide/delete',
+      method: 'post',
+      baseURL: this.url,
+      headers: {
+        'content-type': 'application/json',
+      },
+      data: JSON.stringify({
+        SessionToken: this.sessionToken,
+        SlideID: slideId,
+      }),
+      responseType: 'json',
+    };
 
-  try {
-    await axios(config);
-  } catch (error) {
-    if (
-      (error as AxiosError).code === '401' ||
-      (error as AxiosError).response.status === 401
-    ) {
-      const newToken = await updateToken(updateFunc, refreshToken);
-      await deleteSlide(newToken, id, refreshToken, updateFunc);
-    }
-    throw new Error(
-      (error as AxiosError).response.data.status ||
-        (error as AxiosError).message
-    );
+    await this.connect(config);
   }
 }
