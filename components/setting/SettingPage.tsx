@@ -25,7 +25,6 @@ import {
 import {useRouter} from 'next/router';
 import React from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import _deleteAccount from '../../utils/api/account/delete';
 import DeleteAll from '../../utils/api/deleteAll';
 import {UserDataState, LoadState, SlideState} from '../../utils/state/atom';
 

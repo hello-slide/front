@@ -6,7 +6,6 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {AxiosRequestConfig} from 'axios';
 import {GetAPIPageData} from '../../@types/page';
 import AbstractApiConnector, {CreatePageAPI} from './abstractApiConnector';
 
@@ -15,22 +14,9 @@ export default class CreatePage
   implements CreatePageAPI
 {
   async run(slideId: string, pageType: string): Promise<GetAPIPageData> {
-    const config: AxiosRequestConfig = {
-      url: '/slide/createpage',
-      method: 'post',
-      baseURL: this.url,
-      headers: {
-        'content-type': 'application/json',
-      },
-      data: JSON.stringify({
-        SessionToken: this.sessionToken,
-        SlideID: slideId,
-        PageType: pageType,
-      }),
-      responseType: 'json',
-    };
+    this.setConfig('/slide/createpage', {SlideID: slideId, PageType: pageType});
 
-    const response = await this.connect(config);
+    const response = await this.connect();
     return response.data as GetAPIPageData;
   }
 }

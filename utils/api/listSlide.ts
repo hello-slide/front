@@ -6,7 +6,6 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {AxiosRequestConfig} from 'axios';
 import SlideConfig from '../../@types/slideApi';
 import AbstractApiConnector, {ListSlidesAPI} from './abstractApiConnector';
 
@@ -15,20 +14,9 @@ export default class ListSlides
   implements ListSlidesAPI
 {
   async run(): Promise<SlideConfig> {
-    const config: AxiosRequestConfig = {
-      url: '/slide/list',
-      method: 'post',
-      baseURL: this.url,
-      headers: {
-        'content-type': 'application/json',
-      },
-      data: JSON.stringify({
-        SessionToken: this.sessionToken,
-      }),
-      responseType: 'json',
-    };
+    this.setConfig('/slide/list', {});
 
-    const response = await this.connect(config);
+    const response = await this.connect();
     return response.data as SlideConfig;
   }
 }

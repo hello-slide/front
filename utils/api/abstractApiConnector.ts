@@ -17,12 +17,22 @@ type UpgradeTokenFunc = (
   isFailed?: boolean
 ) => void;
 
+interface SendData {
+  SlideID?: string;
+  PageType?: string;
+  Title?: string;
+  PageID?: string;
+  newName?: string;
+}
+
 export default abstract class AbstractApiConnector {
   protected sessionToken: string;
   protected url = 'https://api.hello-slide.jp/';
 
   private refreshToken: string;
   private _upgradeToken: UpgradeTokenFunc;
+  private sendData: SendData;
+  private path: string;
 
   /**
    * @param {string} sessionToken - Token of session token.
@@ -73,22 +83,61 @@ export default abstract class AbstractApiConnector {
   }
 
   /**
+   * Set config data.
+   *
+   * @param {string} path - API route path.
+   * @param {SendData} data - send data.
+   */
+  protected setConfig(path: string, data: SendData) {
+    this.sendData = data;
+    this.path = path;
+
+    this.setSessionToken();
+  }
+
+  /**
+   * Set session token.
+   */
+  private setSessionToken() {
+    this.sendData['SessionToken'] = this.sessionToken;
+  }
+
+  /**
+   * Create axios config.
+   *
+   * @returns {AxiosRequestConfig} - axios config.
+   */
+  private getConfig(): AxiosRequestConfig {
+    return {
+      url: this.path,
+      method: 'post',
+      baseURL: this.url,
+      headers: {
+        'content-type': 'application/json',
+      },
+      data: JSON.stringify(this.sendData),
+      responseType: 'json',
+    };
+  }
+
+  /**
    * Connect to API
    *
-   * @param {AxiosRequestConfig} config - axios config data.
    * @returns {Promise<AxiosPromise>} - response data.
    */
-  protected async connect(config: AxiosRequestConfig): Promise<AxiosPromise> {
+  protected async connect(): Promise<AxiosPromise> {
     try {
+      const config = this.getConfig();
       return await axios(config);
     } catch (_error) {
       const error = _error as AxiosError;
 
       // If status_code is 2, the session token has timed out.
       // Re-acquire the session token using the refresh token.
-      if (error.response.data.status_code === 2) {
+      if (error.response.data['status_code'] === 2) {
         await this.updateToken();
-        return await this.connect(config);
+        this.setSessionToken();
+        return await this.connect();
       }
     }
   }

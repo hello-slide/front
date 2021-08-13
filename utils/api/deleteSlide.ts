@@ -6,7 +6,6 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {AxiosRequestConfig} from 'axios';
 import AbstractApiConnector, {DeletePageAPI} from './abstractApiConnector';
 
 export default class DeleteSlide
@@ -14,20 +13,8 @@ export default class DeleteSlide
   implements DeletePageAPI
 {
   async run(slideId: string): Promise<void> {
-    const config: AxiosRequestConfig = {
-      url: '/slide/delete',
-      method: 'post',
-      baseURL: this.url,
-      headers: {
-        'content-type': 'application/json',
-      },
-      data: JSON.stringify({
-        SessionToken: this.sessionToken,
-        SlideID: slideId,
-      }),
-      responseType: 'json',
-    };
+    this.setConfig('/slide/delete', {SlideID: slideId});
 
-    await this.connect(config);
+    await this.connect();
   }
 }

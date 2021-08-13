@@ -6,7 +6,6 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {AxiosRequestConfig} from 'axios';
 import AbstractApiConnector, {RenameSlideAPI} from './abstractApiConnector';
 
 export default class RenameSlide
@@ -14,20 +13,8 @@ export default class RenameSlide
   implements RenameSlideAPI
 {
   async run(slideId: string, name: string): Promise<void> {
-    const config: AxiosRequestConfig = {
-      url: '/slide/rename',
-      method: 'post',
-      baseURL: this.url,
-      headers: {
-        'content-type': 'application/json',
-      },
-      data: JSON.stringify({
-        SessionToken: this.sessionToken,
-        SlideID: slideId,
-        newName: name,
-      }),
-      responseType: 'json',
-    };
-    await this.connect(config);
+    this.setConfig('/slide/rename', {SlideID: slideId, newName: name});
+
+    await this.connect();
   }
 }

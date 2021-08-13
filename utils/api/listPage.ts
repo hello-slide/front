@@ -6,7 +6,6 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {AxiosRequestConfig} from 'axios';
 import {GetAPIPages} from '../../@types/page';
 import AbstractApiConnector, {ListPagesAPI} from './abstractApiConnector';
 
@@ -15,21 +14,9 @@ export default class ListPages
   implements ListPagesAPI
 {
   async run(slideId: string): Promise<GetAPIPages> {
-    const config: AxiosRequestConfig = {
-      url: '/slide/details',
-      method: 'post',
-      baseURL: this.url,
-      headers: {
-        'content-type': 'application/json',
-      },
-      data: JSON.stringify({
-        SessionToken: this.sessionToken,
-        SlideID: slideId,
-      }),
-      responseType: 'json',
-    };
+    this.setConfig('/slide/details', {SlideID: slideId});
 
-    const response = await this.connect(config);
+    const response = await this.connect();
     return response.data as GetAPIPages;
   }
 }

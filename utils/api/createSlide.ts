@@ -6,7 +6,6 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {AxiosRequestConfig} from 'axios';
 import AbstractApiConnector, {CreateSlideAPI} from './abstractApiConnector';
 
 export default class CreateSlide
@@ -14,20 +13,9 @@ export default class CreateSlide
   implements CreateSlideAPI
 {
   async run(title: string): Promise<string> {
-    const config: AxiosRequestConfig = {
-      url: '/slide/create',
-      method: 'post',
-      baseURL: this.url,
-      headers: {
-        'content-type': 'application/json',
-      },
-      data: JSON.stringify({
-        SessionToken: this.sessionToken,
-        Title: title,
-      }),
-      responseType: 'json',
-    };
-    const response = await this.connect(config);
+    this.setConfig('/slide/create', {Title: title});
+
+    const response = await this.connect();
     return response.data['slide_id'];
   }
 }
