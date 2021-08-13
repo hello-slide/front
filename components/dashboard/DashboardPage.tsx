@@ -13,7 +13,7 @@ import {IoReload} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
-import listSlide from '../../utils/api/listSlide';
+import ListSlides from '../../utils/api/listSlide';
 import {UserDataState, SlideState} from '../../utils/state/atom';
 import SlideList from './SlideList';
 
@@ -36,7 +36,7 @@ const DashboardPage = () => {
 
     if (isMounted && typeof userData.refreshToken !== 'undefined') {
       setIsLoad(true);
-      listSlide(
+      const listSlidesAPI = new ListSlides(
         userData.sessionToken,
         userData.refreshToken,
         (sessionToken, refreshToken, isFailed) => {
@@ -54,7 +54,9 @@ const DashboardPage = () => {
             }));
           }
         }
-      )
+      );
+      listSlidesAPI
+        .run()
         .then(response => {
           const newSlides: Slide[] = [];
           for (const element of response.slides) {
