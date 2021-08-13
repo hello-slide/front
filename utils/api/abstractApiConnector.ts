@@ -92,6 +92,15 @@ export default abstract class AbstractApiConnector {
       }
     }
   }
+
+  /**
+   * Get refresh token.
+   *
+   * @returns {string} - Refresh Token
+   */
+  getRefreshToken(): string {
+    return this.refreshToken;
+  }
 }
 
 export interface CreatePageAPI {
@@ -160,4 +169,13 @@ export interface RenameSlideAPI {
    * @param {string} name - New slide name.
    */
   run(slideId: string, name: string): Promise<void>;
+}
+
+export interface DeleteAllAPI {
+  /**
+   * Delete all than:
+   * - All slides.
+   * - All pages.
+   */
+  run(): Promise<void>;
 }

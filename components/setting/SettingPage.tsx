@@ -26,6 +26,7 @@ import {useRouter} from 'next/router';
 import React from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import _deleteAccount from '../../utils/api/account/delete';
+import DeleteAll from '../../utils/api/deleteAll';
 import {UserDataState, LoadState, SlideState} from '../../utils/state/atom';
 
 const SettingPage = () => {
@@ -44,7 +45,27 @@ const SettingPage = () => {
 
   const deleteAccount = () => {
     setIsLoad(true);
-    _deleteAccount(userData.refreshToken)
+    const deleteAllAPI = new DeleteAll(
+      userData.sessionToken,
+      userData.refreshToken,
+      (sessionToken, refreshToken, isFailed) => {
+        if (isFailed) {
+          setUserData({
+            name: '',
+            image: '',
+          });
+        } else {
+          setUserData(value => ({
+            name: value.name,
+            image: value.image,
+            sessionToken: sessionToken,
+            refreshToken: refreshToken,
+          }));
+        }
+      }
+    );
+    deleteAllAPI
+      .run()
       .then(() => {
         setUserData({name: '', image: ''});
         setSlides([]);

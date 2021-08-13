@@ -34,10 +34,6 @@ export default async function login(token: string): Promise<Login> {
 
   const response = await axios(config);
 
-  if (response.status !== 200) {
-    throw new Error(response.statusText);
-  }
-
   return {
     refreshToken: response.data['refresh_token'],
     sessionToken: response.data['session_token'],
