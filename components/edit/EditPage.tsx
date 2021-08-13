@@ -11,7 +11,7 @@ import React from 'react';
 import NoSSR from 'react-no-ssr';
 import {useSetRecoilState, useRecoilState} from 'recoil';
 import Page from '../../@types/page';
-import listPage from '../../utils/api/listPage';
+import ListPages from '../../utils/api/listPage';
 import {
   PagesState,
   UserDataState,
@@ -32,10 +32,9 @@ const EditPage: React.FC<{id: string | string[]}> = ({id}) => {
       typeof userData.refreshToken !== 'undefined' &&
       typeof id === 'string'
     ) {
-      listPage(
+      const listPagesAPI = new ListPages(
         userData.sessionToken,
         userData.refreshToken,
-        id,
         (sessionToken, refreshToken, isFailed) => {
           if (isFailed) {
             setUserData({
@@ -51,7 +50,9 @@ const EditPage: React.FC<{id: string | string[]}> = ({id}) => {
             }));
           }
         }
-      )
+      );
+      listPagesAPI
+        .run(id)
         .then(value => {
           const pages = [];
           for (const element of value.pages) {

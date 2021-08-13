@@ -23,7 +23,7 @@ import {
 import React from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
-import renameSlide from '../../utils/api/renameSlide';
+import RenameSlide from '../../utils/api/renameSlide';
 import {SlideState, LoadState, UserDataState} from '../../utils/state/atom';
 
 const SlideRename: React.FC<{
@@ -52,9 +52,7 @@ const SlideRename: React.FC<{
 
     setIsLoad(true);
 
-    renameSlide(
-      slide.id,
-      title,
+    const renameAPI = new RenameSlide(
       userData.sessionToken,
       userData.refreshToken,
       (sessionToken, refreshToken, isFailed) => {
@@ -72,7 +70,10 @@ const SlideRename: React.FC<{
           }));
         }
       }
-    )
+    );
+
+    renameAPI
+      .run(slide.id, title)
       .then(() => {
         const newSlides = [...slides];
         const targetIndex = newSlides.findIndex(value => {

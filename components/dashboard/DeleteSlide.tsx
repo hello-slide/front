@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
-import deleteSlide from '../../utils/api/deleteSlide';
+import _DeleteSlide from '../../utils/api/deleteSlide';
 import {SlideState, LoadState, UserDataState} from '../../utils/state/atom';
 
 const DeleteSlide: React.FC<{
@@ -34,9 +34,9 @@ const DeleteSlide: React.FC<{
 
   const handleChange = () => {
     setIsLoad(true);
-    deleteSlide(
+
+    const deleteSlideAPI = new _DeleteSlide(
       userData.sessionToken,
-      slide?.id,
       userData.refreshToken,
       (sessionToken, refreshToken, isFailed) => {
         if (isFailed) {
@@ -53,7 +53,9 @@ const DeleteSlide: React.FC<{
           }));
         }
       }
-    )
+    );
+    deleteSlideAPI
+      .run(slide?.id)
       .then(() => {
         const _slides = [...slides];
         const index = _slides.findIndex(value => value.id === slide?.id);

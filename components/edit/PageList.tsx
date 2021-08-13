@@ -21,7 +21,7 @@ import {ContextMenuTrigger, ContextMenu} from 'react-contextmenu';
 import {IoAdd, IoOpenOutline, IoTrashOutline} from 'react-icons/io5';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import Page from '../../@types/page';
-import _deletePage from '../../utils/api/deletePage';
+import DeletePage from '../../utils/api/deletePage';
 import {
   PagesState,
   UserDataState,
@@ -58,11 +58,10 @@ const PageList = React.memo<{
 
   const deletePage = (pageId: string) => {
     setLoad(true);
-    _deletePage(
+
+    const deletePageAPI = new DeletePage(
       userData.sessionToken,
       userData.refreshToken,
-      nowPageData?.id,
-      pageId,
       (sessionToken, refreshToken, isFailed) => {
         if (isFailed) {
           setUserData({
@@ -78,7 +77,9 @@ const PageList = React.memo<{
           }));
         }
       }
-    )
+    );
+    deletePageAPI
+      .run(nowPageData?.id, pageId)
       .then(() => {
         const _pages = [...pages];
         const index = _pages.findIndex(value => value.id === pageId);

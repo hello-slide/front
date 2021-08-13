@@ -26,7 +26,7 @@ import {IoSettingsOutline, IoLogOutOutline} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import Logo from '../../assets/svgs/logo.svg';
-import logout from '../../utils/api/logout';
+import logout from '../../utils/api/account/logout';
 import {UserDataState, LoadState, SlideState} from '../../utils/state/atom';
 import Link from './Link';
 import LoginButton from './LoginButton';

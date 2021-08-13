@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import createPage from '../../utils/api/createPage';
+import CreatePage from '../../utils/api/createPage';
 import {
   UserDataState,
   NowPageDataState,
@@ -46,11 +46,9 @@ const NewPage: React.FC<{
 
   const create = () => {
     setLoad(true);
-    createPage(
+    const createPageAPI = new CreatePage(
       userData.sessionToken,
       userData.refreshToken,
-      nowPageData?.id,
-      selectItem,
       (sessionToken, refreshToken, isFailed) => {
         if (isFailed) {
           setUserData({
@@ -66,7 +64,10 @@ const NewPage: React.FC<{
           }));
         }
       }
-    )
+    );
+
+    createPageAPI
+      .run(nowPageData?.id, selectItem)
       .then(value => {
         handleChange(value.type, value.page_id);
         setLoad(false);
