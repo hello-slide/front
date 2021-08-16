@@ -41,7 +41,7 @@ const ColorPalette: React.FC<{
       {openPalette[keyIndex] ? (
         <>
           <Box position="relative" top="13px" left="-65px" zIndex="2">
-            <Box position="fixed" zIndex="2">
+            <Box position="absolute" zIndex="2">
               <BlockPicker
                 color={color}
                 onChange={color => {
