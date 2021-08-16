@@ -10,18 +10,20 @@ import {Button, Box} from '@chakra-ui/react';
 import React from 'react';
 import {BlockPicker} from 'react-color';
 import {IoColorPaletteOutline} from 'react-icons/io5';
+import {useRecoilState} from 'recoil';
+import {ColorPaletteState} from '../../../utils/state/atom';
 import getFontColor from '../../../utils/theme/calColor';
 
 const ColorPalette: React.FC<{
   onChange?: (color: string) => void;
   text: string;
-  defaultColor?: string;
-}> = ({onChange, text, defaultColor}) => {
-  const [openPalette, setOpenPalette] = React.useState(false);
-  const [color, setColor] = React.useState(defaultColor || '#ffffff');
+  color: string;
+  keyIndex: string;
+}> = ({onChange, text, color, keyIndex}) => {
+  const [openPalette, setOpenPalette] = useRecoilState(ColorPaletteState);
 
   return (
-    <>
+    <Box>
       <Button
         size="sm"
         aria-label="select color"
@@ -29,24 +31,40 @@ const ColorPalette: React.FC<{
         color={getFontColor(color)}
         leftIcon={<IoColorPaletteOutline size="20px" />}
         onClick={() => {
-          setOpenPalette(value => !value);
+          const value = {...openPalette};
+          value[keyIndex] = value[keyIndex] ? !value[keyIndex] : true;
+          setOpenPalette(value);
         }}
       >
         {text}
       </Button>
-
-      {openPalette ? (
+      {openPalette[keyIndex] ? (
         <>
           <Box position="relative" top="13px" left="-65px" zIndex="2">
             <Box position="fixed" zIndex="2">
               <BlockPicker
                 color={color}
                 onChange={color => {
-                  setColor(color.hex);
                   if (onChange) {
                     onChange(color.hex);
                   }
                 }}
+                colors={[
+                  '#0031D4',
+                  '#00D0FF',
+                  '#FF55FB',
+                  '#D9E3F0',
+                  '#F47373',
+                  '#697689',
+                  '#37D67A',
+                  '#2CCCE4',
+                  '#555555',
+                  '#dce775',
+                  '#ff8a65',
+                  '#ba68c8',
+                  '#f2f2f2',
+                  '#000000',
+                ]}
               />
             </Box>
           </Box>
@@ -58,12 +76,14 @@ const ColorPalette: React.FC<{
             top="0px"
             left="0px"
             onClick={() => {
-              setOpenPalette(false);
+              const value = {...openPalette};
+              value[keyIndex] = false;
+              setOpenPalette(value);
             }}
           ></Box>
         </>
       ) : null}
-    </>
+    </Box>
   );
 };
 

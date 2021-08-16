@@ -87,3 +87,11 @@ export const CurrentPageState = atom<Page>({
   key: 'currentPage',
   default: undefined,
 });
+
+/**
+ * Color pallets
+ */
+export const ColorPaletteState = atom<{[key: string]: boolean}>({
+  key: 'colorPalette',
+  default: {},
+});

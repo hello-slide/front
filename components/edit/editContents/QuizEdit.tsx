@@ -24,11 +24,51 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
   const [title, setTitle] = React.useState('');
   const [answers, setAnswers] = React.useState<string[]>(['']);
 
-  const [backgroundColorType, setBGColor] = React.useState('0');
+  const [backgroundColorType, setBGColorType] = React.useState('0');
+  const [bgColors, setBgColors] = React.useState<string[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const element = event.target.value;
     setTitle(element);
+  };
+
+  const SelectColor = () => {
+    switch (backgroundColorType) {
+      case '0':
+        return (
+          <ColorPalette
+            keyIndex="bg1"
+            text="背景色"
+            color={bgColors[0] || '#f2f2f2'}
+            onChange={color => setBgColors([color])}
+          />
+        );
+      case '1':
+        return (
+          <Stack spacing={4} direction="row">
+            <ColorPalette
+              keyIndex="bg2"
+              text="背景色 左上"
+              color={bgColors[0] || '#f2f2f2'}
+              onChange={color => {
+                const value = [...bgColors];
+                value[0] = color;
+                setBgColors(value);
+              }}
+            />
+            <ColorPalette
+              keyIndex="bg3"
+              text="背景色 右下"
+              color={bgColors[1] || '#f2f2f2'}
+              onChange={color => {
+                const value = [...bgColors];
+                value[1] = color;
+                setBgColors(value);
+              }}
+            />
+          </Stack>
+        );
+    }
   };
 
   return (
@@ -104,13 +144,23 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
           <Heading fontSize="1.5rem" margin="1rem 0 1rem 0">
             3. 背景の設定
           </Heading>
-          <RadioGroup onChange={setBGColor} value={backgroundColorType}>
+          <RadioGroup
+            onChange={setBGColorType}
+            value={backgroundColorType}
+            marginBottom="1rem"
+          >
             <Stack spacing={4} direction="row">
               <Radio value="0">塗りつぶし</Radio>
               <Radio value="1">グラデーション</Radio>
             </Stack>
           </RadioGroup>
-          <ColorPalette text="背景色" />
+          <SelectColor />
+        </Box>
+        <Box>
+          <Heading fontSize="1.5rem" margin="1rem 0 1rem 0">
+            4. 文字色の設定
+          </Heading>
+          <ColorPalette keyIndex="txt1" text="文字色" color="#000000" />
         </Box>
       </Box>
     </Box>
