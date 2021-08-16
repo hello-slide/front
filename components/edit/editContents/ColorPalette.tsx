@@ -8,19 +8,20 @@
  **********************************************************/
 import {Button, Box} from '@chakra-ui/react';
 import React from 'react';
-import {BlockPicker} from 'react-color';
+import {ChromePicker} from 'react-color';
 import {IoColorPaletteOutline} from 'react-icons/io5';
 import {useRecoilState} from 'recoil';
 import {ColorPaletteState} from '../../../utils/state/atom';
 import getFontColor from '../../../utils/theme/calColor';
 
 const ColorPalette: React.FC<{
-  onChange?: (color: string) => void;
+  onChange: (color: string) => void;
   text: string;
   color: string;
   keyIndex: string;
 }> = ({onChange, text, color, keyIndex}) => {
   const [openPalette, setOpenPalette] = useRecoilState(ColorPaletteState);
+  const [_color, setColor] = React.useState(color);
 
   return (
     <Box>
@@ -41,30 +42,16 @@ const ColorPalette: React.FC<{
       {openPalette[keyIndex] ? (
         <>
           <Box position="relative" top="13px" left="-65px" zIndex="2">
-            <Box position="absolute" zIndex="2">
-              <BlockPicker
-                color={color}
+            <Box
+              position="absolute"
+              zIndex="2"
+              onMouseUp={() => onChange(_color)}
+            >
+              <ChromePicker
+                color={_color}
                 onChange={color => {
-                  if (onChange) {
-                    onChange(color.hex);
-                  }
+                  setColor(color.hex);
                 }}
-                colors={[
-                  '#0031D4',
-                  '#00D0FF',
-                  '#FF55FB',
-                  '#D9E3F0',
-                  '#F47373',
-                  '#697689',
-                  '#37D67A',
-                  '#2CCCE4',
-                  '#555555',
-                  '#dce775',
-                  '#ff8a65',
-                  '#ba68c8',
-                  '#f2f2f2',
-                  '#000000',
-                ]}
               />
             </Box>
           </Box>
@@ -79,6 +66,7 @@ const ColorPalette: React.FC<{
               const value = {...openPalette};
               value[keyIndex] = false;
               setOpenPalette(value);
+              onChange(_color);
             }}
           ></Box>
         </>
