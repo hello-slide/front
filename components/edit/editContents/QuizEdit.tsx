@@ -37,6 +37,8 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
   const [backgroundColorType, setBGColorType] = React.useState('0');
   const [bgColors, setBgColors] = React.useState<string[]>([]);
 
+  const [textColor, setTextColor] = React.useState('#000000');
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const element = event.target.value;
     setTitle(element);
@@ -95,7 +97,7 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
       }}
     >
       <Center>
-        <Box margin="2rem 1rem 10rem">
+        <Box margin="2rem 1rem 15rem">
           <Box marginY="1rem">
             <Heading fontSize="1.5rem" margin="1rem 0 1rem 0">
               1. クイズの問題
@@ -138,7 +140,7 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
                     marginLeft="1rem"
                     borderRadius="full"
                     icon={<IoCheckmarkCircleSharp size="25px" />}
-                    color={index === currentAnswer ? 'green.300' : null}
+                    color={index === currentAnswer ? 'green.300' : 'gray.300'}
                     variant="ghost"
                     onClick={() => setCurrentAnswer(index)}
                   />
@@ -200,7 +202,12 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
               4. 文字色の設定
             </Heading>
             <Box marginLeft="1rem">
-              <ColorPalette keyIndex="txt1" text="文字色" color="#000000" />
+              <ColorPalette
+                keyIndex="txt1"
+                text="文字色"
+                color={textColor}
+                onChange={color => setTextColor(color)}
+              />
             </Box>
           </Box>
         </Box>
