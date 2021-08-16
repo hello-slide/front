@@ -79,3 +79,11 @@ export const NowPageDataState = atom<GetAPIPages>({
   key: 'nowPageData',
   default: null,
 });
+
+/**
+ * Current page state.
+ */
+export const CurrentPageState = atom<Page>({
+  key: 'currentPage',
+  default: undefined,
+});

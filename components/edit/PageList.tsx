@@ -12,36 +12,24 @@ import {
   MenuList,
   MenuItem,
   useDisclosure,
-  Text,
-  useToast,
   Flex,
   Button,
 } from '@chakra-ui/react';
 import React from 'react';
 import {ContextMenuTrigger, ContextMenu} from 'react-contextmenu';
-import {IoAdd, IoOpenOutline, IoTrashOutline} from 'react-icons/io5';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import Page from '../../@types/page';
-import DeletePage from '../../utils/api/deletePage';
-import {
-  PagesState,
-  UserDataState,
-  NowPageDataState,
-  LoadState,
-} from '../../utils/state/atom';
-import ListTitle from './ListTitle';
+import {IoAdd} from 'react-icons/io5';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import {PagesState, CurrentPageState} from '../../utils/state/atom';
+import DeletePage from './DeletePage';
 import NewPage from './NewPage';
+import PageListItem from './PageListItem';
 
-const PageList = React.memo<{
-  setCurrentPage: (page: Page) => void;
-  nowPageId: string;
-}>(({setCurrentPage, nowPageId}) => {
+const PageList = React.memo(() => {
   const [pages, setPages] = useRecoilState(PagesState);
   const createPageModel = useDisclosure();
-  const [userData, setUserData] = useRecoilState(UserDataState);
-  const nowPageData = useRecoilValue(NowPageDataState);
-  const toast = useToast();
-  const setLoad = useSetRecoilState(LoadState);
+  const deletePageModel = useDisclosure();
+  const setCurrentPage = useSetRecoilState(CurrentPageState);
+  const [deletePageId, setDeletePageId] = React.useState('');
 
   const newPage = (type: string, id: string) => {
     const newElement = {
@@ -56,119 +44,6 @@ const PageList = React.memo<{
       return a;
     });
   };
-
-  const deletePage = (pageId: string) => {
-    setLoad(true);
-
-    const deletePageAPI = new DeletePage(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
-    deletePageAPI
-      .run(nowPageData?.id, pageId)
-      .then(() => {
-        const _pages = [...pages];
-        const index = _pages.findIndex(value => value.id === pageId);
-
-        if (pageId === nowPageId) {
-          if (index !== _pages.length - 1) {
-            setCurrentPage(pages[index + 1]);
-          } else {
-            setCurrentPage(pages[index - 1]);
-          }
-        }
-        _pages.splice(index, 1);
-        setPages(_pages);
-        setLoad(false);
-      })
-      .catch(error => {
-        setLoad(false);
-        toast({
-          title: 'ページを削除できませんでした',
-          description: `${error}`,
-          status: 'error',
-        });
-      });
-  };
-
-  const PageListItem = React.memo<{
-    page: Page;
-    index: number;
-    selected: boolean;
-  }>(({page, index, selected}) => {
-    return (
-      <>
-        <ContextMenuTrigger id={page.id}>
-          <Flex
-            margin=".5rem"
-            padding="0 1.5rem 0"
-            backgroundColor="gray.100"
-            borderRadius="10px"
-            cursor="pointer"
-            onClick={() => {
-              setCurrentPage(page);
-            }}
-            borderWidth="4px"
-            borderColor={selected ? 'blue.400' : 'gray.100'}
-            justifyContent="space-between"
-          >
-            <Text as="span" fontWeight="bold" fontSize="3rem" color="gray.600">
-              {index + 1}
-            </Text>
-            <ListTitle type={page.type} color="gray.500" />
-          </Flex>
-        </ContextMenuTrigger>
-        <ContextMenu id={page.id}>
-          <Menu isOpen={true}>
-            <MenuList padding={0}>
-              <MenuItem
-                padding=".5rem 0 .5rem 1rem"
-                icon={<IoOpenOutline size="18px" />}
-                onClick={() => {
-                  setCurrentPage(page);
-                }}
-              >
-                開く
-              </MenuItem>
-              <MenuItem
-                padding=".5rem 0 .5rem 1rem"
-                icon={<IoAdd size="18px" />}
-                onClick={createPageModel.onOpen}
-              >
-                新規作成
-              </MenuItem>
-              <MenuItem
-                padding=".5rem 0 .5rem 1rem"
-                icon={<IoTrashOutline size="18px" />}
-                onClick={() => {
-                  deletePage(page.id);
-                }}
-              >
-                削除
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        </ContextMenu>
-      </>
-    );
-  });
-
-  PageListItem.displayName = 'pageListItem';
 
   return (
     <>
@@ -210,8 +85,12 @@ const PageList = React.memo<{
                     <PageListItem
                       page={value}
                       index={index}
-                      selected={value.id === nowPageId}
+                      createModalOpen={createPageModel.onOpen}
                       key={value.id}
+                      deleteHandler={id => {
+                        setDeletePageId(id);
+                        deletePageModel.onOpen();
+                      }}
                     />
                   );
                 })}
@@ -237,6 +116,11 @@ const PageList = React.memo<{
         isOpen={createPageModel.isOpen}
         onClose={createPageModel.onClose}
         handleChange={newPage}
+      />
+      <DeletePage
+        isOpen={deletePageModel.isOpen}
+        onClose={deletePageModel.onClose}
+        pageId={deletePageId}
       />
     </>
   );

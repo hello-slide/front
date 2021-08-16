@@ -9,7 +9,7 @@
 import {Box, Text, ChakraProps} from '@chakra-ui/react';
 import React from 'react';
 
-const ListTitle: React.FC<{type: string} & ChakraProps> = props => {
+const ListTitle = React.memo<{type: string} & ChakraProps>(props => {
   switch (props.type) {
     case 'quiz':
       return (
@@ -39,6 +39,8 @@ const ListTitle: React.FC<{type: string} & ChakraProps> = props => {
         </Box>
       );
   }
-};
+});
+
+ListTitle.displayName = 'listTitle';
 
 export default ListTitle;
