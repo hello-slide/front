@@ -32,6 +32,7 @@ const Edit: React.FC<{id: string | string[]}> = ({id}) => {
       typeof userData.refreshToken !== 'undefined' &&
       typeof id === 'string'
     ) {
+      setPages([]);
       setCurrentPage(undefined);
 
       const listPagesAPI = new ListPages(

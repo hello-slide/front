@@ -14,6 +14,8 @@ export interface SlideDesign {
 
   backgroundColorStart?: string;
   backgroundColorEnd?: string;
+
+  textColor: string;
 }
 
 export interface Quiz {
@@ -25,6 +27,7 @@ export interface Quiz {
     text: string;
     id: string;
   }[];
+  answerIndex: number;
   slideDesign: SlideDesign;
   result?: {
     participant: number;
