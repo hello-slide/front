@@ -27,18 +27,21 @@ import {
   UserDataState,
   NowPageDataState,
   LoadState,
+  CurrentPageState,
+  PagesState,
 } from '../../utils/state/atom';
 
 const NewPage: React.FC<{
   isOpen: boolean;
   onClose: () => void;
-  handleChange: (type: string, id: string) => void;
-}> = ({isOpen, onClose, handleChange}) => {
+}> = ({isOpen, onClose}) => {
   const [selectItem, setSelectItem] = React.useState('');
   const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
   const nowPageData = useRecoilValue(NowPageDataState);
   const setLoad = useSetRecoilState(LoadState);
+  const setCurrentPage = useSetRecoilState(CurrentPageState);
+  const setPages = useSetRecoilState(PagesState);
 
   React.useEffect(() => {
     setSelectItem('');
@@ -69,7 +72,17 @@ const NewPage: React.FC<{
     createPageAPI
       .run(nowPageData?.id, selectItem)
       .then(value => {
-        handleChange(value.type, value.page_id);
+        const newElement = {
+          id: value.page_id,
+          type: value.type,
+        };
+        setCurrentPage(newElement);
+
+        setPages(value => {
+          const a = [...value];
+          a.push(newElement);
+          return a;
+        });
         setLoad(false);
       })
       .catch(error => {

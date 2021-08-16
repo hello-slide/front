@@ -18,32 +18,17 @@ import {
 import React from 'react';
 import {ContextMenuTrigger, ContextMenu} from 'react-contextmenu';
 import {IoAdd} from 'react-icons/io5';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import {PagesState, CurrentPageState} from '../../utils/state/atom';
+import {useRecoilValue} from 'recoil';
+import {PagesState} from '../../utils/state/atom';
 import DeletePage from './DeletePage';
 import NewPage from './NewPage';
 import PageListItem from './PageListItem';
 
 const PageList = React.memo(() => {
-  const [pages, setPages] = useRecoilState(PagesState);
+  const pages = useRecoilValue(PagesState);
   const createPageModel = useDisclosure();
   const deletePageModel = useDisclosure();
-  const setCurrentPage = useSetRecoilState(CurrentPageState);
   const [deletePageId, setDeletePageId] = React.useState('');
-
-  const newPage = (type: string, id: string) => {
-    const newElement = {
-      id: id,
-      type: type,
-    };
-    setCurrentPage(newElement);
-
-    setPages(value => {
-      const a = [...value];
-      a.push(newElement);
-      return a;
-    });
-  };
 
   return (
     <>
@@ -115,7 +100,6 @@ const PageList = React.memo(() => {
       <NewPage
         isOpen={createPageModel.isOpen}
         onClose={createPageModel.onClose}
-        handleChange={newPage}
       />
       <DeletePage
         isOpen={deletePageModel.isOpen}
