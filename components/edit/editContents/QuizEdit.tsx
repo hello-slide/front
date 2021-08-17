@@ -87,6 +87,7 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
         numberOfChoices: answers.length,
         choices: anses,
         slideDesign: design,
+        answerIndex: currentAnswer,
       } as Quiz);
     }
   }, [isUpdate]);
