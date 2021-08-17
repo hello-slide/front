@@ -55,7 +55,7 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
         textColor: textColor,
       };
 
-      if (backgroundColorType === 'mono') {
+      if (backgroundColorType === '0') {
         design['backgroundColor'] = bgColors[0];
       } else {
         design['backgroundColorStart'] = bgColors[0];
@@ -145,7 +145,9 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
             text="背景色"
             color={bgColors[0] || '#f2f2f2'}
             onChange={color => {
-              setBgColors([color]);
+              const value = [...bgColors];
+              value[0] = color;
+              setBgColors(value);
               setIsUpdate(value => !value);
             }}
           />
