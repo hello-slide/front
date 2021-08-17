@@ -76,7 +76,7 @@ export default class MyDocument extends Document {
           <meta property="og:site_name" content="siteName" />
           <meta property="og:image" content="imageUrl" />
           {/* Twitter Card */}
-          <meta name="twitter:card" content="Twitterカードの種類" />
+          <meta name="twitter:card" content="summary_large_image" />
         </Head>
         <body>
           <Main />
