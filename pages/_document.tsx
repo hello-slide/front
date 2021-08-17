@@ -69,14 +69,18 @@ export default class MyDocument extends Document {
           />
           <meta name="theme-color" content="#ffffff"></meta>
           {/*  */}
-          <meta charSet="utf-8" />
-          <meta property="og:site_name" content="HelloSlide" />
-          <meta property="og:type" content="pagetype" />
-          <meta property="og:description" content="pageDescription" />
-          <meta property="og:site_name" content="siteName" />
-          <meta property="og:image" content="/public/images/Card.png" />
-          {/* Twitter Card */}
-          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="description" content="普通のディスクリプション" />
+          <meta property="og:title" content="OGPのタイトル" />
+          <meta property="og:description" content="OGPのディスクリプション" />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="http://foo.com" />
+          <meta property="og:image" content="/images/Card.png" />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:title" content="summary" />
+          <meta name="twitter:description" content="summary" />
+          <meta name="twitter:image" content="/images/Card.png" />
+          <meta name="twitter:site" content="@foo_bar" />
+          <meta name="twitter:creator" content="@foo_bar" />
         </Head>
         <body>
           <Main />
