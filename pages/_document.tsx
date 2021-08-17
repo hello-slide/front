@@ -70,11 +70,13 @@ export default class MyDocument extends Document {
           <meta name="theme-color" content="#ffffff"></meta>
           {/*  */}
           <meta charSet="utf-8" />
-          <meta property="og:type" content="pagetype" />
           <meta property="og:site_name" content="HelloSlide" />
+          <meta property="og:type" content="pagetype" />
           <meta property="og:description" content="pageDescription" />
           <meta property="og:site_name" content="siteName" />
           <meta property="og:image" content="imageUrl" />
+          {/* Twitter Card */}
+          <meta name="twitter:card" content="Twitterカードの種類" />
         </Head>
         <body>
           <Main />
