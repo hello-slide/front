@@ -74,7 +74,7 @@ export default class MyDocument extends Document {
           <meta property="og:type" content="pagetype" />
           <meta property="og:description" content="pageDescription" />
           <meta property="og:site_name" content="siteName" />
-          <meta property="og:image" content="imageUrl" />
+          <meta property="og:image" content="/public/images/Card.png" />
           {/* Twitter Card */}
           <meta name="twitter:card" content="summary_large_image" />
         </Head>
