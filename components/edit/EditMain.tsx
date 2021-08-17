@@ -31,7 +31,6 @@ const EditMain = () => {
 
   const setPage = () => {
     if (typeof pageData !== 'undefined') {
-      console.log('Update');
       const pageId = pageData.id;
       const setPageAPI = new SetPage(
         userData.sessionToken,
