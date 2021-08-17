@@ -1,5 +1,5 @@
 /**********************************************************
- * Delete slide
+ * Delete page
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
@@ -7,35 +7,44 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 import {
+  useToast,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
-  ModalBody,
   ModalCloseButton,
+  ModalBody,
+  ModalFooter,
   Button,
-  useToast,
 } from '@chakra-ui/react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
-import Slide from '../../@types/slides';
-import _DeleteSlide from '../../utils/api/deleteSlide';
-import {SlideState, LoadState, UserDataState} from '../../utils/state/atom';
+import React from 'react';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import _DeletePage from '../../utils/api/deletePage';
+import {
+  PagesState,
+  UserDataState,
+  NowPageDataState,
+  LoadState,
+  CurrentPageState,
+} from '../../utils/state/atom';
 
-const DeleteSlide: React.FC<{
+const DeletePage: React.FC<{
+  pageId: string;
   isOpen: boolean;
   onClose: () => void;
-  slide?: Slide;
-}> = ({isOpen, onClose, slide}) => {
-  const [slides, setSlides] = useRecoilState(SlideState);
-  const setIsLoad = useSetRecoilState(LoadState);
+}> = ({pageId, isOpen, onClose}) => {
+  const [pages, setPages] = useRecoilState(PagesState);
   const [userData, setUserData] = useRecoilState(UserDataState);
+  const nowPageData = useRecoilValue(NowPageDataState);
   const toast = useToast();
+  const setLoad = useSetRecoilState(LoadState);
+  const [currentPage, setCurrentPage] = useRecoilState(CurrentPageState);
 
   const handleChange = () => {
-    setIsLoad(true);
+    setLoad(true);
+    onClose();
 
-    const deleteSlideAPI = new _DeleteSlide(
+    const deletePageAPI = new _DeletePage(
       userData.sessionToken,
       userData.refreshToken,
       (sessionToken, refreshToken, isFailed) => {
@@ -54,23 +63,30 @@ const DeleteSlide: React.FC<{
         }
       }
     );
-    deleteSlideAPI
-      .run(slide?.id)
+    deletePageAPI
+      .run(nowPageData?.id, pageId)
       .then(() => {
-        const _slides = [...slides];
-        const index = _slides.findIndex(value => value.id === slide?.id);
-        _slides.splice(index, 1);
-        setSlides(_slides);
-        onClose();
-        setIsLoad(false);
+        const _pages = [...pages];
+        const index = _pages.findIndex(value => value.id === pageId);
+
+        if (pageId === currentPage?.id) {
+          if (index !== _pages.length - 1) {
+            setCurrentPage(pages[index + 1]);
+          } else {
+            setCurrentPage(pages[index - 1]);
+          }
+        }
+        _pages.splice(index, 1);
+        setPages(_pages);
+        setLoad(false);
       })
       .catch(error => {
+        setLoad(false);
         toast({
-          title: 'スライドを削除できませんでした',
+          title: 'ページを削除できませんでした',
           description: `${error}`,
           status: 'error',
         });
-        setIsLoad(false);
       });
   };
 
@@ -78,16 +94,15 @@ const DeleteSlide: React.FC<{
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>「{slide?.title}」を削除しますか？</ModalHeader>
+        <ModalHeader>削除しますか？</ModalHeader>
         <ModalCloseButton size="lg" />
-        <ModalBody>この操作は戻すことはできません。</ModalBody>
 
-        <ModalFooter marginBottom=".3rem">
-          <Button variant="blue" mr={3} onClick={onClose}>
+        <ModalFooter>
+          <Button onClick={onClose} marginRight=".5rem">
             キャンセル
           </Button>
           <Button colorScheme="blue" onClick={handleChange}>
-            削除する
+            削除
           </Button>
         </ModalFooter>
       </ModalContent>
@@ -95,4 +110,4 @@ const DeleteSlide: React.FC<{
   );
 };
 
-export default DeleteSlide;
+export default DeletePage;

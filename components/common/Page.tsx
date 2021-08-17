@@ -11,16 +11,14 @@ import React from 'react';
 import Footer from './Footer';
 import Header from './Header';
 
-const Page: React.FC = ({children}) => {
+const Page: React.FC<{noFooter?: boolean}> = ({children, noFooter}) => {
   return (
     <Flex flexDirection="column" minHeight="100vh">
       <Box>
         <Header />
         {children}
       </Box>
-      <Box marginTop="auto">
-        <Footer />
-      </Box>
+      <Box marginTop="auto">{noFooter ? null : <Footer />}</Box>
     </Flex>
   );
 };

@@ -8,6 +8,9 @@
  **********************************************************/
 
 import {atom, DefaultValue} from 'recoil';
+import Page from '../../@types/page';
+import {GetAPIPages} from '../../@types/page';
+import SlidePageData from '../../@types/pageItem';
 import Slide from '../../@types/slides';
 import {UserData} from '../../@types/userData';
 
@@ -60,4 +63,44 @@ export const SlideState = atom<Slide[]>({
 export const LoadState = atom<boolean>({
   key: 'loading',
   default: false,
+});
+
+/**
+ * Pages
+ */
+export const PagesState = atom<Page[]>({
+  key: 'pages',
+  default: [],
+});
+
+/**
+ * Now edit slide data.
+ */
+export const NowPageDataState = atom<GetAPIPages>({
+  key: 'nowPageData',
+  default: null,
+});
+
+/**
+ * Current page state.
+ */
+export const CurrentPageState = atom<Page>({
+  key: 'currentPage',
+  default: undefined,
+});
+
+/**
+ * Color pallets
+ */
+export const ColorPaletteState = atom<{[key: string]: boolean}>({
+  key: 'colorPalette',
+  default: {},
+});
+
+/**
+ * Page data.
+ */
+export const PageDataState = atom<SlidePageData | undefined>({
+  key: 'PageData',
+  default: undefined,
 });
