@@ -16,6 +16,7 @@ import {
   UserDataState,
   NowPageDataState,
 } from '../../utils/state/atom';
+import QuestionEdit from './editContents/QuestionEdit';
 import QuizEdit from './editContents/QuizEdit';
 
 const EditMain = () => {
@@ -67,6 +68,9 @@ const EditMain = () => {
   switch (currentPage?.type) {
     case 'quiz':
       return <QuizEdit id={currentPage?.id} />;
+
+    case 'question':
+      return <QuestionEdit id={currentPage?.id} />;
 
     default:
       return <></>;
