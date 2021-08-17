@@ -9,6 +9,7 @@
 import axios, {AxiosRequestConfig, AxiosError, AxiosPromise} from 'axios';
 import {GetAPIPageData} from '../../@types/page';
 import {GetAPIPages} from '../../@types/page';
+import SlidePageData from '../../@types/pageItem';
 import SlideConfig from '../../@types/slideApi';
 
 type UpgradeTokenFunc = (
@@ -227,4 +228,24 @@ export interface DeleteAllAPI {
    * - All pages.
    */
   run(): Promise<void>;
+}
+
+export interface SetSlideAPI {
+  /**
+   * Set the slide page.
+   *
+   * @param {SlidePageData} slideData - slide page data.
+   */
+  run(slideId: string, pageId: string, slideData: SlidePageData): Promise<void>;
+}
+
+export interface GetSlideAPI {
+  /**
+   * Get the slide page.
+   *
+   * @param {string} slideId - Id of slide.
+   * @param {string} pageId - Id of pages.
+   * @returns {Promise<SlidePageData>} - Page data.
+   */
+  run(slideId: string, pageId: string): Promise<SlidePageData>;
 }

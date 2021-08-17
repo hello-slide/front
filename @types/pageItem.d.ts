@@ -52,3 +52,7 @@ export interface Question {
     }[];
   };
 }
+
+type SlidePageData = Quiz | Question;
+
+export default SlidePageData;
