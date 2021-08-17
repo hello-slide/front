@@ -230,16 +230,20 @@ export interface DeleteAllAPI {
   run(): Promise<void>;
 }
 
-export interface SetSlideAPI {
+export interface SetPageAPI {
   /**
    * Set the slide page.
    *
    * @param {SlidePageData} slideData - slide page data.
    */
-  run(slideId: string, pageId: string, slideData: SlidePageData): Promise<void>;
+  run<T = SlidePageData>(
+    slideId: string,
+    pageId: string,
+    slideData: T
+  ): Promise<void>;
 }
 
-export interface GetSlideAPI {
+export interface GetPageAPI {
   /**
    * Get the slide page.
    *
@@ -247,5 +251,5 @@ export interface GetSlideAPI {
    * @param {string} pageId - Id of pages.
    * @returns {Promise<SlidePageData>} - Page data.
    */
-  run(slideId: string, pageId: string): Promise<SlidePageData>;
+  run<T = SlidePageData>(slideId: string, pageId: string): Promise<T>;
 }
