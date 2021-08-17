@@ -109,7 +109,7 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
           status: 'error',
         });
       });
-  }, []);
+  }, [id]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const element = event.target.value;
@@ -159,9 +159,11 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
     <>
       {load ? (
         <Flex
+          width="calc(100% - 286px)"
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
+          thickness="3px"
         >
           <Spinner size="xl" color="blue.400" />
         </Flex>

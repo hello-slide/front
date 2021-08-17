@@ -15,7 +15,7 @@ const EditMain = () => {
 
   switch (currentPage?.type) {
     case 'quiz':
-      return <QuizEdit id={currentPage?.type} />;
+      return <QuizEdit id={currentPage?.id} />;
 
     default:
       return <></>;
