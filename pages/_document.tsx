@@ -68,6 +68,12 @@ export default class MyDocument extends Document {
             content="/favicons/browserconfig.xml"
           />
           <meta name="theme-color" content="#ffffff"></meta>
+          {/* こっから俺 */}
+          <meta charSet="utf-8" />
+          <meta property="og:type" content="article" />
+          <meta property="og:site_name" content="Zenn" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="apple-mobile-web-app-title" content="Zenn" />
         </Head>
         <body>
           <Main />
