@@ -18,7 +18,7 @@ export default class SetPage
     pageId: string,
     slideData: SlidePageData
   ): Promise<void> {
-    this.setConfig('/slide/delete', {
+    this.setConfig('/slide/setpage', {
       SlideID: slideId,
       PageID: pageId,
       Data: JSON.stringify(slideData),

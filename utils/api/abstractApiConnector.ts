@@ -248,5 +248,8 @@ export interface GetPageAPI {
    * @param {string} pageId - Id of pages.
    * @returns {Promise<SlidePageData>} - Page data.
    */
-  run<T = SlidePageData>(slideId: string, pageId: string): Promise<T>;
+  run<T = SlidePageData>(
+    slideId: string,
+    pageId: string
+  ): Promise<T | undefined>;
 }
