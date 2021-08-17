@@ -24,6 +24,7 @@ interface SendData {
   Title?: string;
   PageID?: string;
   newName?: string;
+  Data?: string;
 }
 
 export default abstract class AbstractApiConnector {
@@ -236,11 +237,7 @@ export interface SetPageAPI {
    *
    * @param {SlidePageData} slideData - slide page data.
    */
-  run<T = SlidePageData>(
-    slideId: string,
-    pageId: string,
-    slideData: T
-  ): Promise<void>;
+  run(slideId: string, pageId: string, slideData: SlidePageData): Promise<void>;
 }
 
 export interface GetPageAPI {
