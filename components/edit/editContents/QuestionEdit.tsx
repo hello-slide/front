@@ -55,7 +55,7 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
         textColor: textColor,
       };
 
-      if (backgroundColorType === 'mono') {
+      if (backgroundColorType === '0') {
         design['backgroundColor'] = bgColors[0];
       } else {
         design['backgroundColorStart'] = bgColors[0];
@@ -142,11 +142,12 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
       case '0':
         return (
           <ColorPalette
-            keyIndex="bg1"
             text="背景色"
             color={bgColors[0] || '#f2f2f2'}
             onChange={color => {
-              setBgColors([color]);
+              const value = [...bgColors];
+              value[0] = color;
+              setBgColors(value);
               setIsUpdate(value => !value);
             }}
           />
@@ -155,7 +156,6 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
         return (
           <Stack spacing={4} direction="row">
             <ColorPalette
-              keyIndex="bg2"
               text="背景色 左上"
               color={bgColors[0] || '#f2f2f2'}
               onChange={color => {
@@ -166,7 +166,6 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
               }}
             />
             <ColorPalette
-              keyIndex="bg3"
               text="背景色 右下"
               color={bgColors[1] || '#f2f2f2'}
               onChange={color => {
@@ -262,7 +261,6 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
                 </Heading>
                 <Box marginLeft="1rem">
                   <ColorPalette
-                    keyIndex="txt1"
                     text="文字色"
                     color={textColor}
                     onChange={color => {
