@@ -10,6 +10,7 @@
 import {atom, DefaultValue} from 'recoil';
 import Page from '../../@types/page';
 import {GetAPIPages} from '../../@types/page';
+import SlidePageData from '../../@types/pageItem';
 import Slide from '../../@types/slides';
 import {UserData} from '../../@types/userData';
 
@@ -94,4 +95,12 @@ export const CurrentPageState = atom<Page>({
 export const ColorPaletteState = atom<{[key: string]: boolean}>({
   key: 'colorPalette',
   default: {},
+});
+
+/**
+ * Page data.
+ */
+export const PageDataState = atom<SlidePageData | undefined>({
+  key: 'PageData',
+  default: undefined,
 });

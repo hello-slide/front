@@ -26,7 +26,7 @@ export default class GetPage
     const data = response.data;
 
     if (data) {
-      return JSON.parse(data) as T;
+      return data as T;
     }
   }
 }

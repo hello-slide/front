@@ -26,10 +26,14 @@ import {
   IoRemoveOutline,
   IoCheckmarkCircleSharp,
 } from 'react-icons/io5';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {Quiz} from '../../../@types/pageItem';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {Quiz, SlideDesign} from '../../../@types/pageItem';
 import GetPage from '../../../utils/api/getPage';
-import {UserDataState, NowPageDataState} from '../../../utils/state/atom';
+import {
+  UserDataState,
+  NowPageDataState,
+  PageDataState,
+} from '../../../utils/state/atom';
 import ColorPalette from './ColorPalette';
 
 const QuizEdit: React.FC<{id: string}> = ({id}) => {
@@ -37,6 +41,8 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
   const nowPageData = useRecoilValue(NowPageDataState);
   const toast = useToast();
   const [load, setLoad] = React.useState(false);
+  const [isFirst, setIsFirst] = React.useState(true);
+  const [isUpdate, setIsUpdate] = React.useState(false);
 
   const [title, setTitle] = React.useState('');
   const [answers, setAnswers] = React.useState<string[]>(['']);
@@ -50,7 +56,51 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
 
   const [textColor, setTextColor] = React.useState('#000000');
 
+  const setPageData = useSetRecoilState(PageDataState);
+
   React.useEffect(() => {
+    if (!isFirst) {
+      const anses = [];
+      answersText.forEach((value, index) => {
+        anses.push({
+          text: value,
+          id: index,
+        });
+      });
+
+      const design: SlideDesign = {
+        designType: backgroundColorType === '0' ? 'mono' : 'gradation',
+        textColor: textColor,
+      };
+
+      if (backgroundColorType === 'mono') {
+        design['backgroundColor'] = bgColors[0];
+      } else {
+        design['backgroundColorStart'] = bgColors[0];
+        design['backgroundColorEnd'] = bgColors[1];
+      }
+
+      setPageData({
+        title: title,
+        id: id,
+        type: 'quiz',
+        numberOfChoices: answers.length,
+        choices: anses,
+        slideDesign: design,
+      } as Quiz);
+    }
+  }, [isUpdate]);
+
+  React.useEffect(() => {
+    // reset
+    setTitle('');
+    setCurrentAnswer(0);
+    setAnswers(['']);
+    setAnswersText(new Array(4).fill(''));
+    setBGColorType('0');
+    setBgColors([]);
+    setTextColor('#000000');
+
     setLoad(true);
     const getPageAPI = new GetPage(
       userData.sessionToken,
@@ -87,7 +137,7 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
 
           setCurrentAnswer(value.answerIndex);
 
-          setBGColorType(value.slideDesign.designType);
+          setBGColorType(value.slideDesign.designType === 'mono' ? '0' : '1');
           if (value.slideDesign.designType === 'mono') {
             setBgColors([value.slideDesign.backgroundColor]);
           } else {
@@ -100,6 +150,7 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
           setTextColor(value.slideDesign.textColor);
         }
         setLoad(false);
+        setIsFirst(false);
       })
       .catch(error => {
         setLoad(false);
@@ -114,6 +165,7 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const element = event.target.value;
     setTitle(element);
+    setIsUpdate(value => !value);
   };
 
   const SelectColor = () => {
@@ -124,7 +176,10 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
             keyIndex="bg1"
             text="背景色"
             color={bgColors[0] || '#f2f2f2'}
-            onChange={color => setBgColors([color])}
+            onChange={color => {
+              setBgColors([color]);
+              setIsUpdate(value => !value);
+            }}
           />
         );
       case '1':
@@ -138,6 +193,7 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
                 const value = [...bgColors];
                 value[0] = color;
                 setBgColors(value);
+                setIsUpdate(value => !value);
               }}
             />
             <ColorPalette
@@ -148,6 +204,7 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
                 const value = [...bgColors];
                 value[1] = color;
                 setBgColors(value);
+                setIsUpdate(value => !value);
               }}
             />
           </Stack>
@@ -216,6 +273,7 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
                             const texts = [...answersText];
                             texts[index] = event.target.value;
                             setAnswersText(texts);
+                            setIsUpdate(value => !value);
                           }}
                         />
                       </Box>
@@ -228,7 +286,10 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
                           index === currentAnswer ? 'green.300' : 'gray.300'
                         }
                         variant="ghost"
-                        onClick={() => setCurrentAnswer(index)}
+                        onClick={() => {
+                          setIsUpdate(value => !value);
+                          return setCurrentAnswer(index);
+                        }}
                       />
                     </Flex>
                   );
@@ -256,6 +317,7 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
                         const newValue = [...answers];
                         newValue.pop();
                         setAnswers(newValue);
+                        setIsUpdate(value => !value);
 
                         const texts = [...answersText];
                         texts[answers.length - 1] = '';
@@ -292,7 +354,10 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
                     keyIndex="txt1"
                     text="文字色"
                     color={textColor}
-                    onChange={color => setTextColor(color)}
+                    onChange={color => {
+                      setIsUpdate(value => !value);
+                      setTextColor(color);
+                    }}
                   />
                 </Box>
               </Box>
