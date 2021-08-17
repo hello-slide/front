@@ -1,37 +1,43 @@
 /**********************************************************
- * [Module description.]
+ * Page auto save
  *
- * @author YourName <YourMailAddress>
+ * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 import {useToast} from '@chakra-ui/react';
+import {useRouter} from 'next/router';
 import React from 'react';
 import {useRecoilValue, useRecoilState} from 'recoil';
 import SetPage from '../../utils/api/setPage';
 import {
-  CurrentPageState,
   PageDataState,
   UserDataState,
   NowPageDataState,
 } from '../../utils/state/atom';
-import QuizEdit from './editContents/QuizEdit';
 
-const EditMain = () => {
-  const currentPage = useRecoilValue(CurrentPageState);
+const AutoSave = () => {
   const [pageData, setPageData] = useRecoilState(PageDataState);
   const [userData, setUserData] = useRecoilState(UserDataState);
   const nowPageData = useRecoilValue(NowPageDataState);
   const toast = useToast();
+  const router = useRouter();
+
+  const [nowPath, setNowPath] = React.useState<string>(undefined);
 
   React.useEffect(() => {
-    setPage();
-  }, [currentPage?.id]);
+    if (nowPath !== router.asPath) {
+      if (nowPath && nowPath.substr(0, 5) === '/edit') {
+        setPage();
+      }
+
+      setNowPath(router.asPath);
+    }
+  }, [router.asPath]);
 
   const setPage = () => {
     if (typeof pageData !== 'undefined') {
-      console.log('Update');
       const pageId = pageData.id;
       const setPageAPI = new SetPage(
         userData.sessionToken,
@@ -65,13 +71,7 @@ const EditMain = () => {
     }
   };
 
-  switch (currentPage?.type) {
-    case 'quiz':
-      return <QuizEdit id={currentPage?.id} />;
-
-    default:
-      return <></>;
-  }
+  return <></>;
 };
 
-export default EditMain;
+export default AutoSave;
