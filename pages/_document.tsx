@@ -8,6 +8,9 @@
  **********************************************************/
 import Document, {Html, Head, Main, NextScript} from 'next/document';
 import {GA_TRACKING_ID} from '../utils/ga/gtag';
+
+const IMAGE_PATH = process.env.IMAGE_PATH;
+
 export default class MyDocument extends Document {
   render(): JSX.Element {
     return (
@@ -74,18 +77,12 @@ export default class MyDocument extends Document {
           <meta property="og:description" content="OGPのディスクリプション" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="http://foo.com" />
-          <meta
-            property="og:image"
-            content="https://media.discordapp.net/attachments/713450640411590726/877263257738555422/1_1.png"
-          />
+          <meta property="og:image" content="{IMAGE_PATH}" />
           {/* Twitter */}
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Hello Slide" />
           <meta name="twitter:description" content="Hello Slide Description" />
-          <meta
-            name="twitter:image"
-            content="https://media.discordapp.net/attachments/713450640411590726/877263257738555422/1_1.png"
-          />
+          <meta name="twitter:image" content="{IMAGE_PATH}" />
           <meta name="twitter:site" content="@Cateiru" />
           <meta name="twitter:creator" content="@Cateiru" />
         </Head>
