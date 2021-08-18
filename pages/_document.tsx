@@ -74,13 +74,20 @@ export default class MyDocument extends Document {
           <meta property="og:description" content="OGPのディスクリプション" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="http://foo.com" />
-          <meta property="og:image" content="/images/Card.png" />
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:title" content="summary" />
-          <meta name="twitter:description" content="summary" />
-          <meta name="twitter:image" content="/images/Card.png" />
-          <meta name="twitter:site" content="@foo_bar" />
-          <meta name="twitter:creator" content="@foo_bar" />
+          <meta
+            property="og:image"
+            content="https://media.discordapp.net/attachments/713450640411590726/877263257738555422/1_1.png"
+          />
+          {/* Twitter */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Hello Slide" />
+          <meta name="twitter:description" content="Hello Slide Description" />
+          <meta
+            name="twitter:image"
+            content="https://media.discordapp.net/attachments/713450640411590726/877263257738555422/1_1.png"
+          />
+          <meta name="twitter:site" content="@Cateiru" />
+          <meta name="twitter:creator" content="@Cateiru" />
         </Head>
         <body>
           <Main />
