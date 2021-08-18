@@ -77,12 +77,12 @@ export default class MyDocument extends Document {
           <meta property="og:description" content="OGPのディスクリプション" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="http://foo.com" />
-          <meta property="og:image" content="{IMAGE_PATH}" />
+          <meta property="og:image" content={IMAGE_PATH} />
           {/* Twitter */}
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Hello Slide" />
           <meta name="twitter:description" content="Hello Slide Description" />
-          <meta name="twitter:image" content="{IMAGE_PATH}" />
+          <meta name="twitter:image" content={IMAGE_PATH} />
           <meta name="twitter:site" content="@Cateiru" />
           <meta name="twitter:creator" content="@Cateiru" />
         </Head>
