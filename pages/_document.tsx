@@ -71,7 +71,7 @@ export default class MyDocument extends Document {
             content="/favicons/browserconfig.xml"
           />
           <meta name="theme-color" content="#ffffff"></meta>
-          {/*  */}
+          {/* ogp */}
           <meta name="description" content="普通のディスクリプション" />
           <meta property="og:title" content="OGPのタイトル" />
           <meta property="og:description" content="OGPのディスクリプション" />
