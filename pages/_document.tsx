@@ -9,7 +9,7 @@
 import Document, {Html, Head, Main, NextScript} from 'next/document';
 import {GA_TRACKING_ID} from '../utils/ga/gtag';
 
-const IMAGE_PATH: string = process.env.IMAGE_PATH;
+const OGP_IMAGE_PATH: string = process.env.OGP_IMAGE_PATH;
 
 export default class MyDocument extends Document {
   render(): JSX.Element {
@@ -83,7 +83,7 @@ export default class MyDocument extends Document {
           />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://hello-slide.jp/" />
-          <meta property="og:image" content={IMAGE_PATH} />
+          <meta property="og:image" content={OGP_IMAGE_PATH} />
           {/* Twitter */}
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Hello Slide" />
@@ -91,7 +91,7 @@ export default class MyDocument extends Document {
             name="twitter:description"
             content="HelloSlideはあなたと観客がリアルタイムにコミュニケーションを行えるスライドです。"
           />
-          <meta name="twitter:image" content={IMAGE_PATH} />
+          <meta name="twitter:image" content={OGP_IMAGE_PATH} />
           <meta name="twitter:site" content="@Cateiru" />
           <meta name="twitter:creator" content="@Cateiru" />
         </Head>
