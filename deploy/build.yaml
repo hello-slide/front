@@ -6,6 +6,7 @@ steps:
       - |
         echo 'GOOGLE_ANALYTICS_ID="${_GOOGLE_ANALYTICS_ID}"' > .env
         echo 'NEXT_PUBLIC_GOOGLE_CLIENT_ID="${_NEXT_PUBLIC_GOOGLE_CLIENT_ID}"' > .env
+        echo 'OGP_IMAGE_PATH ="${_OGP_IMAGE_PATH }"' > .env
         cat .env
 
   - name: 'gcr.io/cloud-builders/yarn'
@@ -15,4 +16,11 @@ steps:
     args: ['run', 'build']
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['app', 'deploy', '--appyaml=./deploy/app.yaml', '--stop-previous-version', '--quiet']
+    args:
+      [
+        'app',
+        'deploy',
+        '--appyaml=./deploy/app.yaml',
+        '--stop-previous-version',
+        '--quiet',
+      ]
