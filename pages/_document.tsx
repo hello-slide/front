@@ -92,8 +92,8 @@ export default class MyDocument extends Document {
             content="HelloSlideはあなたと観客がリアルタイムにコミュニケーションを行えるスライドです。"
           />
           <meta name="twitter:image" content={OGP_IMAGE_PATH} />
-          <meta name="twitter:site" content="@Cateiru" />
-          <meta name="twitter:creator" content="@Cateiru" />
+          <meta name="twitter:site" content="@hello_slide" />
+          <meta name="twitter:creator" content="@hello_slide" />
         </Head>
         <body>
           <Main />
