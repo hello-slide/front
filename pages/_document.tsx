@@ -9,7 +9,7 @@
 import Document, {Html, Head, Main, NextScript} from 'next/document';
 import {GA_TRACKING_ID} from '../utils/ga/gtag';
 
-const IMAGE_PATH = process.env.IMAGE_PATH;
+const IMAGE_PATH: string = process.env.IMAGE_PATH;
 
 export default class MyDocument extends Document {
   render(): JSX.Element {
@@ -72,16 +72,25 @@ export default class MyDocument extends Document {
           />
           <meta name="theme-color" content="#ffffff"></meta>
           {/* ogp */}
-          <meta name="description" content="普通のディスクリプション" />
-          <meta property="og:title" content="OGPのタイトル" />
-          <meta property="og:description" content="OGPのディスクリプション" />
+          <meta
+            name="description"
+            content="HelloSlideはあなたと観客がリアルタイムにコミュニケーションを行えるスライドです。"
+          />
+          <meta property="og:title" content="Hello Slide" />
+          <meta
+            property="og:description"
+            content="HelloSlideはあなたと観客がリアルタイムにコミュニケーションを行えるスライドです。"
+          />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content="http://foo.com" />
+          <meta property="og:url" content="https://hello-slide.jp/" />
           <meta property="og:image" content={IMAGE_PATH} />
           {/* Twitter */}
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Hello Slide" />
-          <meta name="twitter:description" content="Hello Slide Description" />
+          <meta
+            name="twitter:description"
+            content="HelloSlideはあなたと観客がリアルタイムにコミュニケーションを行えるスライドです。"
+          />
           <meta name="twitter:image" content={IMAGE_PATH} />
           <meta name="twitter:site" content="@Cateiru" />
           <meta name="twitter:creator" content="@Cateiru" />
