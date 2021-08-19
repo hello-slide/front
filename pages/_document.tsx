@@ -8,6 +8,9 @@
  **********************************************************/
 import Document, {Html, Head, Main, NextScript} from 'next/document';
 import {GA_TRACKING_ID} from '../utils/ga/gtag';
+
+const OGP_IMAGE_PATH: string = process.env.OGP_IMAGE_PATH;
+
 export default class MyDocument extends Document {
   render(): JSX.Element {
     return (
@@ -68,6 +71,29 @@ export default class MyDocument extends Document {
             content="/favicons/browserconfig.xml"
           />
           <meta name="theme-color" content="#ffffff"></meta>
+          {/* ogp */}
+          <meta
+            name="description"
+            content="HelloSlideはあなたと観客がリアルタイムにコミュニケーションを行えるスライドです。"
+          />
+          <meta property="og:title" content="Hello Slide" />
+          <meta
+            property="og:description"
+            content="HelloSlideはあなたと観客がリアルタイムにコミュニケーションを行えるスライドです。"
+          />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://hello-slide.jp/" />
+          <meta property="og:image" content={OGP_IMAGE_PATH} />
+          {/* Twitter */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Hello Slide" />
+          <meta
+            name="twitter:description"
+            content="HelloSlideはあなたと観客がリアルタイムにコミュニケーションを行えるスライドです。"
+          />
+          <meta name="twitter:image" content={OGP_IMAGE_PATH} />
+          <meta name="twitter:site" content="@hello_slide" />
+          <meta name="twitter:creator" content="@hello_slide" />
         </Head>
         <body>
           <Main />
