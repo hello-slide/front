@@ -1,5 +1,5 @@
 /**********************************************************
- * Logout logic
+ * Api Login
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
@@ -8,27 +8,34 @@
  **********************************************************/
 import axios, {AxiosRequestConfig} from 'axios';
 
+export interface Login {
+  refreshToken: string;
+  sessionToken: string;
+}
 /**
- * Logout.
+ * Connect to backend. login.
  *
- * @param {string} token - Login token
+ * @param {string} token - Google OAuth id token.
+ * @returns {Login} - User data.
  */
-export default async function logout(token: string) {
+export default async function login(token: string): Promise<Login> {
   const config: AxiosRequestConfig = {
-    url: '/account/logout',
+    url: '/account/login',
     method: 'post',
     baseURL: 'https://api.hello-slide.jp/',
     headers: {
       'content-type': 'application/json',
     },
     data: JSON.stringify({
-      LoginToken: token,
+      Token: token,
     }),
     responseType: 'json',
   };
 
   const response = await axios(config);
-  if (response.status !== 200) {
-    throw new Error(response.statusText);
-  }
+
+  return {
+    refreshToken: response.data['refresh_token'],
+    sessionToken: response.data['session_token'],
+  };
 }

@@ -16,6 +16,7 @@ import {RecoilRoot} from 'recoil';
 import Font from '../components/common/Font';
 import Loading from '../components/common/Loading';
 import Page from '../components/common/Page';
+import AutoSave from '../components/edit/AutoSavePage';
 import {GA_TRACKING_ID, pageview} from '../utils/ga/gtag';
 import 'nprogress/nprogress.css';
 import theme from '../utils/theme/theme';
@@ -48,9 +49,10 @@ const App = ({Component, pageProps}: AppProps): JSX.Element => {
     <RecoilRoot>
       <ChakraProvider theme={theme}>
         <Font />
-        <Page>
+        <Page noFooter={pageProps.noFooter}>
           <Component {...pageProps} />
           <Loading />
+          <AutoSave />
         </Page>
       </ChakraProvider>
     </RecoilRoot>

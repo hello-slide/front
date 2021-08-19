@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
-import createSlide from '../../utils/api/createSlide';
+import CreateSlide from '../../utils/api/createSlide';
 import {SlideState, LoadState, UserDataState} from '../../utils/state/atom';
 
 const NewSlide: React.FC<{
@@ -49,9 +49,8 @@ const NewSlide: React.FC<{
     }
 
     setIsLoad(true);
-    createSlide(
+    const createSlideAPI = new CreateSlide(
       userData.sessionToken,
-      title,
       userData.refreshToken,
       (sessionToken, refreshToken, isFailed) => {
         if (isFailed) {
@@ -68,7 +67,10 @@ const NewSlide: React.FC<{
           }));
         }
       }
-    )
+    );
+
+    createSlideAPI
+      .run(title)
       .then(slideId => {
         setSlides([
           ...slides,

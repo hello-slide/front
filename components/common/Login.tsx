@@ -29,7 +29,7 @@ import {
 import {FcGoogle} from 'react-icons/fc';
 import {useRecoilState} from 'recoil';
 import {useSetRecoilState} from 'recoil';
-import login from '../../utils/api/login';
+import login from '../../utils/api/account/login';
 import {UserDataState} from '../../utils/state/atom';
 import {LoadState} from '../../utils/state/atom';
 import Link from './Link';
