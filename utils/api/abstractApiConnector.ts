@@ -141,6 +141,8 @@ export default abstract class AbstractApiConnector {
         this.setSessionToken();
         return await this.connect();
       }
+
+      throw new Error(error.response.data['status']);
     }
   }
 
