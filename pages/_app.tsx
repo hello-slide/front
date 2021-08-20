@@ -9,7 +9,7 @@
 
 import {ChakraProvider} from '@chakra-ui/react';
 import {AppProps} from 'next/app';
-import {useRouter} from 'next/router';
+import Router, {useRouter} from 'next/router';
 import nprogress from 'nprogress';
 import {useEffect} from 'react';
 import {RecoilRoot} from 'recoil';
@@ -37,11 +37,15 @@ const App = ({Component, pageProps}: AppProps): JSX.Element => {
     };
   }, [router.events]);
 
-  if (process.browser) {
+  Router.events.on('routeChangeStart', () => {
     nprogress.start();
-  }
+  });
 
-  useEffect(() => {
+  Router.events.on('routeChangeComplete', () => {
+    nprogress.done();
+  });
+
+  Router.events.on('routeChangeError', () => {
     nprogress.done();
   });
 
