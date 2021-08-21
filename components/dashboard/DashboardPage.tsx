@@ -15,6 +15,7 @@ import {useRecoilState, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
 import ListSlides from '../../utils/api/listSlide';
 import {UserDataState, SlideState} from '../../utils/state/atom';
+import Show from '../show/Show';
 import SlideList from './SlideList';
 
 const DashboardPage = () => {
@@ -96,21 +97,24 @@ const DashboardPage = () => {
   }, [update]);
 
   return (
-    <NoSSR>
-      <Flex justifyContent="flex-end" margin=".5rem 3.2rem .5rem 0">
-        <IconButton
-          variant="outline"
-          aria-label="Reload"
-          fontSize="20px"
-          icon={<IoReload />}
-          isLoading={isLoad}
-          onClick={() => {
-            setUpdate(value => !value);
-          }}
-        />
-      </Flex>
-      <SlideList />
-    </NoSSR>
+    <>
+      <NoSSR>
+        <Flex justifyContent="flex-end" margin=".5rem 3.2rem .5rem 0">
+          <IconButton
+            variant="outline"
+            aria-label="Reload"
+            fontSize="20px"
+            icon={<IoReload />}
+            isLoading={isLoad}
+            onClick={() => {
+              setUpdate(value => !value);
+            }}
+          />
+        </Flex>
+        <SlideList />
+      </NoSSR>
+      <Show />
+    </>
   );
 };
 
