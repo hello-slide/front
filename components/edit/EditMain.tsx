@@ -26,6 +26,19 @@ const EditMain = () => {
   const nowPageData = useRecoilValue(NowPageDataState);
   const toast = useToast();
 
+  const handleBeforeUnloadEvent = (event: BeforeUnloadEvent): void => {
+    event.preventDefault();
+    event.returnValue = '';
+  };
+
+  React.useEffect(() => {
+    window.addEventListener('beforeunload', handleBeforeUnloadEvent);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnloadEvent);
+    };
+  }, []);
+
   React.useEffect(() => {
     setPage();
   }, [currentPage?.id]);
