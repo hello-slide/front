@@ -1,47 +1,32 @@
 /**********************************************************
- * [Module description.]
+ * page save
  *
- * @author YourName <YourMailAddress>
+ * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {useToast} from '@chakra-ui/react';
+import {Button, useToast, ButtonProps} from '@chakra-ui/react';
 import React from 'react';
 import {useRecoilValue, useRecoilState} from 'recoil';
 import SetPage from '../../utils/api/setPage';
+import {removeBeforeUnLoad} from '../../utils/beforeUnLoad/beforeUnLoad';
 import {
-  addBeforeUnLoad,
-  removeBeforeUnLoad,
-} from '../../utils/beforeUnLoad/beforeUnLoad';
-import {
-  CurrentPageState,
   PageDataState,
   UserDataState,
   NowPageDataState,
 } from '../../utils/state/atom';
-import QuestionEdit from './editContents/QuestionEdit';
-import QuizEdit from './editContents/QuizEdit';
 
-const EditMain = () => {
-  const currentPage = useRecoilValue(CurrentPageState);
+const SavePage: React.FC<ButtonProps> = props => {
   const [pageData, setPageData] = useRecoilState(PageDataState);
   const [userData, setUserData] = useRecoilState(UserDataState);
   const nowPageData = useRecoilValue(NowPageDataState);
+  const [isLoad, setIsLoad] = React.useState(false);
   const toast = useToast();
-
-  React.useEffect(() => {
-    if (typeof pageData !== 'undefined') {
-      addBeforeUnLoad();
-    }
-  }, [pageData]);
-
-  React.useEffect(() => {
-    setPage();
-  }, [currentPage?.id]);
 
   const setPage = () => {
     if (typeof pageData !== 'undefined') {
+      setIsLoad(true);
       const pageId = pageData.id;
       const setPageAPI = new SetPage(
         userData.sessionToken,
@@ -66,9 +51,11 @@ const EditMain = () => {
       setPageAPI
         .run(nowPageData?.id, pageId, pageData)
         .then(() => {
+          setIsLoad(false);
           removeBeforeUnLoad();
         })
         .catch(error => {
+          setIsLoad(false);
           toast({
             title: 'ページを保存できませんでした。',
             description: `${error}`,
@@ -79,17 +66,17 @@ const EditMain = () => {
       setPageData(undefined);
     }
   };
-
-  switch (currentPage?.type) {
-    case 'quiz':
-      return <QuizEdit id={currentPage?.id} />;
-
-    case 'question':
-      return <QuestionEdit id={currentPage?.id} />;
-
-    default:
-      return <></>;
-  }
+  return (
+    <Button
+      isLoading={isLoad}
+      onClick={setPage}
+      size="sm"
+      variant="ghost"
+      {...props}
+    >
+      保存
+    </Button>
+  );
 };
 
-export default EditMain;
+export default SavePage;
