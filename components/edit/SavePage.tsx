@@ -10,19 +10,34 @@ import {Button, useToast, ButtonProps} from '@chakra-ui/react';
 import React from 'react';
 import {useRecoilValue, useRecoilState} from 'recoil';
 import SetPage from '../../utils/api/setPage';
-import {removeBeforeUnLoad} from '../../utils/beforeUnLoad/beforeUnLoad';
 import {
+  removeBeforeUnLoad,
+  addBeforeUnLoad,
+} from '../../utils/beforeUnLoad/beforeUnLoad';
+import {
+  CurrentPageState,
   PageDataState,
   UserDataState,
   NowPageDataState,
 } from '../../utils/state/atom';
 
 const SavePage: React.FC<ButtonProps> = props => {
+  const currentPage = useRecoilValue(CurrentPageState);
   const [pageData, setPageData] = useRecoilState(PageDataState);
   const [userData, setUserData] = useRecoilState(UserDataState);
   const nowPageData = useRecoilValue(NowPageDataState);
   const [isLoad, setIsLoad] = React.useState(false);
   const toast = useToast();
+
+  React.useEffect(() => {
+    if (typeof pageData !== 'undefined') {
+      addBeforeUnLoad();
+    }
+  }, [pageData]);
+
+  React.useEffect(() => {
+    setPage();
+  }, [currentPage?.id]);
 
   const setPage = () => {
     if (typeof pageData !== 'undefined') {

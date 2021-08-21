@@ -6,79 +6,14 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {useToast} from '@chakra-ui/react';
 import React from 'react';
-import {useRecoilValue, useRecoilState} from 'recoil';
-import SetPage from '../../utils/api/setPage';
-import {
-  addBeforeUnLoad,
-  removeBeforeUnLoad,
-} from '../../utils/beforeUnLoad/beforeUnLoad';
-import {
-  CurrentPageState,
-  PageDataState,
-  UserDataState,
-  NowPageDataState,
-} from '../../utils/state/atom';
+import {useRecoilValue} from 'recoil';
+import {CurrentPageState} from '../../utils/state/atom';
 import QuestionEdit from './editContents/QuestionEdit';
 import QuizEdit from './editContents/QuizEdit';
 
 const EditMain = () => {
   const currentPage = useRecoilValue(CurrentPageState);
-  const [pageData, setPageData] = useRecoilState(PageDataState);
-  const [userData, setUserData] = useRecoilState(UserDataState);
-  const nowPageData = useRecoilValue(NowPageDataState);
-  const toast = useToast();
-
-  React.useEffect(() => {
-    if (typeof pageData !== 'undefined') {
-      addBeforeUnLoad();
-    }
-  }, [pageData]);
-
-  React.useEffect(() => {
-    setPage();
-  }, [currentPage?.id]);
-
-  const setPage = () => {
-    if (typeof pageData !== 'undefined') {
-      const pageId = pageData.id;
-      const setPageAPI = new SetPage(
-        userData.sessionToken,
-        userData.refreshToken,
-        (sessionToken, refreshToken, isFailed) => {
-          if (isFailed) {
-            setUserData({
-              name: '',
-              image: '',
-            });
-          } else {
-            setUserData(value => ({
-              name: value.name,
-              image: value.image,
-              sessionToken: sessionToken,
-              refreshToken: refreshToken,
-            }));
-          }
-        }
-      );
-
-      setPageAPI
-        .run(nowPageData?.id, pageId, pageData)
-        .then(() => {
-          removeBeforeUnLoad();
-        })
-        .catch(error => {
-          toast({
-            title: 'ページを保存できませんでした。',
-            description: `${error}`,
-            status: 'error',
-          });
-        });
-
-      setPageData(undefined);
-    }
-  };
 
   switch (currentPage?.type) {
     case 'quiz':
