@@ -12,6 +12,7 @@ import NoSSR from 'react-no-ssr';
 import {useSetRecoilState} from 'recoil';
 import screenfull from 'screenfull';
 import {ShowState} from '../../utils/state/atom';
+import ShowController from './ShowController';
 
 const ShowDisplay: React.FC<{id: string}> = ({id}) => {
   const fullScreenRef = React.useRef();
@@ -49,8 +50,7 @@ const ShowDisplay: React.FC<{id: string}> = ({id}) => {
         zIndex="10000"
         color="white"
       >
-        {isFull ? 'full' : 'no full'}
-        {id}
+        <ShowController id={id} />
       </Box>
     </NoSSR>
   );
