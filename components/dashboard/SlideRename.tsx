@@ -129,7 +129,7 @@ const SlideRename: React.FC<{
 
         <ModalFooter>
           <Button colorScheme="blue" onClick={handleChange}>
-            作成
+            変更
           </Button>
         </ModalFooter>
       </ModalContent>
