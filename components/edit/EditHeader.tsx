@@ -9,13 +9,14 @@
 import {Button, Flex, Text} from '@chakra-ui/react';
 import React from 'react';
 import {IoArrowBackOutline} from 'react-icons/io5';
-import {useRecoilValue} from 'recoil';
-import {NowPageDataState} from '../../utils/state/atom';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {NowPageDataState, ShowState} from '../../utils/state/atom';
 import Link from '../common/Link';
 import SavePage from './SavePage';
 
-const EditHeader: React.FC = () => {
+const EditHeader: React.FC<{id: string | string[]}> = ({id}) => {
   const nowPageData = useRecoilValue(NowPageDataState);
+  const setShow = useSetRecoilState(ShowState);
   return (
     <Flex justifyContent="space-between" margin="0 .5rem 0">
       <Flex>
@@ -34,7 +35,15 @@ const EditHeader: React.FC = () => {
       </Flex>
       <Flex>
         <SavePage marginRight="1rem" />
-        <Button colorScheme="blue" size="sm">
+        <Button
+          colorScheme="blue"
+          size="sm"
+          onClick={() => {
+            if (typeof id === 'string') {
+              setShow(id);
+            }
+          }}
+        >
           プレゼンテーションを開始
         </Button>
       </Flex>

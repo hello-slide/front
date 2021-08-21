@@ -104,3 +104,11 @@ export const PageDataState = atom<SlidePageData | undefined>({
   key: 'PageData',
   default: undefined,
 });
+
+/**
+ * Start slideshow
+ */
+export const ShowState = atom<string | undefined>({
+  key: 'Show',
+  default: undefined,
+});
