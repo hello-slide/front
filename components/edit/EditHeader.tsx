@@ -12,6 +12,7 @@ import {IoArrowBackOutline} from 'react-icons/io5';
 import {useRecoilValue} from 'recoil';
 import {NowPageDataState} from '../../utils/state/atom';
 import Link from '../common/Link';
+import SavePage from './SavePage';
 
 const EditHeader: React.FC = () => {
   const nowPageData = useRecoilValue(NowPageDataState);
@@ -31,9 +32,12 @@ const EditHeader: React.FC = () => {
           {nowPageData?.title}
         </Text>
       </Flex>
-      <Button colorScheme="blue" size="sm">
-        プレゼンテーションを開始
-      </Button>
+      <Flex>
+        <SavePage marginRight="1rem" />
+        <Button colorScheme="blue" size="sm">
+          プレゼンテーションを開始
+        </Button>
+      </Flex>
     </Flex>
   );
 };

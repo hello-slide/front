@@ -11,6 +11,10 @@ import React from 'react';
 import {useRecoilValue, useRecoilState} from 'recoil';
 import SetPage from '../../utils/api/setPage';
 import {
+  addBeforeUnLoad,
+  removeBeforeUnLoad,
+} from '../../utils/beforeUnLoad/beforeUnLoad';
+import {
   CurrentPageState,
   PageDataState,
   UserDataState,
@@ -25,6 +29,12 @@ const EditMain = () => {
   const [userData, setUserData] = useRecoilState(UserDataState);
   const nowPageData = useRecoilValue(NowPageDataState);
   const toast = useToast();
+
+  React.useEffect(() => {
+    if (typeof pageData !== 'undefined') {
+      addBeforeUnLoad();
+    }
+  }, [pageData]);
 
   React.useEffect(() => {
     setPage();
@@ -53,13 +63,18 @@ const EditMain = () => {
         }
       );
 
-      setPageAPI.run(nowPageData?.id, pageId, pageData).catch(error => {
-        toast({
-          title: 'ページを保存できませんでした。',
-          description: `${error}`,
-          status: 'error',
+      setPageAPI
+        .run(nowPageData?.id, pageId, pageData)
+        .then(() => {
+          removeBeforeUnLoad();
+        })
+        .catch(error => {
+          toast({
+            title: 'ページを保存できませんでした。',
+            description: `${error}`,
+            status: 'error',
+          });
         });
-      });
 
       setPageData(undefined);
     }

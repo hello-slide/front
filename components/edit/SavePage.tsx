@@ -1,13 +1,12 @@
 /**********************************************************
- * Page auto save
+ * page save
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {useToast} from '@chakra-ui/react';
-import {useRouter} from 'next/router';
+import {Button, useToast, ButtonProps} from '@chakra-ui/react';
 import React from 'react';
 import {useRecoilValue, useRecoilState} from 'recoil';
 import SetPage from '../../utils/api/setPage';
@@ -18,28 +17,16 @@ import {
   NowPageDataState,
 } from '../../utils/state/atom';
 
-const AutoSave = () => {
+const SavePage: React.FC<ButtonProps> = props => {
   const [pageData, setPageData] = useRecoilState(PageDataState);
   const [userData, setUserData] = useRecoilState(UserDataState);
   const nowPageData = useRecoilValue(NowPageDataState);
+  const [isLoad, setIsLoad] = React.useState(false);
   const toast = useToast();
-  const router = useRouter();
-
-  const [nowPath, setNowPath] = React.useState<string>(undefined);
-
-  React.useEffect(() => {
-    if (nowPath !== router.asPath) {
-      if (nowPath && nowPath.substr(0, 5) === '/edit') {
-        removeBeforeUnLoad();
-        setPage();
-      }
-
-      setNowPath(router.asPath);
-    }
-  }, [router.asPath]);
 
   const setPage = () => {
     if (typeof pageData !== 'undefined') {
+      setIsLoad(true);
       const pageId = pageData.id;
       const setPageAPI = new SetPage(
         userData.sessionToken,
@@ -61,19 +48,35 @@ const AutoSave = () => {
         }
       );
 
-      setPageAPI.run(nowPageData?.id, pageId, pageData).catch(error => {
-        toast({
-          title: 'ページを保存できませんでした。',
-          description: `${error}`,
-          status: 'error',
+      setPageAPI
+        .run(nowPageData?.id, pageId, pageData)
+        .then(() => {
+          setIsLoad(false);
+          removeBeforeUnLoad();
+        })
+        .catch(error => {
+          setIsLoad(false);
+          toast({
+            title: 'ページを保存できませんでした。',
+            description: `${error}`,
+            status: 'error',
+          });
         });
-      });
 
       setPageData(undefined);
     }
   };
-
-  return <></>;
+  return (
+    <Button
+      isLoading={isLoad}
+      onClick={setPage}
+      size="sm"
+      variant="ghost"
+      {...props}
+    >
+      保存
+    </Button>
+  );
 };
 
-export default AutoSave;
+export default SavePage;
