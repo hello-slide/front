@@ -59,13 +59,13 @@ const Login: React.FC<{isOpen: boolean; onClose: () => void}> = ({
 
       login(token.id_token)
         .then(response => {
+          setIsLoad(false);
           setUserData({
             refreshToken: response.refreshToken,
             sessionToken: response.sessionToken,
             name: profile.getName(),
             image: profile.getImageUrl(),
           });
-          setIsLoad(false);
         })
         .catch(error => {
           toast({
