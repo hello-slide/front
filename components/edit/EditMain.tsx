@@ -10,6 +10,7 @@ import {useToast} from '@chakra-ui/react';
 import React from 'react';
 import {useRecoilValue, useRecoilState} from 'recoil';
 import SetPage from '../../utils/api/setPage';
+import {addBeforeUnLoad} from '../../utils/beforeUnLoad/beforeUnLoad';
 import {
   CurrentPageState,
   PageDataState,
@@ -26,18 +27,11 @@ const EditMain = () => {
   const nowPageData = useRecoilValue(NowPageDataState);
   const toast = useToast();
 
-  const handleBeforeUnloadEvent = (event: BeforeUnloadEvent): void => {
-    event.preventDefault();
-    event.returnValue = '';
-  };
-
   React.useEffect(() => {
-    window.addEventListener('beforeunload', handleBeforeUnloadEvent);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnloadEvent);
-    };
-  }, []);
+    if (typeof pageData !== 'undefined') {
+      addBeforeUnLoad();
+    }
+  }, [pageData]);
 
   React.useEffect(() => {
     setPage();

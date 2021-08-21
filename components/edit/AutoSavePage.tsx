@@ -11,6 +11,7 @@ import {useRouter} from 'next/router';
 import React from 'react';
 import {useRecoilValue, useRecoilState} from 'recoil';
 import SetPage from '../../utils/api/setPage';
+import {removeBeforeUnLoad} from '../../utils/beforeUnLoad/beforeUnLoad';
 import {
   PageDataState,
   UserDataState,
@@ -29,6 +30,7 @@ const AutoSave = () => {
   React.useEffect(() => {
     if (nowPath !== router.asPath) {
       if (nowPath && nowPath.substr(0, 5) === '/edit') {
+        removeBeforeUnLoad();
         setPage();
       }
 
