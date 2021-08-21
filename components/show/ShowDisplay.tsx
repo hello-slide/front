@@ -6,43 +6,52 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Box, Button} from '@chakra-ui/react';
-import ReactFullScreen from 'react-easyfullscreen';
+import {Box} from '@chakra-ui/react';
+import React from 'react';
 import NoSSR from 'react-no-ssr';
+import {useSetRecoilState} from 'recoil';
+import screenfull from 'screenfull';
+import {ShowState} from '../../utils/state/atom';
 
 const ShowDisplay: React.FC<{id: string}> = ({id}) => {
+  const fullScreenRef = React.useRef();
+  const [isFull, setIsFull] = React.useState(true);
+  const setShow = useSetRecoilState(ShowState);
+
+  React.useEffect(() => {
+    if (screenfull.isEnabled) {
+      screenfull.request(fullScreenRef.current);
+    }
+
+    if (screenfull.isEnabled) {
+      screenfull.on('change', () => {
+        setIsFull((screenfull as {isFullscreen: boolean}).isFullscreen);
+      });
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (!isFull) {
+      setShow(undefined);
+    }
+  }, [isFull]);
+
   return (
     <NoSSR>
-      <ReactFullScreen>
-        {({ref, onRequest, onExit}) => (
-          <Box
-            ref={ref}
-            backgroundColor="black"
-            position="absolute"
-            width="100%"
-            height="100%"
-            left="0"
-            top="0"
-            zIndex="10000"
-          >
-            {id}
-            <Button
-              onClick={() => {
-                onRequest();
-              }}
-            >
-              フルスクリーン
-            </Button>
-            <Button
-              onClick={() => {
-                onExit();
-              }}
-            >
-              終了
-            </Button>
-          </Box>
-        )}
-      </ReactFullScreen>
+      <Box
+        ref={fullScreenRef}
+        backgroundColor="black"
+        position="absolute"
+        width="100%"
+        height="100%"
+        left="0"
+        top="0"
+        zIndex="10000"
+        color="white"
+      >
+        {isFull ? 'full' : 'no full'}
+        {id}
+      </Box>
     </NoSSR>
   );
 };
