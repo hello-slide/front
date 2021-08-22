@@ -20,15 +20,22 @@ const ShowDisplay: React.FC<{id: string}> = ({id}) => {
   const setShow = useSetRecoilState(ShowState);
 
   React.useEffect(() => {
+    let isMounted = true;
     if (screenfull.isEnabled) {
       screenfull.request(fullScreenRef.current);
     }
 
     if (screenfull.isEnabled) {
       screenfull.on('change', () => {
-        setIsFull((screenfull as {isFullscreen: boolean}).isFullscreen);
+        if (isMounted) {
+          setIsFull((screenfull as {isFullscreen: boolean}).isFullscreen);
+        }
       });
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   React.useEffect(() => {
@@ -41,14 +48,13 @@ const ShowDisplay: React.FC<{id: string}> = ({id}) => {
     <NoSSR>
       <Box
         ref={fullScreenRef}
-        backgroundColor="black"
+        backgroundColor="white"
         position="absolute"
         width="100%"
         height="100%"
         left="0"
         top="0"
         zIndex="10000"
-        color="white"
       >
         <ShowController id={id} />
       </Box>
