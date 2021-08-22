@@ -24,7 +24,7 @@ const End = () => {
         position="absolute"
         right="0"
         bottom="0"
-        margin="5rem"
+        margin="7rem"
         width="200px"
         textAlign="center"
       >
@@ -42,6 +42,8 @@ const End = () => {
         flexDirection="column"
         width="100%"
         color="#262626"
+        fontSize="1.5rem"
+        marginBottom=".5rem"
       >
         &copy; {new Date().getFullYear()} hello-slide
       </Flex>

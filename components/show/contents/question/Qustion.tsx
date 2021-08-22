@@ -8,10 +8,10 @@
  **********************************************************/
 import {Flex, Heading} from '@chakra-ui/react';
 
-const Question = () => {
+const Question: React.FC<{id: string}> = ({id}) => {
   return (
     <Flex justifyContent="center" alignItems="center" marginTop="7rem">
-      <Heading>Question</Heading>
+      <Heading>Question {id}</Heading>
     </Flex>
   );
 };

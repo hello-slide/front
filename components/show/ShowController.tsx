@@ -15,12 +15,11 @@ import {UserDataState, SlideshowDataState} from '../../utils/state/atom';
 import ChangeContents from './ChangeContetns';
 
 const ShowController: React.FC<{id: string}> = ({id}) => {
-  const [pages, setPages] = React.useState<Page[]>([]);
   const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
   const setSlideshowData = useSetRecoilState(SlideshowDataState);
   const [index, setIndex] = React.useState(0);
-  const [pageList, setPageList] = React.useState<string[]>([]);
+  const [pageList, setPageList] = React.useState<Page[]>([]);
 
   const keyboardEvent = React.useCallback((event: KeyboardEvent) => {
     if (event.code === 'ArrowRight') {
@@ -72,22 +71,15 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
             session: Math.floor(Math.random() * 100000).toString(),
           });
 
-          const pages = [];
           const pageLists = [];
           for (const element of value.pages) {
-            pages.push({
-              id: element.page_id,
-              type: element.type,
-            });
-
             if (element.type === 'quiz') {
-              pageLists.push('quiz1');
-              pageLists.push('quiz2');
+              pageLists.push({id: element.page_id, type: 'quiz1'});
+              pageLists.push({id: element.page_id, type: 'quiz2'});
             } else if (element.type === 'question') {
-              pageLists.push('question');
+              pageLists.push({id: element.page_id, type: 'question'});
             }
           }
-          setPages(pages);
           setPageList(pageLists);
         })
         .catch(error => {

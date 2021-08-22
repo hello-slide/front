@@ -7,6 +7,7 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 import React from 'react';
+import Page from '../../@types/page';
 
 import End from './contents/common/End';
 import OpExplanation from './contents/common/OpExplanation';
@@ -15,15 +16,15 @@ import Question from './contents/question/Qustion';
 import QuizFirst from './contents/quiz/QuizFirst';
 import QuizSecond from './contents/quiz/QuizSecond';
 
-const ChangeContents: React.FC<{index: number; pageList: string[]}> = props => {
+const ChangeContents: React.FC<{index: number; pageList: Page[]}> = props => {
   const Pages = (index: number) => {
-    switch (props.pageList[index]) {
+    switch (props.pageList[index]?.type) {
       case 'quiz1':
         return <QuizFirst />;
       case 'quiz2':
         return <QuizSecond />;
       case 'question':
-        return <Question />;
+        return <Question id={props.pageList[index].id} />;
       default:
         return <End />;
     }
