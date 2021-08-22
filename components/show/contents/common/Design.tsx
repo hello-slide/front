@@ -15,8 +15,8 @@ const Design: React.FC<{data: SlideDesign}> = props => {
       return (
         <Box
           height="100%"
-          backgroundColor={props.data?.backgroundColor || 'white'}
-          color={props.data?.textColor || 'black'}
+          backgroundColor={props.data?.backgroundColor || '#F2F2F2'}
+          color={props.data?.textColor || '#000000'}
         >
           {props.children}
         </Box>

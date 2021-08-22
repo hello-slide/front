@@ -20,7 +20,7 @@ const QuizFirst: React.FC<{id: string}> = ({id}) => {
   return (
     <Design data={questionData?.slideDesign}>
       <Center paddingY="2rem">
-        <Heading fontSize="4rem">Quiz 1</Heading>
+        <Heading fontSize="4rem">{questionData.title || '？'}</Heading>
       </Center>
     </Design>
   );
