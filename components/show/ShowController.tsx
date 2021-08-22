@@ -20,6 +20,7 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
   const toast = useToast();
   const setSlideshowData = useSetRecoilState(SlideshowDataState);
   const [index, setIndex] = React.useState(0);
+  const [pageList, setPageList] = React.useState<string[]>([]);
 
   const keyboardEvent = React.useCallback((event: KeyboardEvent) => {
     if (event.code === 'ArrowRight') {
@@ -72,13 +73,22 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
           });
 
           const pages = [];
+          const pageLists = [];
           for (const element of value.pages) {
             pages.push({
               id: element.page_id,
               type: element.type,
             });
+
+            if (element.type === 'quiz') {
+              pageLists.push('quiz1');
+              pageLists.push('quiz2');
+            } else if (element.type === 'question') {
+              pageLists.push('question');
+            }
           }
           setPages(pages);
+          setPageList(pageLists);
         })
         .catch(error => {
           toast({
@@ -97,7 +107,7 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
     };
   }, []);
 
-  return <ChangeContents index={index}></ChangeContents>;
+  return <ChangeContents index={index} pageList={pageList}></ChangeContents>;
 };
 
 export default ShowController;
