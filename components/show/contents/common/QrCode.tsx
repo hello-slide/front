@@ -9,10 +9,13 @@
 import {Flex, Text, Heading} from '@chakra-ui/react';
 import QRCode from 'qrcode.react';
 import React from 'react';
-import {sessionApiLink} from '../../../utils/api/links';
+import {useRecoilValue} from 'recoil';
+import {sessionApiLink} from '../../../../utils/api/links';
+import {SlideshowDataState} from '../../../../utils/state/atom';
 
-const QrCode: React.FC<{session: string}> = ({session}) => {
-  const link = `${sessionApiLink}${session}`;
+const QrCode = () => {
+  const slideshowData = useRecoilValue(SlideshowDataState);
+  const link = `${sessionApiLink}${slideshowData?.session}`;
   return (
     <Flex
       flexDirection="column"

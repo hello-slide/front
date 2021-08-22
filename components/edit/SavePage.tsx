@@ -13,7 +13,7 @@ import SetPage from '../../utils/api/setPage';
 import {
   removeBeforeUnLoad,
   addBeforeUnLoad,
-} from '../../utils/beforeUnLoad/beforeUnLoad';
+} from '../../utils/event/beforeUnLoad';
 import {
   CurrentPageState,
   PageDataState,

@@ -8,25 +8,25 @@
  **********************************************************/
 import {Flex, Heading, Kbd, Stack, Spacer, Text} from '@chakra-ui/react';
 import React from 'react';
+import {useRecoilValue} from 'recoil';
+import {SlideshowDataState} from '../../../../utils/state/atom';
 
-const OpExplanation: React.FC<{slideTitle: string}> = ({slideTitle}) => {
+const OpExplanation = () => {
+  const slideshowData = useRecoilValue(SlideshowDataState);
+
   const KeyMap: React.FC<{text: string; keys: string[]}> = ({text, keys}) => {
     return (
       <Flex alignItems="center">
         <Text fontSize="1.5rem">{text}</Text>
         <Spacer />
-        <Text fontSize="1.5rem" fontWeight="bold">
-          {keys.map((value, index) => {
-            return (
-              <>
-                <Kbd key={value} marginX=".2rem">
-                  {value}
-                </Kbd>
-                {index !== keys.length - 1 && '+'}
-              </>
-            );
-          })}
-        </Text>
+        {keys.map((value, index) => {
+          return (
+            <Text key={value} fontSize="1.5rem" fontWeight="bold">
+              <Kbd marginX=".2rem">{value}</Kbd>
+              {index !== keys.length - 1 && '+'}
+            </Text>
+          );
+        })}
       </Flex>
     );
   };
@@ -54,7 +54,7 @@ const OpExplanation: React.FC<{slideTitle: string}> = ({slideTitle}) => {
           <KeyMap text="終了する" keys={['Esc']} />
         </ExplanationContent>
         <ExplanationContent title="基本情報">
-          <Text fontSize="1.5rem">スライド名: {slideTitle}</Text>
+          <Text fontSize="1.5rem">スライド名: {slideshowData?.title}</Text>
         </ExplanationContent>
       </Stack>
     </Flex>

@@ -11,7 +11,7 @@ import {useRouter} from 'next/router';
 import React from 'react';
 import {useRecoilValue, useRecoilState} from 'recoil';
 import SetPage from '../../utils/api/setPage';
-import {removeBeforeUnLoad} from '../../utils/beforeUnLoad/beforeUnLoad';
+import {removeBeforeUnLoad} from '../../utils/event/beforeUnLoad';
 import {
   PageDataState,
   UserDataState,

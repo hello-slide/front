@@ -6,10 +6,98 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import {useToast} from '@chakra-ui/react';
 import React from 'react';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import Page from '../../@types/page';
+import ListPages from '../../utils/api/listPage';
+import {UserDataState, SlideshowDataState} from '../../utils/state/atom';
+import ChangeContents from './ChangeContetns';
 
 const ShowController: React.FC<{id: string}> = ({id}) => {
-  return <></>;
+  const [pages, setPages] = React.useState<Page[]>([]);
+  const [userData, setUserData] = useRecoilState(UserDataState);
+  const toast = useToast();
+  const setSlideshowData = useSetRecoilState(SlideshowDataState);
+  const [index, setIndex] = React.useState(0);
+
+  const keyboardEvent = React.useCallback((event: KeyboardEvent) => {
+    if (event.code === 'ArrowRight') {
+      setIndex(value => (value += 1));
+    } else if (event.code === 'ArrowLeft') {
+      setIndex(value => {
+        if (value > 0) {
+          return (value -= 1);
+        }
+        return value;
+      });
+    }
+  }, []);
+
+  React.useEffect(() => {
+    // reset state
+    setSlideshowData(undefined);
+
+    const api = () => {
+      const listPagesAPI = new ListPages(
+        userData.sessionToken,
+        userData.refreshToken,
+        (sessionToken, refreshToken, isFailed) => {
+          if (isFailed) {
+            setUserData({
+              name: '',
+              image: '',
+            });
+          } else {
+            setUserData(value => ({
+              name: value.name,
+              image: value.image,
+              sessionToken: sessionToken,
+              refreshToken: refreshToken,
+            }));
+          }
+        }
+      );
+
+      listPagesAPI
+        .run(id)
+        .then(value => {
+          setSlideshowData({
+            title: value.title,
+            id: value.id,
+            createDate: value.createDate,
+            lastChange: value.lastChange,
+            // TODO: session id create logic
+            session: Math.floor(Math.random() * 100000).toString(),
+          });
+
+          const pages = [];
+          for (const element of value.pages) {
+            pages.push({
+              id: element.page_id,
+              type: element.type,
+            });
+          }
+          setPages(pages);
+        })
+        .catch(error => {
+          toast({
+            title: 'スライドを読み込めませんでした',
+            description: `${error}`,
+            status: 'error',
+          });
+        });
+    };
+    api();
+
+    document.addEventListener('keydown', keyboardEvent, false);
+
+    return () => {
+      document.removeEventListener('keydown', keyboardEvent, false);
+    };
+  }, []);
+
+  return <ChangeContents index={index}></ChangeContents>;
 };
 
 export default ShowController;

@@ -12,6 +12,7 @@ import Page from '../../@types/page';
 import {GetAPIPages} from '../../@types/page';
 import SlidePageData from '../../@types/pageItem';
 import Slide from '../../@types/slides';
+import Slideshow from '../../@types/slideshow';
 import {UserData} from '../../@types/userData';
 
 /**
@@ -110,5 +111,13 @@ export const PageDataState = atom<SlidePageData | undefined>({
  */
 export const ShowState = atom<string | undefined>({
   key: 'Show',
+  default: undefined,
+});
+
+/**
+ * Slideshow data.
+ */
+export const SlideshowDataState = atom<Slideshow>({
+  key: 'slideshowData',
   default: undefined,
 });
