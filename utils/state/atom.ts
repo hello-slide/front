@@ -12,7 +12,7 @@ import Page from '../../@types/page';
 import {GetAPIPages} from '../../@types/page';
 import SlidePageData from '../../@types/pageItem';
 import Slide from '../../@types/slides';
-import Slideshow from '../../@types/slideshow';
+import {Slideshow} from '../../@types/slideshow';
 import {UserData} from '../../@types/userData';
 
 /**

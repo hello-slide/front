@@ -6,8 +6,13 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import SlidePageData from './pageItem';
 import Slide from './slides';
 
-export default interface Slideshow extends Slide {
+export interface Slideshow extends Slide {
   session: string;
+  data: {
+    key: string;
+    value: SlidePageData;
+  }[];
 }

@@ -20,9 +20,9 @@ const ChangeContents: React.FC<{index: number; pageList: Page[]}> = props => {
   const Pages = (index: number) => {
     switch (props.pageList[index]?.type) {
       case 'quiz1':
-        return <QuizFirst />;
+        return <QuizFirst id={props.pageList[index].id} />;
       case 'quiz2':
-        return <QuizSecond />;
+        return <QuizSecond id={props.pageList[index].id} />;
       case 'question':
         return <Question id={props.pageList[index].id} />;
       default:

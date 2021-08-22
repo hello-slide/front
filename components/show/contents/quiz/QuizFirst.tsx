@@ -6,13 +6,23 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Flex, Heading} from '@chakra-ui/react';
+import {Center, Heading} from '@chakra-ui/react';
+import {useRecoilValue} from 'recoil';
+import {Quiz} from '../../../../@types/pageItem';
+import {SlideshowDataState} from '../../../../utils/state/atom';
+import Design from '../common/Design';
 
-const QuizFirst = () => {
+const QuizFirst: React.FC<{id: string}> = ({id}) => {
+  const slideshowData = useRecoilValue(SlideshowDataState);
+  const questionData = slideshowData.data.find(value => value.key === id)
+    .value as Quiz;
+
   return (
-    <Flex justifyContent="center" alignItems="center" marginTop="7rem">
-      <Heading>Quiz First</Heading>
-    </Flex>
+    <Design data={questionData?.slideDesign}>
+      <Center paddingY="2rem">
+        <Heading fontSize="4rem">Quiz 1</Heading>
+      </Center>
+    </Design>
   );
 };
 

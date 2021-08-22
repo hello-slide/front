@@ -10,6 +10,8 @@ import {useToast} from '@chakra-ui/react';
 import React from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import Page from '../../@types/page';
+import SlidePageData from '../../@types/pageItem';
+import GetPage from '../../utils/api/getPage';
 import ListPages from '../../utils/api/listPage';
 import {UserDataState, SlideshowDataState} from '../../utils/state/atom';
 import ChangeContents from './ChangeContetns';
@@ -33,6 +35,13 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
       });
     }
   }, []);
+
+  const getPage = async (
+    getPage: GetPage,
+    pageId: string
+  ): Promise<SlidePageData> => {
+    return await getPage.run(id, pageId);
+  };
 
   React.useEffect(() => {
     // reset state
@@ -59,19 +68,31 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
         }
       );
 
+      const getPageAPI = new GetPage(
+        userData.sessionToken,
+        userData.refreshToken,
+        (sessionToken, refreshToken, isFailed) => {
+          if (isFailed) {
+            setUserData({
+              name: '',
+              image: '',
+            });
+          } else {
+            setUserData(value => ({
+              name: value.name,
+              image: value.image,
+              sessionToken: sessionToken,
+              refreshToken: refreshToken,
+            }));
+          }
+        }
+      );
+
       listPagesAPI
         .run(id)
-        .then(value => {
-          setSlideshowData({
-            title: value.title,
-            id: value.id,
-            createDate: value.createDate,
-            lastChange: value.lastChange,
-            // TODO: session id create logic
-            session: Math.floor(Math.random() * 100000).toString(),
-          });
-
+        .then(async value => {
           const pageLists = [];
+          const data: {key: string; value: SlidePageData}[] = [];
           for (const element of value.pages) {
             if (element.type === 'quiz') {
               pageLists.push({id: element.page_id, type: 'quiz1'});
@@ -79,8 +100,31 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
             } else if (element.type === 'question') {
               pageLists.push({id: element.page_id, type: 'question'});
             }
+
+            try {
+              data.push({
+                key: element.page_id,
+                value: await getPage(getPageAPI, element.page_id),
+              });
+            } catch (error) {
+              toast({
+                title: 'ページを読み込めませんでした。',
+                description: `${error}`,
+                status: 'error',
+              });
+            }
           }
           setPageList(pageLists);
+
+          setSlideshowData({
+            title: value.title,
+            id: value.id,
+            createDate: value.createDate,
+            lastChange: value.lastChange,
+            data: data,
+            // TODO: session id create logic
+            session: Math.floor(Math.random() * 100000).toString(),
+          });
         })
         .catch(error => {
           toast({
