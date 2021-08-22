@@ -29,9 +29,12 @@ import {
   IoTrashOutline,
   IoOpenOutline,
   IoTextOutline,
+  IoTvOutline,
 } from 'react-icons/io5';
+import {useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
 import updateDate from '../../utils/date/updateDate';
+import {ShowState} from '../../utils/state/atom';
 import DeleteSlide from './DeleteSlide';
 import SlideInfo from './SlideInfo';
 import SlideRename from './SlideRename';
@@ -45,6 +48,7 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
   const renameModal = useDisclosure();
   const [operationSlide, setOperationSlide] = React.useState<Slide>();
   const router = useRouter();
+  const setShow = useSetRecoilState(ShowState);
 
   const ListContents: ChakraComponent<'div', {}> = props => {
     return (
@@ -130,7 +134,7 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
               </ContextMenuTrigger>
               <ContextMenu id={value.id}>
                 <Menu isOpen={true}>
-                  <MenuList padding={0}>
+                  <MenuList padding={0} minWidth="255px">
                     <Text
                       fontSize="1rem"
                       fontWeight="bold"
@@ -147,6 +151,15 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
                       }}
                     >
                       開く
+                    </MenuItem>
+                    <MenuItem
+                      padding=".5rem 0 .5rem 1rem"
+                      icon={<IoTvOutline size="18px" />}
+                      onClick={() => {
+                        setShow(value.id);
+                      }}
+                    >
+                      プレゼンテーションを開始
                     </MenuItem>
                     <MenuItem
                       padding=".5rem 0 .5rem 1rem"

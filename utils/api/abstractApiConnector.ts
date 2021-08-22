@@ -11,6 +11,7 @@ import {GetAPIPageData} from '../../@types/page';
 import {GetAPIPages} from '../../@types/page';
 import SlidePageData from '../../@types/pageItem';
 import SlideConfig from '../../@types/slideApi';
+import {apiLink} from './links';
 
 type UpgradeTokenFunc = (
   sessionToken: string,
@@ -29,7 +30,7 @@ interface SendData {
 
 export default abstract class AbstractApiConnector {
   protected sessionToken: string;
-  protected url = 'https://api.hello-slide.jp/';
+  protected url = apiLink;
 
   private refreshToken: string;
   private _upgradeToken: UpgradeTokenFunc;

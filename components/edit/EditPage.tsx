@@ -9,17 +9,21 @@
 import {Box} from '@chakra-ui/react';
 import React from 'react';
 import NoSSR from 'react-no-ssr';
+import Show from '../show/Show';
 import Edit from './Edit';
 import EditHeader from './EditHeader';
 
 const EditPage: React.FC<{id: string | string[]}> = ({id}) => {
   return (
-    <NoSSR>
-      <Box width="100%" height="calc(100vh - 84px)" margin="0" padding="0">
-        <EditHeader />
-        <Edit id={id} />
-      </Box>
-    </NoSSR>
+    <>
+      <NoSSR>
+        <Box width="100%" height="calc(100vh - 84px)" margin="0" padding="0">
+          <EditHeader id={id} />
+          <Edit id={id} />
+        </Box>
+      </NoSSR>
+      <Show />
+    </>
   );
 };
 
