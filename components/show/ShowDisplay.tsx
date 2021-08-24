@@ -54,7 +54,7 @@ const ShowDisplay: React.FC<{id: string}> = ({id}) => {
         height="100%"
         left="0"
         top="0"
-        zIndex="10000"
+        zIndex="1000"
       >
         <ShowController id={id} />
       </Box>
