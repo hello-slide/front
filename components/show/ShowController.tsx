@@ -13,7 +13,11 @@ import Page from '../../@types/page';
 import SlidePageData from '../../@types/pageItem';
 import GetPage from '../../utils/api/getPage';
 import ListPages from '../../utils/api/listPage';
-import {UserDataState, SlideshowDataState} from '../../utils/state/atom';
+import {
+  UserDataState,
+  SlideshowDataState,
+  LoadState,
+} from '../../utils/state/atom';
 import ChangeContents from './ChangeContetns';
 
 const ShowController: React.FC<{id: string}> = ({id}) => {
@@ -22,6 +26,7 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
   const setSlideshowData = useSetRecoilState(SlideshowDataState);
   const [index, setIndex] = React.useState(0);
   const [pageList, setPageList] = React.useState<Page[]>([]);
+  const setIsLoad = useSetRecoilState(LoadState);
   let maxPage = 3; // header page * 2 and end page.
 
   const keyboardEvent = React.useCallback((event: KeyboardEvent) => {
@@ -59,49 +64,50 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
     return await getPage.run(id, pageId);
   };
 
-  const listPagesAPI = new ListPages(
-    userData.sessionToken,
-    userData.refreshToken,
-    (sessionToken, refreshToken, isFailed) => {
-      if (isFailed) {
-        setUserData({
-          name: '',
-          image: '',
-        });
-      } else {
-        setUserData(value => ({
-          name: value.name,
-          image: value.image,
-          sessionToken: sessionToken,
-          refreshToken: refreshToken,
-        }));
-      }
-    }
-  );
-
-  const getPageAPI = new GetPage(
-    userData.sessionToken,
-    userData.refreshToken,
-    (sessionToken, refreshToken, isFailed) => {
-      if (isFailed) {
-        setUserData({
-          name: '',
-          image: '',
-        });
-      } else {
-        setUserData(value => ({
-          name: value.name,
-          image: value.image,
-          sessionToken: sessionToken,
-          refreshToken: refreshToken,
-        }));
-      }
-    }
-  );
-
   React.useEffect(() => {
     // reset state
     setSlideshowData(undefined);
+    setIsLoad(true);
+
+    const listPagesAPI = new ListPages(
+      userData.sessionToken,
+      userData.refreshToken,
+      (sessionToken, refreshToken, isFailed) => {
+        if (isFailed) {
+          setUserData({
+            name: '',
+            image: '',
+          });
+        } else {
+          setUserData(value => ({
+            name: value.name,
+            image: value.image,
+            sessionToken: sessionToken,
+            refreshToken: refreshToken,
+          }));
+        }
+      }
+    );
+
+    const getPageAPI = new GetPage(
+      userData.sessionToken,
+      userData.refreshToken,
+      (sessionToken, refreshToken, isFailed) => {
+        if (isFailed) {
+          setUserData({
+            name: '',
+            image: '',
+          });
+        } else {
+          setUserData(value => ({
+            name: value.name,
+            image: value.image,
+            sessionToken: sessionToken,
+            refreshToken: refreshToken,
+          }));
+        }
+      }
+    );
 
     const api = async () => {
       try {
@@ -150,8 +156,9 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
           description: `${error}`,
           status: 'error',
         });
-        return;
       }
+
+      setIsLoad(false);
     };
     api();
 
