@@ -22,6 +22,7 @@ import {
 import {useRouter} from 'next/router';
 import React from 'react';
 import {FcGoogle} from 'react-icons/fc';
+import {domain as apiDomain} from '../../utils/api/links';
 import Link from './Link';
 
 const Login: React.FC<{isOpen: boolean; onClose: () => void}> = ({
@@ -31,7 +32,6 @@ const Login: React.FC<{isOpen: boolean; onClose: () => void}> = ({
   const From = () => {
     const [isCanLogin, setIsCanLogin] = React.useState(false);
     const router = useRouter();
-    const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN;
 
     const handleChange = () => {
       router.push(`https://${apiDomain}/account/login`);
