@@ -13,6 +13,12 @@
 yarn install
 ```
 
+## Environments
+
+```env
+NEXT_PUBLIC_API_DOMAIN=****
+```
+
 ## Lint and Build
 
 - Lint
