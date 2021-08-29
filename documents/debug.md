@@ -1,9 +1,12 @@
 # デバッグ方法
 
+- デバッグ用ドメイン: `hello-slide.net`
+
 ## 1. 環境変数設定
 
 ```env
 NEXT_PUBLIC_API_DOMAIN=api.hello-slide.net
+NEXT_PUBLIC_DOMAIN=hello-slide.net
 ```
 
 ## 2. hostsファイル変更
