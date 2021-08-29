@@ -8,20 +8,15 @@
  **********************************************************/
 import {useToast, Box, Flex} from '@chakra-ui/react';
 import React from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useSetRecoilState} from 'recoil';
 import Page from '../../@types/page';
 import SlidePageData from '../../@types/pageItem';
 import GetPage from '../../utils/api/getPage';
 import ListPages from '../../utils/api/listPage';
-import {
-  UserDataState,
-  SlideshowDataState,
-  LoadState,
-} from '../../utils/state/atom';
+import {SlideshowDataState, LoadState} from '../../utils/state/atom';
 import ChangeContents from './ChangeContetns';
 
 const ShowController: React.FC<{id: string}> = ({id}) => {
-  const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
   const setSlideshowData = useSetRecoilState(SlideshowDataState);
   const [index, setIndex] = React.useState(0);
@@ -69,45 +64,9 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
     setSlideshowData(undefined);
     setIsLoad(true);
 
-    const listPagesAPI = new ListPages(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
+    const listPagesAPI = new ListPages();
 
-    const getPageAPI = new GetPage(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
+    const getPageAPI = new GetPage();
 
     const api = async () => {
       try {
