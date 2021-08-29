@@ -17,13 +17,14 @@ export default class GetPage
     slideId: string,
     pageId: string
   ): Promise<T | undefined> {
-    this.setConfig('/slide/getpage', {
-      SlideID: slideId,
-      PageID: pageId,
-    });
-
-    const response = await this.connect();
-    const data = response.data;
+    const response = await this.connect(
+      JSON.stringify({
+        SlideID: slideId,
+        PageID: pageId,
+      }),
+      '/slide/getpage'
+    );
+    const data = await response.json();
 
     if (data) {
       return data as T;

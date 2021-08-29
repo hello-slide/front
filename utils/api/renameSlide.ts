@@ -13,8 +13,9 @@ export default class RenameSlide
   implements RenameSlideAPI
 {
   async run(slideId: string, name: string): Promise<void> {
-    this.setConfig('/slide/rename', {SlideID: slideId, newName: name});
-
-    await this.connect();
+    await this.connect(
+      JSON.stringify({SlideID: slideId, newName: name}),
+      '/slide/rename'
+    );
   }
 }

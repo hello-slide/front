@@ -14,9 +14,10 @@ export default class ListPages
   implements ListPagesAPI
 {
   async run(slideId: string): Promise<GetAPIPages> {
-    this.setConfig('/slide/details', {SlideID: slideId});
-
-    const response = await this.connect();
-    return response.data as GetAPIPages;
+    const response = await this.connect(
+      JSON.stringify({SlideID: slideId}),
+      '/slide/details'
+    );
+    return (await response.json()) as GetAPIPages;
   }
 }
