@@ -37,36 +37,18 @@ const SettingPage = () => {
   const router = useRouter();
 
   React.useEffect(() => {
-    if (typeof userData.refreshToken === 'undefined') {
+    if (!userData) {
       router.push('/');
     }
   }, []);
 
   const deleteAccount = () => {
     setIsLoad(true);
-    const deleteAllAPI = new DeleteAll(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
+    const deleteAllAPI = new DeleteAll();
     deleteAllAPI
       .run()
       .then(() => {
-        setUserData({name: '', image: ''});
+        setUserData(null);
         setSlides([]);
 
         router.push('/');
@@ -89,7 +71,7 @@ const SettingPage = () => {
   };
 
   const isLogin = () => {
-    if (typeof userData.sessionToken === 'undefined') {
+    if (!userData) {
       toast({
         title: 'おっと、ログインされていないようです。',
         status: 'warning',
@@ -104,11 +86,11 @@ const SettingPage = () => {
   return (
     <Box marginY="3rem">
       <Center>
-        <Avatar size="xl" src={userData.image} name={userData.name} />
+        <Avatar size="xl" src={userData?.picture} name={userData.name} />
       </Center>
       <Center>
         <Text fontWeight="bold" fontSize="1.5rem" textAlign="center">
-          {userData.name}
+          {userData?.name}
         </Text>
       </Center>
       <Center marginTop="5rem">

@@ -69,7 +69,7 @@ const Header: React.FC = React.memo(() => {
           as={Avatar}
           size="md"
           cursor="pointer"
-          src={userData.picture}
+          src={userData?.picture}
         />
         <MenuList padding="0">
           <NextLink href="/dashboard">
@@ -78,7 +78,7 @@ const Header: React.FC = React.memo(() => {
               fontWeight="bold"
               padding="1rem 0 1rem 1rem"
             >
-              {userData.name}
+              {userData?.name}
             </MenuItem>
           </NextLink>
           <MenuDivider margin="0" />
