@@ -17,14 +17,12 @@ import {
 import {
   CurrentPageState,
   PageDataState,
-  UserDataState,
   NowPageDataState,
 } from '../../utils/state/atom';
 
 const SavePage: React.FC<ButtonProps> = props => {
   const currentPage = useRecoilValue(CurrentPageState);
   const [pageData, setPageData] = useRecoilState(PageDataState);
-  const [userData, setUserData] = useRecoilState(UserDataState);
   const nowPageData = useRecoilValue(NowPageDataState);
   const [isLoad, setIsLoad] = React.useState(false);
   const toast = useToast();
@@ -43,25 +41,7 @@ const SavePage: React.FC<ButtonProps> = props => {
     if (typeof pageData !== 'undefined') {
       setIsLoad(true);
       const pageId = pageData.id;
-      const setPageAPI = new SetPage(
-        userData.sessionToken,
-        userData.refreshToken,
-        (sessionToken, refreshToken, isFailed) => {
-          if (isFailed) {
-            setUserData({
-              name: '',
-              image: '',
-            });
-          } else {
-            setUserData(value => ({
-              name: value.name,
-              image: value.image,
-              sessionToken: sessionToken,
-              refreshToken: refreshToken,
-            }));
-          }
-        }
-      );
+      const setPageAPI = new SetPage();
 
       setPageAPI
         .run(nowPageData?.id, pageId, pageData)
