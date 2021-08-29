@@ -38,4 +38,4 @@ openssl req -x509 -out certificates/localhost.crt -keyout certificates/localhost
 yarn run dev:ssl
 ```
 
-[https://hello-slide.net:3000](https://hello-slide.net:3000)
+[https://hello-slide.net](https://hello-slide.net)
