@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "dev:ssl": "HTTPS=true node ./server.js",
+        "dev:ssl": "sudo HTTPS=true $(which node) ./server.js",
         "build": "next build",
         "start": "next start -p $PORT",
         "deploy": "yarn build && gcloud app deploy --appyaml=./deploy/app.yaml --stop-previous-version --quiet",
