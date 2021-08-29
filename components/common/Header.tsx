@@ -21,12 +21,11 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import React from 'react';
-import {useGoogleLogout} from 'react-google-login';
 import {IoSettingsOutline, IoLogOutOutline} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import Logo from '../../assets/svgs/logo.svg';
-import logout from '../../utils/api/account/logout';
+import Logout from '../../utils/api/logout';
 import {UserDataState, LoadState, SlideState} from '../../utils/state/atom';
 import Link from './Link';
 import LoginButton from './LoginButton';
@@ -35,35 +34,34 @@ const Header: React.FC = React.memo(() => {
   const IsLogin = React.memo(() => {
     const toast = useToast();
     const [userData, setUserData] = useRecoilState(UserDataState);
-    const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
     const setIsLoad = useSetRecoilState(LoadState);
     const setSlides = useSetRecoilState(SlideState);
 
-    const {signOut, loaded} = useGoogleLogout({
-      clientId: googleClientId,
-      onLogoutSuccess: () => {
-        setIsLoad(true);
-        logout(userData.refreshToken)
-          .then(() => {
-            setUserData({name: '', image: ''});
-            setSlides([]);
-            toast({
-              title: 'ログアウトしました',
-              status: 'info',
-              isClosable: true,
-            });
-            setIsLoad(false);
-          })
-          .catch(error => {
-            toast({
-              title: 'ログアウトできませんでした',
-              description: `${error}`,
-              status: 'error',
-            });
-            setIsLoad(false);
+    const handleChange = () => {
+      setIsLoad(true);
+      const logoutAPI = new Logout();
+
+      logoutAPI
+        .run()
+        .then(() => {
+          setUserData(null);
+          setSlides([]);
+          toast({
+            title: 'ログアウトしました',
+            status: 'info',
+            isClosable: true,
           });
-      },
-    });
+          setIsLoad(false);
+        })
+        .catch(error => {
+          toast({
+            title: 'ログアウトできませんでした',
+            description: `${error}`,
+            status: 'error',
+          });
+          setIsLoad(false);
+        });
+    };
 
     return (
       <Menu>
@@ -71,7 +69,7 @@ const Header: React.FC = React.memo(() => {
           as={Avatar}
           size="md"
           cursor="pointer"
-          src={userData.image}
+          src={userData.picture}
         />
         <MenuList padding="0">
           <NextLink href="/dashboard">
@@ -95,8 +93,7 @@ const Header: React.FC = React.memo(() => {
           <MenuItem
             height="100%"
             icon={<IoLogOutOutline size="18px" />}
-            onClick={signOut}
-            disabled={!loaded}
+            onClick={handleChange}
             padding=".5rem 0 .5rem 1rem"
           >
             ログアウト
@@ -126,13 +123,7 @@ const Header: React.FC = React.memo(() => {
         </Flex>
         <Spacer />
         <Box display={{base: 'none', sm: 'flex'}} alignItems="center">
-          <NoSSR>
-            {typeof userData.refreshToken !== 'undefined' ? (
-              <IsLogin />
-            ) : (
-              <LoginButton />
-            )}
-          </NoSSR>
+          <NoSSR>{userData ? <IsLogin /> : <LoginButton />}</NoSSR>
         </Box>
       </Flex>
     </Box>
