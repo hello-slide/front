@@ -20,6 +20,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import {useRouter} from 'next/router';
 import React from 'react';
 import {IoSettingsOutline, IoLogOutOutline} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
@@ -36,6 +37,7 @@ const Header: React.FC = React.memo(() => {
     const [userData, setUserData] = useRecoilState(UserDataState);
     const setIsLoad = useSetRecoilState(LoadState);
     const setSlides = useSetRecoilState(SlideState);
+    const router = useRouter();
 
     const handleChange = () => {
       setIsLoad(true);
@@ -51,6 +53,7 @@ const Header: React.FC = React.memo(() => {
             status: 'info',
             isClosable: true,
           });
+          router.replace('/');
           setIsLoad(false);
         })
         .catch(error => {
@@ -59,6 +62,7 @@ const Header: React.FC = React.memo(() => {
             description: `${error}`,
             status: 'error',
           });
+
           setIsLoad(false);
         });
     };

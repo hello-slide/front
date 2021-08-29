@@ -28,7 +28,7 @@ const DashboardPage = () => {
 
   React.useEffect(() => {
     if (!userData) {
-      router.push('/');
+      router.replace('/');
     }
   }, [userData]);
 
@@ -77,7 +77,7 @@ const DashboardPage = () => {
     return () => {
       isMounted = false;
     };
-  }, [update]);
+  }, [update, userData]);
 
   return (
     <>

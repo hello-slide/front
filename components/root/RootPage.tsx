@@ -35,7 +35,7 @@ const RootPage = () => {
 
   React.useEffect(() => {
     if (userData) {
-      router.push('/dashboard');
+      router.replace('/dashboard');
       return;
     }
   }, [userData]);

@@ -54,7 +54,7 @@ const Edit: React.FC<{id: string | string[]}> = ({id}) => {
           });
         });
     }
-  }, []);
+  }, [userData]);
 
   return (
     <Flex>

@@ -6,6 +6,7 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import {parse} from 'cookie';
 import {GetServerSideProps} from 'next';
 import {useRouter} from 'next/router';
 import Title from '../../components/common/Title';
@@ -22,7 +23,20 @@ const Edit = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async context => {
+  if (
+    !context.req.headers.cookie ||
+    typeof parse(context.req.headers.cookie)['session_token'] === 'undefined'
+  ) {
+    return {
+      redirect: {
+        statusCode: 301,
+        destination: '/',
+      },
+      props: {},
+    };
+  }
+
   return {
     props: {
       noFooter: true,

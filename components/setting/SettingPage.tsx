@@ -38,7 +38,7 @@ const SettingPage = () => {
 
   React.useEffect(() => {
     if (!userData) {
-      router.push('/');
+      router.replace('/');
     }
   }, []);
 
@@ -51,7 +51,7 @@ const SettingPage = () => {
         setUserData(null);
         setSlides([]);
 
-        router.push('/');
+        router.replace('/');
         toast({
           title: 'アカウントを削除しました。',
           status: 'info',
