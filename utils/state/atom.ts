@@ -43,10 +43,10 @@ const localStorageEffect =
 /**
  * Keeps the user logged in.
  */
-export const UserDataState = atom<UserData>({
+export const UserDataState = atom<UserData | null>({
   key: 'userData',
-  default: {name: '', image: ''},
-  effects_UNSTABLE: [localStorageEffect('userData')],
+  default: null,
+  //   effects_UNSTABLE: [localStorageEffect('userData')],
 });
 
 /**

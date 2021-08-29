@@ -8,8 +8,7 @@
  **********************************************************/
 
 export interface UserData {
-  refreshToken?: string;
-  sessionToken?: string;
+  email: string;
   name: string;
-  image: string;
+  picture: string;
 }
