@@ -34,7 +34,7 @@ const RootPage = () => {
   }, []);
 
   React.useEffect(() => {
-    if (typeof userData.refreshToken !== 'undefined') {
+    if (userData) {
       router.push('/dashboard');
       return;
     }
