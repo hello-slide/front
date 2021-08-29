@@ -23,7 +23,7 @@ import {
 import React from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import CreateSlide from '../../utils/api/createSlide';
-import {SlideState, LoadState, UserDataState} from '../../utils/state/atom';
+import {SlideState, LoadState} from '../../utils/state/atom';
 
 const NewSlide: React.FC<{
   isOpen: boolean;
@@ -33,7 +33,6 @@ const NewSlide: React.FC<{
   const [isEmpty, setIsEmpty] = React.useState(false);
   const [slides, setSlides] = useRecoilState(SlideState);
   const setIsLoad = useSetRecoilState(LoadState);
-  const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
 
   // The slide name will be reset once the modal is closed.
@@ -49,25 +48,7 @@ const NewSlide: React.FC<{
     }
 
     setIsLoad(true);
-    const createSlideAPI = new CreateSlide(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
+    const createSlideAPI = new CreateSlide();
 
     createSlideAPI
       .run(title)

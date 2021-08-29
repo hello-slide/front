@@ -24,7 +24,7 @@ import React from 'react';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
 import RenameSlide from '../../utils/api/renameSlide';
-import {SlideState, LoadState, UserDataState} from '../../utils/state/atom';
+import {SlideState, LoadState} from '../../utils/state/atom';
 
 const SlideRename: React.FC<{
   isOpen: boolean;
@@ -35,7 +35,6 @@ const SlideRename: React.FC<{
   const [isEmpty, setIsEmpty] = React.useState(false);
   const [slides, setSlides] = useRecoilState(SlideState);
   const setIsLoad = useSetRecoilState(LoadState);
-  const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
 
   // The slide name will be reset once the modal is closed.
@@ -52,25 +51,7 @@ const SlideRename: React.FC<{
 
     setIsLoad(true);
 
-    const renameAPI = new RenameSlide(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
+    const renameAPI = new RenameSlide();
 
     renameAPI
       .run(slide.id, title)
