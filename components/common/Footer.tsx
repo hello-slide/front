@@ -30,7 +30,9 @@ const Footer = React.memo(() => {
         >
           <Box flex="1">
             <Link href="/" _focus={{boxShadow: 'none'}}>
-              <Logo width="10rem" />
+              <Box width="10rem">
+                <Logo width="100%" />
+              </Box>
             </Link>
           </Box>
           <Stack

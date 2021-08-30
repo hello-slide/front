@@ -65,11 +65,13 @@ const RootPage = () => {
             </Text>
           </Box>
           <Box transition="1.0s" marginTop="5rem">
-            <IoCaretDown
-              size="1.75rem"
-              cursor="pointer"
-              onClick={scrollToSecond}
-            />
+            <Box width="1.75rem">
+              <IoCaretDown
+                size="100%"
+                cursor="pointer"
+                onClick={scrollToSecond}
+              />
+            </Box>
           </Box>
         </SlideContents>
       </Box>
@@ -84,11 +86,13 @@ const RootPage = () => {
             </Text>
           </Box>
           <Box transition="1.0s" marginTop="5rem">
-            <IoCaretDown
-              size="1.75rem"
-              cursor="pointer"
-              onClick={scrollToThird}
-            />
+            <Box width="1.75rem">
+              <IoCaretDown
+                size="100%"
+                cursor="pointer"
+                onClick={scrollToThird}
+              />
+            </Box>
           </Box>
         </SlideContents>
       </Box>
