@@ -44,7 +44,5 @@ export default function cookie(
     }
   }
 
-  console.log(cookies);
-
   return keys.length === keysLength;
 }
