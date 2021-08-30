@@ -86,7 +86,7 @@ const SettingPage = () => {
   return (
     <Box marginY="3rem">
       <Center>
-        <Avatar size="xl" src={userData?.picture} name={userData.name} />
+        <Avatar size="xl" src={userData?.picture} name={userData?.name} />
       </Center>
       <Center>
         <Text fontWeight="bold" fontSize="1.5rem" textAlign="center">
