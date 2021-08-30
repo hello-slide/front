@@ -13,8 +13,10 @@ export default class User extends AbstractApiConnector implements UserAPI {
   async run(): Promise<UserData> {
     const response = await this.connect('', '/account/user');
 
-    if (!(await response.text())) return null;
+    const data = await response.text();
 
-    return await response.json();
+    if (!data) return null;
+
+    return JSON.parse(data) as UserData;
   }
 }
