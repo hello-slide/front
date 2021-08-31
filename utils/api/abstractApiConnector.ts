@@ -24,14 +24,9 @@ export default abstract class AbstractApiConnector {
    *
    * @param {string} data - send data.
    * @param {string} apiPath -api path.
-   * @param {boolean} isUpdate - Whether it is an API for updating tokens. If true, the body will be sent empty.
    * @returns {Promise<Response>} - response data.
    */
-  protected async connect(
-    data: string,
-    apiPath: string,
-    isUpdate?: boolean
-  ): Promise<Response> {
+  protected async connect(data: string, apiPath: string): Promise<Response> {
     const response = await fetch(`${this.apiUrl}${apiPath}`, {
       method: 'POST',
       credentials: 'include',
@@ -39,17 +34,8 @@ export default abstract class AbstractApiConnector {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: isUpdate ? '' : data,
+      body: data,
     });
-
-    if (response.status === 301) {
-      const redirectUrl = response.headers.get('location');
-      let isUpdate = false;
-      if (redirectUrl.split('/').pop() === 'update') {
-        isUpdate = true;
-      }
-      this.connect(data, apiPath, isUpdate);
-    }
 
     if (!response.ok) {
       throw new Error((await response.json())['status']);
