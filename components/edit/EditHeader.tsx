@@ -26,6 +26,7 @@ import {
   IoTvOutline,
 } from 'react-icons/io5';
 import {useRecoilValue} from 'recoil';
+import useSavePage from '../../hooks/useSavePage';
 import useShow from '../../hooks/useShow';
 import {NowPageDataState} from '../../utils/state/atom';
 import Link from '../common/Link';
@@ -36,6 +37,7 @@ const EditHeader: React.FC<{id: string | string[]}> = ({id}) => {
   const nowPageData = useRecoilValue(NowPageDataState);
   const ref = React.useRef();
   const open = useShow(ref);
+  const [isLoad, setPage] = useSavePage();
 
   return (
     <>
@@ -61,9 +63,11 @@ const EditHeader: React.FC<{id: string | string[]}> = ({id}) => {
               <Button
                 onClick={() => {
                   if (typeof id === 'string') {
+                    setPage();
                     open(id);
                   }
                 }}
+                isLoading={isLoad}
               >
                 プレゼンテーションを開始
               </Button>
@@ -78,6 +82,7 @@ const EditHeader: React.FC<{id: string | string[]}> = ({id}) => {
                 icon={<IoPlayCircleOutline size="18px" />}
                 onClick={() => {
                   if (typeof id === 'string') {
+                    setPage();
                     open(id);
                   }
                 }}
@@ -89,6 +94,7 @@ const EditHeader: React.FC<{id: string | string[]}> = ({id}) => {
                 icon={<IoTvOutline size="18px" />}
                 onClick={() => {
                   if (typeof id === 'string') {
+                    setPage();
                     open(id, false);
                   }
                 }}
