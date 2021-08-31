@@ -14,25 +14,42 @@ import {ShowState} from '../utils/state/atom';
 
 const useShow = (
   ref: React.MutableRefObject<undefined>
-): ((id: string) => void) => {
+): ((id: string, isFull?: boolean) => void) => {
   const setShow = useSetRecoilState(ShowState);
   const toast = useToast();
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isFull, setIsFull] = React.useState(true);
+  const isFullRef = React.useRef<boolean>();
 
+  // Set and delete
+  // - full-screen change events,
+  // - full-screen error events,
+  // - and keyboard events.
   React.useEffect(() => {
     if (screenfull.isEnabled) {
       screenfull.on('change', openEvent);
       screenfull.on('error', errorEvent);
     }
 
+    document.addEventListener('keydown', escEvent, false);
+
     return () => {
       if (screenfull.isEnabled) {
         screenfull.off('change', openEvent);
         screenfull.off('error', errorEvent);
       }
+
+      document.removeEventListener('keydown', escEvent, false);
     };
   }, []);
 
+  // Since state cannot be read in the event, it is stored in ref.
+  // See also: https://qiita.com/impl_s/items/0c9f326c90052ebd77da
+  React.useEffect(() => {
+    isFullRef.current = isFull;
+  }, [isFull]);
+
+  // When the full screen is finished, the presentation screen will also be closed.
   React.useEffect(() => {
     if (!isOpen && screenfull.isEnabled) {
       setShow(undefined);
@@ -43,7 +60,6 @@ const useShow = (
     if (screenfull.isEnabled) {
       setIsOpen(screenfull.isFullscreen);
     }
-    console.log('a');
   };
 
   const errorEvent = () => {
@@ -52,10 +68,22 @@ const useShow = (
       status: 'error',
       isClosable: true,
     });
+    setShow(undefined);
   };
 
-  const open = (id: string) => {
+  const escEvent = (event: KeyboardEvent) => {
+    if (event.code === 'Escape' && !isFullRef.current) {
+      setShow(undefined);
+    }
+  };
+
+  const open = (id: string, isFull = true) => {
     setShow(id);
+
+    if (!isFull) {
+      setIsFull(false);
+      return;
+    }
 
     if (screenfull.isEnabled) {
       screenfull.request(ref.current);

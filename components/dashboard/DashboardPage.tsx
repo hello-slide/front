@@ -6,13 +6,14 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {useToast, IconButton, Flex} from '@chakra-ui/react';
+import {useToast, IconButton, Flex, Box} from '@chakra-ui/react';
 import {useRouter} from 'next/router';
 import React from 'react';
 import {IoReload} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
+import useShow from '../../hooks/useShow';
 import ListSlides from '../../utils/api/listSlide';
 import {UserDataState, SlideState} from '../../utils/state/atom';
 import Show from '../show/Show';
@@ -25,6 +26,8 @@ const DashboardPage = () => {
   const setSlides = useSetRecoilState(SlideState);
   const [update, setUpdate] = React.useState(false);
   const [isLoad, setIsLoad] = React.useState(false);
+  const ref = React.useRef();
+  const open = useShow(ref);
 
   React.useEffect(() => {
     if (!userData) {
@@ -94,9 +97,11 @@ const DashboardPage = () => {
             }}
           />
         </Flex>
-        <SlideList />
+        <SlideList openShow={open} />
       </NoSSR>
-      <Show />
+      <Box ref={ref}>
+        <Show />
+      </Box>
     </>
   );
 };
