@@ -32,7 +32,9 @@ import {
   IoTvOutline,
 } from 'react-icons/io5';
 import Slide from '../../@types/slides';
+import useShow from '../../hooks/useShow';
 import updateDate from '../../utils/date/updateDate';
+import Show from '../show/Show';
 import DeleteSlide from './DeleteSlide';
 import SlideInfo from './SlideInfo';
 import SlideRename from './SlideRename';
@@ -40,13 +42,14 @@ import SlideRename from './SlideRename';
 const Slides: React.FC<{
   slides: Slide[];
   onOpen: () => void;
-  openShow: (id: string, isFull?: boolean) => void;
-}> = ({slides, onOpen, openShow}) => {
+}> = ({slides, onOpen}) => {
   const deleteSlideModal = useDisclosure();
   const detailModal = useDisclosure();
   const renameModal = useDisclosure();
   const [operationSlide, setOperationSlide] = React.useState<Slide>();
   const router = useRouter();
+  const ref = React.useRef();
+  const open = useShow(ref);
 
   const ListContents: ChakraComponent<'div', {}> = props => {
     return (
@@ -154,7 +157,7 @@ const Slides: React.FC<{
                       padding=".5rem 0 .5rem 1rem"
                       icon={<IoTvOutline size="18px" />}
                       onClick={() => {
-                        openShow(value.id);
+                        open(value.id);
                       }}
                     >
                       プレゼンテーションを開始
@@ -163,7 +166,7 @@ const Slides: React.FC<{
                       padding=".5rem 0 .5rem 1rem"
                       icon={<IoTvOutline size="18px" />}
                       onClick={() => {
-                        openShow(value.id, false);
+                        open(value.id, false);
                       }}
                     >
                       フルスクリーンにしないでプレゼンテーションを開始
@@ -231,6 +234,9 @@ const Slides: React.FC<{
         isOpen={renameModal.isOpen}
         slide={operationSlide}
       />
+      <Box ref={ref}>
+        <Show />
+      </Box>
     </>
   );
 };

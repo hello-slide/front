@@ -14,34 +14,33 @@ import SlideContents from '../common/SlideContents';
 import NewSlide from './NewSlide';
 import Slides from './Slides';
 
-const SlideList: React.FC<{openShow: (id: string, isFull?: boolean) => void}> =
-  ({openShow}) => {
-    const {isOpen, onOpen, onClose} = useDisclosure();
-    const slides = useRecoilValue(SlideState);
+const SlideList = () => {
+  const {isOpen, onOpen, onClose} = useDisclosure();
+  const slides = useRecoilValue(SlideState);
 
-    const Empty = () => {
-      return (
-        <SlideContents height="60vh">
-          <Box>
-            <Text fontSize="1.5rem">さあ、はじめましょう</Text>
-            <Center marginTop="1rem">
-              <Button onClick={onOpen}>新規作成</Button>
-            </Center>
-          </Box>
-        </SlideContents>
-      );
-    };
-
+  const Empty = () => {
     return (
-      <Box marginY="5%">
-        {slides.length !== 0 ? (
-          <Slides slides={slides} openShow={openShow} onOpen={onOpen} />
-        ) : (
-          <Empty />
-        )}
-        <NewSlide isOpen={isOpen} onClose={onClose} />
-      </Box>
+      <SlideContents height="60vh">
+        <Box>
+          <Text fontSize="1.5rem">さあ、はじめましょう</Text>
+          <Center marginTop="1rem">
+            <Button onClick={onOpen}>新規作成</Button>
+          </Center>
+        </Box>
+      </SlideContents>
     );
   };
+
+  return (
+    <Box marginY="5%">
+      {slides.length !== 0 ? (
+        <Slides slides={slides} onOpen={onOpen} />
+      ) : (
+        <Empty />
+      )}
+      <NewSlide isOpen={isOpen} onClose={onClose} />
+    </Box>
+  );
+};
 
 export default SlideList;
