@@ -7,6 +7,5 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 
-export const apiLink = 'https://api.hello-slide.jp/';
-
-export const sessionApiLink = 'https://hello-slide.jp/';
+export const domain =
+  process.env.NEXT_PUBLIC_API_DOMAIN || 'api.hello-slide.jp';

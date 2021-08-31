@@ -21,7 +21,6 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import _DeletePage from '../../utils/api/deletePage';
 import {
   PagesState,
-  UserDataState,
   NowPageDataState,
   LoadState,
   CurrentPageState,
@@ -33,7 +32,6 @@ const DeletePage: React.FC<{
   onClose: () => void;
 }> = ({pageId, isOpen, onClose}) => {
   const [pages, setPages] = useRecoilState(PagesState);
-  const [userData, setUserData] = useRecoilState(UserDataState);
   const nowPageData = useRecoilValue(NowPageDataState);
   const toast = useToast();
   const setLoad = useSetRecoilState(LoadState);
@@ -43,25 +41,7 @@ const DeletePage: React.FC<{
     setLoad(true);
     onClose();
 
-    const deletePageAPI = new _DeletePage(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
+    const deletePageAPI = new _DeletePage();
     deletePageAPI
       .run(nowPageData?.id, pageId)
       .then(() => {

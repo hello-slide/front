@@ -6,154 +6,42 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import axios, {AxiosRequestConfig, AxiosError, AxiosPromise} from 'axios';
 import {GetAPIPageData} from '../../@types/page';
 import {GetAPIPages} from '../../@types/page';
 import SlidePageData from '../../@types/pageItem';
 import SlideConfig from '../../@types/slideApi';
-import {apiLink} from './links';
-
-type UpgradeTokenFunc = (
-  sessionToken: string,
-  refreshToken: string,
-  isFailed?: boolean
-) => void;
-
-interface SendData {
-  SlideID?: string;
-  PageType?: string;
-  Title?: string;
-  PageID?: string;
-  newName?: string;
-  Data?: string;
-}
-
+import {UserData} from '../../@types/userData';
+import {domain} from './links';
 export default abstract class AbstractApiConnector {
-  protected sessionToken: string;
-  protected url = apiLink;
+  private apiUrl: string;
 
-  private refreshToken: string;
-  private _upgradeToken: UpgradeTokenFunc;
-  private sendData: SendData;
-  private path: string;
-
-  /**
-   * @param {string} sessionToken - Token of session token.
-   * @param {string} refreshToken - Token of refresh token.
-   * @param {UpgradeTokenFunc} upgradeToken - A function that is called when the session token is updated.
-   */
-  constructor(
-    sessionToken: string,
-    refreshToken: string,
-    upgradeToken: UpgradeTokenFunc
-  ) {
-    this.sessionToken = sessionToken;
-    this.refreshToken = refreshToken;
-    this._upgradeToken = upgradeToken;
-  }
-
-  /**
-   * Update to Session token using the Refresh token.
-   */
-  protected async updateToken() {
-    const config: AxiosRequestConfig = {
-      url: '/account/update',
-      method: 'post',
-      baseURL: this.url,
-      headers: {
-        'content-type': 'application/json',
-      },
-      data: JSON.stringify({
-        LoginToken: this.refreshToken,
-      }),
-      responseType: 'json',
-    };
-
-    try {
-      const response = await axios(config);
-
-      this._upgradeToken(
-        response.data['session_token'],
-        response.data['refresh_token']
-      );
-
-      this.sessionToken = response.data['session_token'];
-      this.refreshToken = response.data['refresh_token'];
-    } catch (error) {
-      this._upgradeToken('', '', true);
-      throw new Error((error as AxiosError).response.data || error);
-    }
-  }
-
-  /**
-   * Set config data.
-   *
-   * @param {string} path - API route path.
-   * @param {SendData} data - send data.
-   */
-  protected setConfig(path: string, data: SendData) {
-    this.sendData = data;
-    this.path = path;
-
-    this.setSessionToken();
-  }
-
-  /**
-   * Set session token.
-   */
-  private setSessionToken() {
-    this.sendData['SessionToken'] = this.sessionToken;
-  }
-
-  /**
-   * Create axios config.
-   *
-   * @returns {AxiosRequestConfig} - axios config.
-   */
-  private getConfig(): AxiosRequestConfig {
-    return {
-      url: this.path,
-      method: 'post',
-      baseURL: this.url,
-      headers: {
-        'content-type': 'application/json',
-      },
-      data: JSON.stringify(this.sendData),
-      responseType: 'json',
-    };
+  constructor() {
+    this.apiUrl = `https://${domain}`;
   }
 
   /**
    * Connect to API
    *
-   * @returns {Promise<AxiosPromise>} - response data.
+   * @param {string} data - send data.
+   * @param {string} apiPath -api path.
+   * @returns {Promise<Response>} - response data.
    */
-  protected async connect(): Promise<AxiosPromise> {
-    try {
-      const config = this.getConfig();
-      return await axios(config);
-    } catch (_error) {
-      const error = _error as AxiosError;
+  protected async connect(data: string, apiPath: string): Promise<Response> {
+    const response = await fetch(`${this.apiUrl}${apiPath}`, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: data,
+    });
 
-      // If status_code is 2, the session token has timed out.
-      // Re-acquire the session token using the refresh token.
-      if (error.response.data['status_code'] === 2) {
-        await this.updateToken();
-        this.setSessionToken();
-        return await this.connect();
-      }
-
-      throw new Error(error.response.data['status']);
+    if (!response.ok) {
+      throw new Error((await response.json())['status']);
     }
-  }
 
-  /**
-   * Get refresh token.
-   *
-   * @returns {string} - Refresh Token
-   */
-  getRefreshToken(): string {
-    return this.refreshToken;
+    return response;
   }
 }
 
@@ -255,4 +143,18 @@ export interface GetPageAPI {
     slideId: string,
     pageId: string
   ): Promise<T | undefined>;
+}
+
+export interface LogoutAPI {
+  /**
+   * Logout.
+   */
+  run(): Promise<void>;
+}
+
+export interface UserAPI {
+  /**
+   * Get user data.
+   */
+  run(): Promise<UserData>;
 }

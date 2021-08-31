@@ -21,10 +21,9 @@ import {
   Center,
 } from '@chakra-ui/react';
 import React from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import CreatePage from '../../utils/api/createPage';
 import {
-  UserDataState,
   NowPageDataState,
   LoadState,
   CurrentPageState,
@@ -36,7 +35,6 @@ const NewPage: React.FC<{
   onClose: () => void;
 }> = ({isOpen, onClose}) => {
   const [selectItem, setSelectItem] = React.useState('');
-  const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
   const nowPageData = useRecoilValue(NowPageDataState);
   const setLoad = useSetRecoilState(LoadState);
@@ -49,25 +47,7 @@ const NewPage: React.FC<{
 
   const create = () => {
     setLoad(true);
-    const createPageAPI = new CreatePage(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
+    const createPageAPI = new CreatePage();
 
     createPageAPI
       .run(nowPageData?.id, selectItem)

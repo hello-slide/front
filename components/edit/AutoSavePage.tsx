@@ -12,15 +12,10 @@ import React from 'react';
 import {useRecoilValue, useRecoilState} from 'recoil';
 import SetPage from '../../utils/api/setPage';
 import {removeBeforeUnLoad} from '../../utils/event/beforeUnLoad';
-import {
-  PageDataState,
-  UserDataState,
-  NowPageDataState,
-} from '../../utils/state/atom';
+import {PageDataState, NowPageDataState} from '../../utils/state/atom';
 
 const AutoSave = () => {
   const [pageData, setPageData] = useRecoilState(PageDataState);
-  const [userData, setUserData] = useRecoilState(UserDataState);
   const nowPageData = useRecoilValue(NowPageDataState);
   const toast = useToast();
   const router = useRouter();
@@ -41,25 +36,7 @@ const AutoSave = () => {
   const setPage = () => {
     if (typeof pageData !== 'undefined') {
       const pageId = pageData.id;
-      const setPageAPI = new SetPage(
-        userData.sessionToken,
-        userData.refreshToken,
-        (sessionToken, refreshToken, isFailed) => {
-          if (isFailed) {
-            setUserData({
-              name: '',
-              image: '',
-            });
-          } else {
-            setUserData(value => ({
-              name: value.name,
-              image: value.image,
-              sessionToken: sessionToken,
-              refreshToken: refreshToken,
-            }));
-          }
-        }
-      );
+      const setPageAPI = new SetPage();
 
       setPageAPI.run(nowPageData?.id, pageId, pageData).catch(error => {
         toast({

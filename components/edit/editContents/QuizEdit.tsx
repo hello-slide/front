@@ -26,18 +26,13 @@ import {
   IoRemoveOutline,
   IoCheckmarkCircleSharp,
 } from 'react-icons/io5';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {Quiz, SlideDesign} from '../../../@types/pageItem';
 import GetPage from '../../../utils/api/getPage';
-import {
-  UserDataState,
-  NowPageDataState,
-  PageDataState,
-} from '../../../utils/state/atom';
+import {NowPageDataState, PageDataState} from '../../../utils/state/atom';
 import ColorPalette from './ColorPalette';
 
 const QuizEdit: React.FC<{id: string}> = ({id}) => {
-  const [userData, setUserData] = useRecoilState(UserDataState);
   const nowPageData = useRecoilValue(NowPageDataState);
   const toast = useToast();
   const [load, setLoad] = React.useState(false);
@@ -103,30 +98,12 @@ const QuizEdit: React.FC<{id: string}> = ({id}) => {
     setTextColor('#000000');
 
     setLoad(true);
-    const getPageAPI = new GetPage(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
+    const getPageAPI = new GetPage();
 
     getPageAPI
       .run<Quiz>(nowPageData?.id, id)
       .then(value => {
-        if (typeof value !== 'undefined' && value.type === 'quiz') {
+        if (value && value.type === 'quiz') {
           setTitle(value.title);
           setAnswers(new Array(value.numberOfChoices).fill(''));
 

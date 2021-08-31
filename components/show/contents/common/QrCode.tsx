@@ -10,12 +10,13 @@ import {Flex, Text, Heading} from '@chakra-ui/react';
 import QRCode from 'qrcode.react';
 import React from 'react';
 import {useRecoilValue} from 'recoil';
-import {sessionApiLink} from '../../../../utils/api/links';
 import {SlideshowDataState} from '../../../../utils/state/atom';
+
+const domain = process.env.NEXT_PUBLIC_DOMAIN || 'hello-slide.jp';
 
 const QrCode = () => {
   const slideshowData = useRecoilValue(SlideshowDataState);
-  const link = `${sessionApiLink}${slideshowData?.session}`;
+  const link = `https://${domain}/${slideshowData?.session}`;
   return (
     <Flex
       flexDirection="column"

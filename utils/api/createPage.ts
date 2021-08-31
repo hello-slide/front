@@ -14,9 +14,10 @@ export default class CreatePage
   implements CreatePageAPI
 {
   async run(slideId: string, pageType: string): Promise<GetAPIPageData> {
-    this.setConfig('/slide/createpage', {SlideID: slideId, PageType: pageType});
-
-    const response = await this.connect();
-    return response.data as GetAPIPageData;
+    const response = await this.connect(
+      JSON.stringify({SlideID: slideId, PageType: pageType}),
+      '/slide/createpage'
+    );
+    return (await response.json()) as GetAPIPageData;
   }
 }

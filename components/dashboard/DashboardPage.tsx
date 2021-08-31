@@ -11,7 +11,7 @@ import {useRouter} from 'next/router';
 import React from 'react';
 import {IoReload} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
 import ListSlides from '../../utils/api/listSlide';
 import {UserDataState, SlideState} from '../../utils/state/atom';
@@ -19,7 +19,7 @@ import Show from '../show/Show';
 import SlideList from './SlideList';
 
 const DashboardPage = () => {
-  const [userData, setUserData] = useRecoilState(UserDataState);
+  const userData = useRecoilValue(UserDataState);
   const router = useRouter();
   const toast = useToast();
   const setSlides = useSetRecoilState(SlideState);
@@ -27,35 +27,18 @@ const DashboardPage = () => {
   const [isLoad, setIsLoad] = React.useState(false);
 
   React.useEffect(() => {
-    if (typeof userData.refreshToken === 'undefined') {
-      router.push('/');
+    if (!userData) {
+      router.replace('/');
     }
   }, [userData]);
 
   React.useEffect(() => {
     let isMounted = true;
 
-    if (isMounted && typeof userData.refreshToken !== 'undefined') {
+    if (isMounted && userData) {
       setIsLoad(true);
-      const listSlidesAPI = new ListSlides(
-        userData.sessionToken,
-        userData.refreshToken,
-        (sessionToken, refreshToken, isFailed) => {
-          if (isFailed) {
-            setUserData({
-              name: '',
-              image: '',
-            });
-          } else {
-            setUserData(value => ({
-              name: value.name,
-              image: value.image,
-              sessionToken: sessionToken,
-              refreshToken: refreshToken,
-            }));
-          }
-        }
-      );
+      const listSlidesAPI = new ListSlides();
+
       listSlidesAPI
         .run()
         .then(response => {
@@ -94,7 +77,7 @@ const DashboardPage = () => {
     return () => {
       isMounted = false;
     };
-  }, [update]);
+  }, [update, userData]);
 
   return (
     <>

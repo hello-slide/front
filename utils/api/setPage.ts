@@ -18,12 +18,13 @@ export default class SetPage
     pageId: string,
     slideData: SlidePageData
   ): Promise<void> {
-    this.setConfig('/slide/setpage', {
-      SlideID: slideId,
-      PageID: pageId,
-      Data: JSON.stringify(slideData),
-    });
-
-    await this.connect();
+    await this.connect(
+      JSON.stringify({
+        SlideID: slideId,
+        PageID: pageId,
+        Data: JSON.stringify(slideData),
+      }),
+      '/slide/setpage'
+    );
   }
 }

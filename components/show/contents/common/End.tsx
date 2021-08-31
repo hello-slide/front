@@ -33,7 +33,7 @@ const End = () => {
           制作・著作
         </Text>
         <Divider borderWidth="1px" borderColor="white" marginY=".5rem" />
-        <Text fontSize="2rem">{userData.name}</Text>
+        <Text fontSize="2rem">{userData?.name}</Text>
       </Box>
       <Flex
         position="absolute"

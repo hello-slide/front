@@ -13,20 +13,19 @@ export default class GetPage
   extends AbstractApiConnector
   implements GetPageAPI
 {
-  async run<T = SlidePageData>(
-    slideId: string,
-    pageId: string
-  ): Promise<T | undefined> {
-    this.setConfig('/slide/getpage', {
-      SlideID: slideId,
-      PageID: pageId,
-    });
-
-    const response = await this.connect();
-    const data = response.data;
+  async run<T = SlidePageData>(slideId: string, pageId: string): Promise<T> {
+    const response = await this.connect(
+      JSON.stringify({
+        SlideID: slideId,
+        PageID: pageId,
+      }),
+      '/slide/getpage'
+    );
+    const data = await response.text();
 
     if (data) {
-      return data as T;
+      return JSON.parse(data) as T;
     }
+    return null;
   }
 }

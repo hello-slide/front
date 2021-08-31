@@ -9,7 +9,7 @@
 
 import {Flex, useToast} from '@chakra-ui/react';
 import React from 'react';
-import {useSetRecoilState, useRecoilState} from 'recoil';
+import {useSetRecoilState, useRecoilValue} from 'recoil';
 import ListPages from '../../utils/api/listPage';
 import {
   PagesState,
@@ -22,38 +22,17 @@ import PageList from './PageList';
 
 const Edit: React.FC<{id: string | string[]}> = ({id}) => {
   const setPages = useSetRecoilState(PagesState);
-  const [userData, setUserData] = useRecoilState(UserDataState);
+  const userData = useRecoilValue(UserDataState);
   const setNowPageData = useSetRecoilState(NowPageDataState);
   const setCurrentPage = useSetRecoilState(CurrentPageState);
   const toast = useToast();
 
   React.useEffect(() => {
-    if (
-      typeof userData.refreshToken !== 'undefined' &&
-      typeof id === 'string'
-    ) {
+    if (userData && typeof id === 'string') {
       setPages([]);
       setCurrentPage(undefined);
 
-      const listPagesAPI = new ListPages(
-        userData.sessionToken,
-        userData.refreshToken,
-        (sessionToken, refreshToken, isFailed) => {
-          if (isFailed) {
-            setUserData({
-              name: '',
-              image: '',
-            });
-          } else {
-            setUserData(value => ({
-              name: value.name,
-              image: value.image,
-              sessionToken: sessionToken,
-              refreshToken: refreshToken,
-            }));
-          }
-        }
-      );
+      const listPagesAPI = new ListPages();
       listPagesAPI
         .run(id)
         .then(value => {
@@ -75,7 +54,7 @@ const Edit: React.FC<{id: string | string[]}> = ({id}) => {
           });
         });
     }
-  }, []);
+  }, [userData]);
 
   return (
     <Flex>

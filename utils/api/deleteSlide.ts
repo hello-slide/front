@@ -13,8 +13,6 @@ export default class DeleteSlide
   implements DeletePageAPI
 {
   async run(slideId: string): Promise<void> {
-    this.setConfig('/slide/delete', {SlideID: slideId});
-
-    await this.connect();
+    await this.connect(JSON.stringify({SlideID: slideId}), '/slide/delete');
   }
 }
