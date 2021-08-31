@@ -30,6 +30,7 @@ import {
   IoOpenOutline,
   IoTextOutline,
   IoTvOutline,
+  IoPlayCircleOutline,
 } from 'react-icons/io5';
 import Slide from '../../@types/slides';
 import useShow from '../../hooks/useShow';
@@ -135,7 +136,7 @@ const Slides: React.FC<{
               </ContextMenuTrigger>
               <ContextMenu id={value.id}>
                 <Menu isOpen={true}>
-                  <MenuList padding={0} minWidth="255px">
+                  <MenuList padding={0} width="270px">
                     <Text
                       fontSize="1rem"
                       fontWeight="bold"
@@ -155,7 +156,7 @@ const Slides: React.FC<{
                     </MenuItem>
                     <MenuItem
                       padding=".5rem 0 .5rem 1rem"
-                      icon={<IoTvOutline size="18px" />}
+                      icon={<IoPlayCircleOutline size="18px" />}
                       onClick={() => {
                         open(value.id);
                       }}
@@ -169,7 +170,9 @@ const Slides: React.FC<{
                         open(value.id, false);
                       }}
                     >
-                      フルスクリーンにしないでプレゼンテーションを開始
+                      全画面にしないで
+                      <br />
+                      プレゼンテーションを開始
                     </MenuItem>
                     <MenuItem
                       padding=".5rem 0 .5rem 1rem"
