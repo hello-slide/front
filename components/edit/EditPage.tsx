@@ -9,7 +9,6 @@
 import {Box} from '@chakra-ui/react';
 import React from 'react';
 import NoSSR from 'react-no-ssr';
-import Show from '../show/Show';
 import Edit from './Edit';
 import EditHeader from './EditHeader';
 
@@ -22,7 +21,6 @@ const EditPage: React.FC<{id: string | string[]}> = ({id}) => {
           <Edit id={id} />
         </Box>
       </NoSSR>
-      <Show />
     </>
   );
 };
