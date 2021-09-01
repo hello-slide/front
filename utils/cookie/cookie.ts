@@ -36,17 +36,14 @@ export default function cookie(
     }
 
     if (keys.includes(key)) {
-      if (!isExist && !value) {
-        return true;
+      if (!isExist && value) {
+        // exist
+        return false;
       } else if (isExist && value) {
         keysLength++;
       }
     }
   }
 
-  if (isExist) {
-    return keys.length === keysLength;
-  }
-
-  return true;
+  return (keys.length === keysLength) === isExist;
 }
