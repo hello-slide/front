@@ -24,7 +24,13 @@ const Edit = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  if (cookie(context.req.headers.cookie, ['session_token'], false)) {
+  if (
+    cookie(
+      context.req.headers.cookie,
+      ['session_token', 'refresh_token'],
+      false
+    )
+  ) {
     return {
       redirect: {
         statusCode: 301,
