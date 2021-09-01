@@ -14,7 +14,7 @@ import Design from '../common/Design';
 
 const Question: React.FC<{id: string}> = ({id}) => {
   const slideshowData = useRecoilValue(SlideshowDataState);
-  const questionData = slideshowData.data.find(value => value.key === id)
+  const questionData = slideshowData.data?.find(value => value.key === id)
     .value as QuestionType;
 
   return (

@@ -14,7 +14,7 @@ import Design from '../common/Design';
 
 const QuizSecond: React.FC<{id: string}> = ({id}) => {
   const slideshowData = useRecoilValue(SlideshowDataState);
-  const questionData = slideshowData.data.find(value => value.key === id)
+  const questionData = slideshowData.data?.find(value => value.key === id)
     .value as Quiz;
 
   return (
@@ -29,7 +29,7 @@ const QuizSecond: React.FC<{id: string}> = ({id}) => {
           正解は
         </Heading>
         <Heading fontSize="6rem">
-          {questionData.choices[questionData.answerIndex].text || '？'}
+          {questionData?.choices[questionData?.answerIndex].text || '？'}
         </Heading>
       </Flex>
     </Design>
