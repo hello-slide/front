@@ -21,7 +21,6 @@
         "@types/qrcode.react": "^1.0.2",
         "@types/react-color": "^3.0.5",
         "@types/react-no-ssr": "^1.1.2",
-        "axios": "^0.21.1",
         "express": "^4.17.1",
         "framer-motion": "^4",
         "next": "11.1.2",
