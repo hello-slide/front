@@ -1,18 +1,23 @@
 # デバッグ方法
 
-- デバッグ用ドメイン: `hello-slide.net`
+- ~~デバッグ用ドメイン: `hello-slide.net`~~
+- デバッグ用ドメイン: `hello-slide.jp`
 
 ## 1. 環境変数設定
 
 ```env
-NEXT_PUBLIC_API_DOMAIN=api.hello-slide.net
-NEXT_PUBLIC_DOMAIN=hello-slide.net
+NEXT_PUBLIC_API_DOMAIN=api.hello-slide.jp
+NEXT_PUBLIC_DOMAIN=hello-slide.jp
 ```
 
 ## 2. hostsファイル変更
 
 ```bash
+# debian linux
 sudo vi /etc/hosts
+
+# mac
+sudo vi /private/etc/hosts
 ```
 
 ```text

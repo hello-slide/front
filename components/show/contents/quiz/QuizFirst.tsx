@@ -14,13 +14,13 @@ import Design from '../common/Design';
 
 const QuizFirst: React.FC<{id: string}> = ({id}) => {
   const slideshowData = useRecoilValue(SlideshowDataState);
-  const questionData = slideshowData.data.find(value => value.key === id)
+  const questionData = slideshowData.data?.find(value => value.key === id)
     .value as Quiz;
 
   return (
     <Design data={questionData?.slideDesign}>
       <Center paddingY="2rem">
-        <Heading fontSize="4rem">{questionData.title || '？'}</Heading>
+        <Heading fontSize="4rem">{questionData?.title || '？'}</Heading>
       </Center>
     </Design>
   );

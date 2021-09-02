@@ -36,7 +36,8 @@ export default function cookie(
     }
 
     if (keys.includes(key)) {
-      if (!isExist && !value) {
+      if (!isExist && value) {
+        // exist
         return false;
       } else if (isExist && value) {
         keysLength++;
@@ -44,5 +45,5 @@ export default function cookie(
     }
   }
 
-  return keys.length === keysLength;
+  return (keys.length === keysLength) === isExist;
 }
