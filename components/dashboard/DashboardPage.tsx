@@ -15,7 +15,6 @@ import {useRecoilValue, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
 import ListSlides from '../../utils/api/listSlide';
 import {UserDataState, SlideState} from '../../utils/state/atom';
-import Show from '../show/Show';
 import SlideList from './SlideList';
 
 const DashboardPage = () => {
@@ -96,7 +95,6 @@ const DashboardPage = () => {
         </Flex>
         <SlideList />
       </NoSSR>
-      <Show />
     </>
   );
 };
