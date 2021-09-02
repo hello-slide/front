@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Components} from 'react-markdown/src/ast-to-react';
+import type {Components} from 'react-markdown';
 import * as headers from './MdComponents/Headers';
 import * as lists from './MdComponents/Lists';
 import * as other from './MdComponents/Other';

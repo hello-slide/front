@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Box, Text, LinkProps} from '@chakra-ui/react';
+import {Box, Text} from '@chakra-ui/react';
 import Link_ from '../../common/Link';
 
 export const P: React.FC = ({children}) => {
@@ -55,13 +55,13 @@ export const Pre: React.FC = ({children}) => {
   );
 };
 
-export const Link: React.FC<LinkProps> = props => {
+export const Link: React.FC<{href?: string}> = props => {
   return (
     <Link_
-      {...props}
       color="#1f84d1"
       _hover={{color: 'black'}}
       textDecoration="underline"
+      href={props.href}
     >
       {props.children}
     </Link_>
