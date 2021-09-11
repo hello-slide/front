@@ -45,3 +45,20 @@ export interface Answer {
   name: string;
   answer: string;
 }
+
+export interface Topic {
+  type: string;
+  topic: string;
+  numberOfChoices?: number;
+  choices?: {
+    text: string;
+    id: string;
+  }[];
+  answerIndex?: number;
+}
+
+export interface Answers {
+  type: string;
+  questionAnswer?: string;
+  quizAnswerId?: string;
+}
