@@ -21,11 +21,14 @@ const useHostSocket = (): [
   const setAnswers = useSetRecoilState(AnswersState);
   const isHostSocket = useRecoilValue(IsHostSocketState);
   const [topic, setTopic] = React.useState('');
+  const [init, setInit] = React.useState(false);
 
   const ref = React.useRef<HostSocket>();
 
   React.useEffect(() => {
     if (isHostSocket) {
+      setTopic('');
+
       const socket = new HostSocket();
 
       socket.get(data => {
@@ -48,6 +51,7 @@ const useHostSocket = (): [
         type: '0',
       });
 
+      setInit(true);
       ref.current = socket;
     } else {
       if (ref.current) {
@@ -63,7 +67,7 @@ const useHostSocket = (): [
   }, [isHostSocket]);
 
   React.useEffect(() => {
-    if (isHostSocket && ref.current && topic.length !== 0) {
+    if (isHostSocket && ref.current && topic.length !== 0 && init) {
       ref.current.sendNewTopic(topic);
     }
   }, [isHostSocket, topic]);

@@ -87,7 +87,6 @@ const useShow = (
 
   const open = (id: string, isFull = true) => {
     setShow(id);
-    setIsHostSocket(true);
     setAnswers([]);
 
     if (!isFull) {
