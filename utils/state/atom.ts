@@ -13,6 +13,7 @@ import {GetAPIPages} from '../../@types/page';
 import SlidePageData from '../../@types/pageItem';
 import Slide from '../../@types/slides';
 import {Slideshow} from '../../@types/slideshow';
+import {Answer} from '../../@types/socket';
 import {UserData} from '../../@types/userData';
 
 /**
@@ -128,4 +129,12 @@ export const SlideshowDataState = atom<Slideshow>({
 export const IsHostSocketState = atom<boolean>({
   key: 'isHostSocket',
   default: false,
+});
+
+/**
+ * Answers
+ */
+export const AnswersState = atom<Answer[]>({
+  key: 'answers',
+  default: [],
 });
