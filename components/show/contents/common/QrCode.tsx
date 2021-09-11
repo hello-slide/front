@@ -6,17 +6,11 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Flex, Text, Heading} from '@chakra-ui/react';
+import {Flex, Text, Heading, Center} from '@chakra-ui/react';
 import QRCode from 'qrcode.react';
 import React from 'react';
-import {useRecoilValue} from 'recoil';
-import {SlideshowDataState} from '../../../../utils/state/atom';
 
-const domain = process.env.NEXT_PUBLIC_DOMAIN || 'hello-slide.jp';
-
-const QrCode = () => {
-  const slideshowData = useRecoilValue(SlideshowDataState);
-  const link = `https://${domain}/${slideshowData?.session}`;
+const QrCode: React.FC<{link: string; visitor: number}> = ({link, visitor}) => {
   return (
     <Flex
       flexDirection="column"
@@ -31,6 +25,11 @@ const QrCode = () => {
           {link}
         </Text>
       </Flex>
+      <Center>
+        <Text fontSize="1.5rem" fontWeight="bold">
+          参加者数: {visitor}
+        </Text>
+      </Center>
     </Flex>
   );
 };
