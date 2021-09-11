@@ -121,3 +121,11 @@ export const SlideshowDataState = atom<Slideshow>({
   key: 'slideshowData',
   default: undefined,
 });
+
+/**
+ * host socket start
+ */
+export const IsHostSocketState = atom<boolean>({
+  key: 'isHostSocket',
+  default: false,
+});
