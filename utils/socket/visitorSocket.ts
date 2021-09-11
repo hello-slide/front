@@ -7,6 +7,7 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 
+import {ReqSocket} from '../../@types/socket';
 import AbstractSocketClient from './abstractSocket';
 
 export default class VisitorSocket extends AbstractSocketClient {
@@ -14,5 +15,15 @@ export default class VisitorSocket extends AbstractSocketClient {
     const path = '/sync/visitor';
 
     super(path);
+  }
+
+  public sendAnswer(answer: string, name: string) {
+    const data: ReqSocket = {
+      type: '6',
+      answer: answer,
+      name: name,
+    };
+
+    this.send(data);
   }
 }

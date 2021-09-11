@@ -6,6 +6,7 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import {ReqSocket} from '../../@types/socket';
 import AbstractSocketClient from './abstractSocket';
 
 export default class HostSocket extends AbstractSocketClient {
@@ -13,5 +14,14 @@ export default class HostSocket extends AbstractSocketClient {
     const path = '/sync/host';
 
     super(path);
+  }
+
+  public sendNewTopic(topic: string) {
+    const data: ReqSocket = {
+      type: '4',
+      topic: topic,
+    };
+
+    this.send(data);
   }
 }
