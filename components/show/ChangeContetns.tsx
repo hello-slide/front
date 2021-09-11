@@ -8,6 +8,7 @@
  **********************************************************/
 import React from 'react';
 import Page from '../../@types/page';
+import useHostSocket from '../../hooks/useHostSocket';
 
 import End from './contents/common/End';
 import OpExplanation from './contents/common/OpExplanation';
@@ -16,15 +17,41 @@ import Question from './contents/question/Qustion';
 import QuizFirst from './contents/quiz/QuizFirst';
 import QuizSecond from './contents/quiz/QuizSecond';
 
+const domain = process.env.NEXT_PUBLIC_DOMAIN || 'hello-slide.jp';
+
 const ChangeContents: React.FC<{index: number; pageList: Page[]}> = props => {
+  const [id, visitor, setTopic] = useHostSocket();
+  const link = (id && `https://${domain}/${id}`) || 'null';
+
   const Pages = (index: number) => {
     switch (props.pageList[index]?.type) {
       case 'quiz1':
-        return <QuizFirst id={props.pageList[index].id} />;
+        return (
+          <QuizFirst
+            id={props.pageList[index].id}
+            setTopic={setTopic}
+            visitor={visitor}
+            link={link}
+          />
+        );
       case 'quiz2':
-        return <QuizSecond id={props.pageList[index].id} />;
+        return (
+          <QuizSecond
+            id={props.pageList[index].id}
+            setTopic={setTopic}
+            visitor={visitor}
+            link={link}
+          />
+        );
       case 'question':
-        return <Question id={props.pageList[index].id} />;
+        return (
+          <Question
+            id={props.pageList[index].id}
+            setTopic={setTopic}
+            visitor={visitor}
+            link={link}
+          />
+        );
       default:
         return <End />;
     }
@@ -34,7 +61,7 @@ const ChangeContents: React.FC<{index: number; pageList: Page[]}> = props => {
     case 0:
       return <OpExplanation />;
     case 1:
-      return <QrCode />;
+      return <QrCode link={link} visitor={visitor} />;
     default:
       return Pages(props.index - 2);
   }

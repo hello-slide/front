@@ -6,11 +6,18 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Flex, Text, Heading, Center} from '@chakra-ui/react';
+import {Flex, Text, Heading, Center, Button, Box} from '@chakra-ui/react';
 import QRCode from 'qrcode.react';
 import React from 'react';
+import {useRecoilState} from 'recoil';
+import {IsHostSocketState} from '../../../../utils/state/atom';
 
-const QrCode: React.FC<{link: string; visitor: number}> = ({link, visitor}) => {
+const QrCode: React.FC<{
+  link: string;
+  visitor: number;
+}> = ({link, visitor}) => {
+  const [isHostSocket, setIsHostSocket] = useRecoilState(IsHostSocketState);
+
   return (
     <Flex
       flexDirection="column"
@@ -20,7 +27,26 @@ const QrCode: React.FC<{link: string; visitor: number}> = ({link, visitor}) => {
     >
       <Heading fontSize="3rem">一緒に参加しよう！</Heading>
       <Flex justifyContent="center" alignItems="center" marginTop="7rem">
-        <QRCode value={link} size={300} />
+        <Flex
+          position="relative"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {isHostSocket || (
+            <Button
+              onClick={() => setIsHostSocket(true)}
+              colorScheme="blue"
+              zIndex="1001"
+              position="absolute"
+            >
+              コネクション開始
+            </Button>
+          )}
+          <Box filter={isHostSocket ? '' : 'blur(4px)'}>
+            <QRCode value={link} size={300} />
+          </Box>
+        </Flex>
         <Text fontSize="2.5rem" fontWeight="bold" marginLeft="4rem">
           {link}
         </Text>

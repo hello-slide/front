@@ -103,8 +103,6 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
           createDate: value.createDate,
           lastChange: value.lastChange,
           data: data,
-          // TODO: session id create logic
-          session: Math.floor(Math.random() * 100000).toString(),
         });
 
         maxPage += pageLists.length;

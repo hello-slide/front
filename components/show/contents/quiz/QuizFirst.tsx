@@ -26,8 +26,10 @@ const QuizFirst: React.FC<{
   React.useEffect(() => {
     if (questionData) {
       const sendData = {
-        type: 'quiz',
+        type: 'quiz1',
         topic: questionData.title,
+        numberOfChoices: questionData.numberOfChoices,
+        choices: questionData.choices,
       };
       setTopic(JSON.stringify(sendData));
     }
