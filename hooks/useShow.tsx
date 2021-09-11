@@ -10,12 +10,13 @@ import {useToast} from '@chakra-ui/react';
 import React from 'react';
 import {useSetRecoilState} from 'recoil';
 import screenfull from 'screenfull';
-import {ShowState} from '../utils/state/atom';
+import {ShowState, IsHostSocketState} from '../utils/state/atom';
 
 const useShow = (
   ref: React.MutableRefObject<undefined>
 ): ((id: string, isFull?: boolean) => void) => {
   const setShow = useSetRecoilState(ShowState);
+  const setIsHostSocket = useSetRecoilState(IsHostSocketState);
   const toast = useToast();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isFull, setIsFull] = React.useState(true);
@@ -53,6 +54,7 @@ const useShow = (
   React.useEffect(() => {
     if (!isOpen && screenfull.isEnabled) {
       setShow(undefined);
+      setIsHostSocket(false);
     }
   }, [isOpen]);
 
@@ -69,16 +71,19 @@ const useShow = (
       isClosable: true,
     });
     setShow(undefined);
+    setIsHostSocket(false);
   };
 
   const escEvent = (event: KeyboardEvent) => {
     if (event.code === 'Escape' && !isFullRef.current) {
       setShow(undefined);
+      setIsHostSocket(false);
     }
   };
 
   const open = (id: string, isFull = true) => {
     setShow(id);
+    setIsHostSocket(true);
 
     if (!isFull) {
       setIsFull(false);
