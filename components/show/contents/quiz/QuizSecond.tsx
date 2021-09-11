@@ -12,13 +12,17 @@ import {Quiz} from '../../../../@types/pageItem';
 import {SlideshowDataState} from '../../../../utils/state/atom';
 import Design from '../common/Design';
 
-const QuizSecond: React.FC<{id: string}> = ({id}) => {
+const QuizSecond: React.FC<{id: string; link: string; visitor: number}> = ({
+  id,
+  link,
+  visitor,
+}) => {
   const slideshowData = useRecoilValue(SlideshowDataState);
   const questionData = slideshowData.data?.find(value => value.key === id)
     .value as Quiz;
 
   return (
-    <Design data={questionData?.slideDesign}>
+    <Design data={questionData?.slideDesign} link={link} visitor={visitor}>
       <Flex
         flexDirection="column"
         justifyContent="center"
