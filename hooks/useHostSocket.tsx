@@ -7,20 +7,18 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 import React from 'react';
-import {useRecoilValue} from 'recoil';
-import {Answer} from '../@types/socket';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import HostSocket from '../utils/socket/hostSocket';
-import {IsHostSocketState} from '../utils/state/atom';
+import {IsHostSocketState, AnswersState} from '../utils/state/atom';
 
 const useHostSocket = (): [
   string,
   number,
-  Answer[],
   React.Dispatch<React.SetStateAction<string>>
 ] => {
   const [id, setId] = React.useState('');
   const [visitor, setVisitor] = React.useState(0);
-  const [answers, setAnswers] = React.useState<Answer[]>();
+  const setAnswers = useSetRecoilState(AnswersState);
   const isHostSocket = useRecoilValue(IsHostSocketState);
   const [topic, setTopic] = React.useState('');
 
@@ -39,7 +37,9 @@ const useHostSocket = (): [
             setVisitor(parseInt(data.visitors));
             break;
           case '3':
-            setAnswers(data.answers);
+            setAnswers(value => {
+              return value.concat(data.answers);
+            });
             break;
         }
       });
@@ -68,7 +68,7 @@ const useHostSocket = (): [
     }
   }, [isHostSocket, topic]);
 
-  return [id, visitor, answers, setTopic];
+  return [id, visitor, setTopic];
 };
 
 export default useHostSocket;
