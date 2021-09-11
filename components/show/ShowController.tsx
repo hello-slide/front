@@ -11,6 +11,7 @@ import React from 'react';
 import {useSetRecoilState} from 'recoil';
 import Page from '../../@types/page';
 import SlidePageData from '../../@types/pageItem';
+import useShowClose from '../../hooks/useShowClose';
 import GetPage from '../../utils/api/getPage';
 import ListPages from '../../utils/api/listPage';
 import {SlideshowDataState, LoadState} from '../../utils/state/atom';
@@ -22,6 +23,7 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
   const [index, setIndex] = React.useState(0);
   const [pageList, setPageList] = React.useState<Page[]>([]);
   const setIsLoad = useSetRecoilState(LoadState);
+  const closeShow = useShowClose();
   let maxPage = 3; // header page * 2 and end page.
 
   const keyboardEvent = React.useCallback((event: KeyboardEvent) => {
@@ -34,9 +36,9 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
 
   const nextPage = (useJsx: boolean) => {
     setIndex(value => {
-      if (!useJsx && value >= maxPage - 1) {
+      if (!useJsx && value >= maxPage) {
         return value;
-      } else if (useJsx && value >= pageList.length + 2) {
+      } else if (useJsx && value >= pageList.length + 3) {
         return value;
       }
       return (value += 1);
@@ -58,6 +60,12 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
   ): Promise<SlidePageData> => {
     return await getPage.run(id, pageId);
   };
+
+  React.useEffect(() => {
+    if (index >= pageList.length + 3) {
+      closeShow();
+    }
+  }, [index]);
 
   React.useEffect(() => {
     // reset state
