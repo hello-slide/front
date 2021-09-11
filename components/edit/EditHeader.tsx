@@ -76,7 +76,7 @@ const EditHeader: React.FC<{id: string | string[]}> = ({id}) => {
                 icon={<IoChevronDownOutline size="18px" />}
               />
             </ButtonGroup>
-            <MenuList width="380px" colorS>
+            <MenuList width="380px">
               <MenuItem
                 padding=".5rem 0 .5rem 1rem"
                 icon={<IoPlayCircleOutline size="18px" />}
