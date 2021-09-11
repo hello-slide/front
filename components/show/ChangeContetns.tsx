@@ -20,8 +20,12 @@ import QuizSecond from './contents/quiz/QuizSecond';
 const domain = process.env.NEXT_PUBLIC_DOMAIN || 'hello-slide.jp';
 
 const ChangeContents: React.FC<{index: number; pageList: Page[]}> = props => {
-  const [id, visitor, setTopic] = useHostSocket();
+  const [id, visitor, setTopic, resetAnswers] = useHostSocket();
   const link = (id && `https://${domain}/v?id=${id}`) || '(  ´∀｀)＜ぬるぽ';
+
+  React.useEffect(() => {
+    resetAnswers();
+  }, [props.index]);
 
   const Pages = (index: number) => {
     switch (props.pageList[index]?.type) {

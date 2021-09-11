@@ -14,7 +14,8 @@ import {IsHostSocketState, AnswersState} from '../utils/state/atom';
 const useHostSocket = (): [
   string,
   number,
-  React.Dispatch<React.SetStateAction<string>>
+  React.Dispatch<React.SetStateAction<string>>,
+  () => void
 ] => {
   const [id, setId] = React.useState('');
   const [visitor, setVisitor] = React.useState(0);
@@ -72,7 +73,11 @@ const useHostSocket = (): [
     }
   }, [isHostSocket, topic]);
 
-  return [id, visitor, setTopic];
+  const resetAnswers = () => {
+    setAnswers([]);
+  };
+
+  return [id, visitor, setTopic, resetAnswers];
 };
 
 export default useHostSocket;
