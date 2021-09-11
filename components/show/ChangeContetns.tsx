@@ -21,7 +21,7 @@ const domain = process.env.NEXT_PUBLIC_DOMAIN || 'hello-slide.jp';
 
 const ChangeContents: React.FC<{index: number; pageList: Page[]}> = props => {
   const [id, visitor, setTopic] = useHostSocket();
-  const link = (id && `https://${domain}/${id}`) || '(  ´∀｀)＜ぬるぽ';
+  const link = (id && `https://${domain}/v?id=${id}`) || '(  ´∀｀)＜ぬるぽ';
 
   const Pages = (index: number) => {
     switch (props.pageList[index]?.type) {
