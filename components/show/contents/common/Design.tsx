@@ -29,7 +29,7 @@ const Design: React.FC<{data: SlideDesign; link: string; visitor: number}> =
               <Box marginX="1rem">
                 <QRCode
                   value={props.link}
-                  size={50}
+                  size={70}
                   bgColor={props.data?.backgroundColor || '#F2F2F2'}
                   fgColor={props.data?.textColor || '#000000'}
                 />
@@ -56,7 +56,7 @@ const Design: React.FC<{data: SlideDesign; link: string; visitor: number}> =
               <Box marginX="1rem">
                 <QRCode
                   value={props.link}
-                  size={50}
+                  size={70}
                   bgColor={props.data.backgroundColorEnd}
                   fgColor={props.data.textColor}
                 />

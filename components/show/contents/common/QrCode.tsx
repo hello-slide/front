@@ -47,7 +47,14 @@ const QrCode: React.FC<{
             <QRCode value={link} size={300} />
           </Box>
         </Flex>
-        <Text fontSize="2.5rem" fontWeight="bold" marginLeft="4rem">
+        <Text
+          fontSize="2.5rem"
+          fontWeight="bold"
+          marginLeft="4rem"
+          width="40rem"
+          textAlign="center"
+          zIndex="1001"
+        >
           {link}
         </Text>
       </Flex>
