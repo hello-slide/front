@@ -17,6 +17,6 @@ export default class CreateSlide
       JSON.stringify({Title: title}),
       '/slide/create'
     );
-    return await response.json()['slide_id'];
+    return (await response.json())['slide_id'];
   }
 }

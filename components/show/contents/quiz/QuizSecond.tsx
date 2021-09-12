@@ -7,18 +7,45 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 import {Flex, Heading} from '@chakra-ui/react';
+import React from 'react';
 import {useRecoilValue} from 'recoil';
 import {Quiz} from '../../../../@types/pageItem';
+import {Topic} from '../../../../@types/socket';
 import {SlideshowDataState} from '../../../../utils/state/atom';
 import Design from '../common/Design';
 
-const QuizSecond: React.FC<{id: string}> = ({id}) => {
+const QuizSecond: React.FC<{
+  id: string;
+  link: string;
+  visitor: number;
+  setTopic: React.Dispatch<React.SetStateAction<string>>;
+}> = ({id, link, visitor, setTopic}) => {
   const slideshowData = useRecoilValue(SlideshowDataState);
   const questionData = slideshowData.data?.find(value => value.key === id)
     .value as Quiz;
+  //   const setPageData = useSetRecoilState(PageDataState);
+  //   const answers = useRecoilValue(AnswersState);
+
+  React.useEffect(() => {
+    if (questionData) {
+      const sendData: Topic = {
+        t: 'q2',
+        tp: questionData.title,
+        n: questionData.numberOfChoices,
+        c: questionData.choices,
+        a: questionData.answerIndex,
+      };
+      setTopic(JSON.stringify(sendData));
+
+      //   setPageData({
+      //     ...questionData,
+      //     result: [...answers].map(value => ({})),
+      //   });
+    }
+  }, [questionData]);
 
   return (
-    <Design data={questionData?.slideDesign}>
+    <Design data={questionData?.slideDesign} link={link} visitor={visitor}>
       <Flex
         flexDirection="column"
         justifyContent="center"
