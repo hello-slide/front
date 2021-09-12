@@ -12,7 +12,7 @@ import VisitorPage from '../components/visitor/VisitorPage';
 
 const Visitor = () => {
   const router = useRouter();
-  const {id} = router.query;
+  const id = router.query['id'];
 
   return (
     <>
