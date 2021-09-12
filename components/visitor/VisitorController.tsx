@@ -9,9 +9,10 @@
 import React from 'react';
 import useVisitorSocket from '../../hooks/useVisitorSocket';
 import Home from './contents/Home';
+import Question from './contents/Question';
 
 const VisitorController: React.FC<{id: string | string[]}> = ({id}) => {
-  const [topic, setId, setAnswer] = useVisitorSocket();
+  const [topic, isEnd, setId, setAnswer] = useVisitorSocket();
 
   React.useEffect(() => {
     if (id && typeof id === 'string') {
@@ -19,15 +20,18 @@ const VisitorController: React.FC<{id: string | string[]}> = ({id}) => {
     }
   }, [id]);
 
-  switch (topic?.t) {
-    case 'q1':
-      return <></>;
-    case 'q2':
-      return <></>;
-    case 'qe':
-      return <></>;
-    default:
-      return <Home />;
+  if (isEnd || topic) {
+    return <Home />;
+  } else {
+    switch (topic?.t) {
+      case 'q1':
+      case 'q2':
+        return <Question topic={topic} setAns={setAnswer} />;
+      case 'qe':
+        return <></>;
+      default:
+        return <Home />;
+    }
   }
 };
 

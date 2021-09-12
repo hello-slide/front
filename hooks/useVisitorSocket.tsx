@@ -13,6 +13,7 @@ import VisitorSocket from '../utils/socket/visitorSocket';
 
 const useVisitorSocket = (): [
   Topic,
+  boolean,
   React.Dispatch<React.SetStateAction<string>>,
   React.Dispatch<React.SetStateAction<VisitorAns>>
 ] => {
@@ -20,6 +21,7 @@ const useVisitorSocket = (): [
   const [answer, setAnswer] = React.useState<VisitorAns>();
   const [init, setInit] = React.useState(false);
   const [id, setId] = React.useState('');
+  const [isEnd, setIsEnd] = React.useState(false);
   const toast = useToast();
 
   const ref = React.useRef<VisitorSocket>();
@@ -37,6 +39,7 @@ const useVisitorSocket = (): [
       });
 
       socket.end(() => {
+        setIsEnd(true);
         toast({
           title: 'コネクションが終了しました',
           status: 'info',
@@ -70,7 +73,7 @@ const useVisitorSocket = (): [
     }
   }, [answer]);
 
-  return [topic, setId, setAnswer];
+  return [topic, isEnd, setId, setAnswer];
 };
 
 export default useVisitorSocket;
