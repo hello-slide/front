@@ -52,7 +52,9 @@ const useVisitorSocket = (): [
           case '1':
             break;
           case '5':
-            setTopic(JSON.parse(data.topic) as Topic);
+            if (data.topic) {
+              setTopic(JSON.parse(data.topic) as Topic);
+            }
             break;
         }
       });
