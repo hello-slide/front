@@ -10,6 +10,7 @@ import {Center, Heading} from '@chakra-ui/react';
 import React from 'react';
 import {useRecoilValue} from 'recoil';
 import {Quiz} from '../../../../@types/pageItem';
+import {Topic} from '../../../../@types/socket';
 import {SlideshowDataState} from '../../../../utils/state/atom';
 import Design from '../common/Design';
 
@@ -25,11 +26,11 @@ const QuizFirst: React.FC<{
 
   React.useEffect(() => {
     if (questionData) {
-      const sendData = {
-        type: 'quiz1',
-        topic: questionData.title,
-        numberOfChoices: questionData.numberOfChoices,
-        choices: questionData.choices,
+      const sendData: Topic = {
+        t: 'quiz1',
+        tp: questionData.title,
+        n: questionData.numberOfChoices,
+        c: questionData.choices,
       };
       setTopic(JSON.stringify(sendData));
     }

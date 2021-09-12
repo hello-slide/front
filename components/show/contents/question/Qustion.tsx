@@ -10,6 +10,7 @@ import {Heading, Center, Box} from '@chakra-ui/react';
 import React from 'react';
 import {useRecoilValue} from 'recoil';
 import {Question as QuestionType} from '../../../../@types/pageItem';
+import {Topic} from '../../../../@types/socket';
 import {SlideshowDataState} from '../../../../utils/state/atom';
 import {AnswersState} from '../../../../utils/state/atom';
 import Design from '../common/Design';
@@ -27,9 +28,9 @@ const Question: React.FC<{
 
   React.useEffect(() => {
     if (questionData) {
-      const sendData = {
-        type: 'question',
-        topic: questionData.text,
+      const sendData: Topic = {
+        t: 'question',
+        tp: questionData.text,
       };
       setTopic(JSON.stringify(sendData));
     }

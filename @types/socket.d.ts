@@ -47,18 +47,32 @@ export interface Answer {
 }
 
 export interface Topic {
-  type: string;
-  topic: string;
-  numberOfChoices?: number;
-  choices?: {
+  // Type
+  t: string;
+
+  // Topic
+  tp: string;
+
+  // Number of choices
+  n?: number;
+
+  // choice
+  c?: {
     text: string;
     id: string;
   }[];
-  answerIndex?: number;
+
+  // answer index
+  a?: number;
 }
 
 export interface Answers {
-  type: string;
-  questionAnswer?: string;
-  quizAnswerId?: string;
+  // type
+  t: string;
+
+  // question answer
+  qe?: string;
+
+  // quiz answer id
+  qz?: string;
 }
