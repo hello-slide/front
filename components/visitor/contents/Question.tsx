@@ -68,8 +68,8 @@ const Question: React.FC<{
   };
 
   return (
-    <Center width="100%" height="100%">
-      <Box>
+    <Center height="100%">
+      <Box width="85%">
         <Heading marginY="3rem" textAlign="center">
           {topic.tp}
         </Heading>

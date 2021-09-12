@@ -28,7 +28,16 @@ const Quiz: React.FC<{
   const [resultIndex, setResultIndex] = React.useState(10); // 10 is out of choice.
   const [result, setResult] = React.useState<Result>(Result.NoResult);
   const [lock, setLock] = React.useState(false);
+
   const {width, height} = useWindowSize();
+
+  React.useEffect(() => {
+    setAnswer('');
+    setAnswerIndex(10);
+    setLock(false);
+    setResult(Result.NoResult);
+    setResultIndex(10);
+  }, [topic.tp]);
 
   React.useEffect(() => {
     if (answer) {
@@ -77,44 +86,52 @@ const Quiz: React.FC<{
   return (
     <>
       <Celebration />
-      <Center width="100%" height="100%">
-        <Box>
-          <Heading marginY="3rem" textAlign="center">
-            {topic.tp}
-          </Heading>
-          <SimpleGrid
-            columns={2}
-            spacing={['5', '10']}
-            marginBottom="5rem"
-            marginX="1rem"
-          >
-            {topic.c.map((value, index) => {
-              return (
-                <Center
-                  key={value.id}
-                  minHeight="100px"
-                  minWidth="100px"
-                  onClick={() => {
-                    if (!lock) {
-                      setAnswer(value.id);
-                      setAnswerIndex(index);
+      <Center height="100%">
+        <Box width="100%">
+          <Center>
+            <Heading marginY="3rem" textAlign="center">
+              {topic.tp}
+            </Heading>
+          </Center>
+          <Center>
+            <SimpleGrid
+              columns={2}
+              spacing={['5', '10']}
+              marginBottom="5rem"
+              marginX="1rem"
+              minWidth="300px"
+            >
+              {topic.c.map((value, index) => {
+                if (index >= topic.n) {
+                  return;
+                }
+                return (
+                  <Center
+                    key={value.id}
+                    minHeight="100px"
+                    minWidth="100px"
+                    onClick={() => {
+                      if (!lock) {
+                        setAnswer(value.id);
+                        setAnswerIndex(index);
+                      }
+                    }}
+                    backgroundColor={
+                      answer === value.id ? 'blue.200' : 'gray.200'
                     }
-                  }}
-                  backgroundColor={
-                    answer === value.id ? 'blue.200' : 'gray.200'
-                  }
-                  fontSize="1.2rem"
-                  fontWeight="bold"
-                  padding="1rem"
-                  borderRadius="5px"
-                  borderWidth={resultIndex === index ? '5px' : ''}
-                  borderColor="red.500"
-                >
-                  {value.text}
-                </Center>
-              );
-            })}
-          </SimpleGrid>
+                    fontSize="1.2rem"
+                    fontWeight="bold"
+                    padding="1rem"
+                    borderRadius="5px"
+                    borderWidth={resultIndex === index ? '5px' : ''}
+                    borderColor="red.500"
+                  >
+                    {value.text}
+                  </Center>
+                );
+              })}
+            </SimpleGrid>
+          </Center>
         </Box>
       </Center>
     </>
