@@ -125,6 +125,7 @@ const Quiz: React.FC<{
                     borderRadius="5px"
                     borderWidth={resultIndex === index ? '5px' : ''}
                     borderColor="red.500"
+                    cursor="pointer"
                   >
                     {value.text}
                   </Center>

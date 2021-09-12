@@ -44,7 +44,11 @@ const Question: React.FC<{
       </Center>
       <Center>
         {answers.map(value => {
-          return <Box key={value.user_id}>{value.answer}</Box>;
+          return (
+            <Box key={value.user_id}>
+              {value.answer}:{value.name}
+            </Box>
+          );
         })}
       </Center>
     </Design>
