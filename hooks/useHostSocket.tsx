@@ -51,9 +51,7 @@ const useHostSocket = (): [
             setVisitor(parseInt(data.visitors));
             break;
           case '3':
-            setAnswers(value => {
-              return value.concat(data.answers);
-            });
+            setAnswers(data.answers);
             break;
         }
       });

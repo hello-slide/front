@@ -13,6 +13,7 @@ import {Quiz} from '../../../../@types/pageItem';
 import {Topic} from '../../../../@types/socket';
 import {SlideshowDataState} from '../../../../utils/state/atom';
 import Design from '../common/Design';
+import Graph from './Graph';
 
 const QuizFirst: React.FC<{
   id: string;
@@ -41,6 +42,10 @@ const QuizFirst: React.FC<{
       <Center paddingY="2rem">
         <Heading fontSize="4rem">{questionData?.title || '？'}</Heading>
       </Center>
+      <Graph
+        choices={questionData.choices}
+        color={questionData?.slideDesign.textColor}
+      />
     </Design>
   );
 };
