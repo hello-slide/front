@@ -23,7 +23,6 @@ const Quiz: React.FC<{
   topic: Topic;
   setAns: React.Dispatch<React.SetStateAction<VisitorAns>>;
 }> = ({topic, setAns}) => {
-  const [answer, setAnswer] = React.useState('');
   const [answerIndex, setAnswerIndex] = React.useState(10); // 10 is out of choice.
   const [resultIndex, setResultIndex] = React.useState(10); // 10 is out of choice.
   const [result, setResult] = React.useState<Result>(Result.NoResult);
@@ -32,28 +31,24 @@ const Quiz: React.FC<{
   const {width, height} = useWindowSize();
 
   React.useEffect(() => {
-    setAnswer('');
     setAnswerIndex(10);
     setLock(false);
     setResult(Result.NoResult);
-    setResultIndex(10);
   }, [topic.tp]);
 
-  React.useEffect(() => {
-    if (answer) {
-      const ans: VisitorAns = {
-        ans: {
-          t: 'qz',
-          qz: answer,
-        },
-      };
-      setAns(ans);
-      setLock(true);
-    }
-  }, [answer]);
+  const handleChange = (answer: string) => {
+    const ans: VisitorAns = {
+      ans: {
+        t: 'qz',
+        qz: answer,
+      },
+    };
+    setAns(ans);
+    setLock(true);
+  };
 
   React.useEffect(() => {
-    if (topic.a) {
+    if (typeof topic.a !== 'undefined') {
       setLock(true);
       if (topic.a === answerIndex) {
         setResult(Result.Pass);
@@ -62,13 +57,12 @@ const Quiz: React.FC<{
       }
       setResultIndex(topic.a);
     } else {
-      setAnswer('');
       setAnswerIndex(10);
       setLock(false);
       setResult(Result.NoResult);
       setResultIndex(10);
     }
-  }, [topic]);
+  }, [topic.a]);
 
   const Celebration = () => {
     switch (result) {
@@ -112,12 +106,12 @@ const Quiz: React.FC<{
                     minWidth="100px"
                     onClick={() => {
                       if (!lock) {
-                        setAnswer(value.id);
+                        handleChange(value.id);
                         setAnswerIndex(index);
                       }
                     }}
                     backgroundColor={
-                      answer === value.id ? 'blue.200' : 'gray.200'
+                      answerIndex === index ? 'blue.200' : 'gray.200'
                     }
                     fontSize="1.2rem"
                     fontWeight="bold"
