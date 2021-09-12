@@ -6,10 +6,25 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import {Box} from '@chakra-ui/react';
 import React from 'react';
+import VisitorController from './VisitorController';
 
 const VisitorPage: React.FC<{id: string | string[]}> = ({id}) => {
-  return <>{id}</>;
+  const ref = React.useRef<HTMLDivElement>();
+
+  React.useEffect(() => {
+    ref.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  }, []);
+
+  return (
+    <Box ref={ref} width="100%" height="100vh">
+      <VisitorController id={id} />
+    </Box>
+  );
 };
 
 export default VisitorPage;
