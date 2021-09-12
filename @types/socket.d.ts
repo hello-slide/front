@@ -76,3 +76,8 @@ export interface Answers {
   // quiz answer id
   qz?: string;
 }
+
+export interface VisitorAns {
+  name?: string;
+  ans: Answers;
+}
