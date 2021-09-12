@@ -22,6 +22,14 @@ const Question: React.FC<{
   const [textErr, setTextErr] = React.useState(false);
   const [nameErr, setNameErr] = React.useState(false);
 
+  React.useEffect(() => {
+    setText('');
+    setName('');
+    setSend(false);
+    setTextErr(false);
+    setNameErr(false);
+  }, [topic.tp]);
+
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
   };
@@ -31,7 +39,7 @@ const Question: React.FC<{
   };
 
   const result = () => {
-    if (topic.tp && name.length === 0) {
+    if (topic.an === 0 && name.length === 0) {
       setNameErr(true);
       return;
     }
@@ -51,7 +59,7 @@ const Question: React.FC<{
       },
     };
 
-    if (topic.tp) {
+    if (topic.an === 0) {
       ans.name = name;
     }
 
@@ -72,6 +80,7 @@ const Question: React.FC<{
             marginTop="2rem"
             isDisabled={send}
             isInvalid={nameErr}
+            value={name}
           />
         )}
         <Textarea
@@ -80,6 +89,7 @@ const Question: React.FC<{
           marginTop="2rem"
           isDisabled={send}
           isInvalid={textErr}
+          value={text}
         />
         <Center marginTop="2rem">
           <Button

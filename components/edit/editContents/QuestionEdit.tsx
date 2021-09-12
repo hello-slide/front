@@ -62,6 +62,7 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
         id: id,
         type: 'question',
         slideDesign: design,
+        isAnonymous: isAnonymous,
       } as Question);
     }
   }, [isUpdate]);
@@ -94,6 +95,7 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
           }
 
           setTextColor(value.slideDesign.textColor);
+          setIsAnonymous(value.isAnonymous);
         }
         setLoad(false);
         setIsFirst(false);
@@ -206,9 +208,10 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
                 <Box marginLeft="1rem">
                   <Checkbox
                     isChecked={isAnonymous}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setIsAnonymous(event.target.checked)
-                    }
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                      setIsAnonymous(event.target.checked);
+                      setIsUpdate(value => !value);
+                    }}
                   >
                     匿名
                   </Checkbox>

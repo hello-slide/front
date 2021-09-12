@@ -93,6 +93,7 @@ const Quiz: React.FC<{
                 <Center
                   key={value.id}
                   minHeight="100px"
+                  minWidth="100px"
                   onClick={() => {
                     if (!lock) {
                       setAnswer(value.id);
