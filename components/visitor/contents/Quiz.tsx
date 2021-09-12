@@ -1,5 +1,5 @@
 /**********************************************************
- * Questions
+ * Quiz
  *
  * @author Yuto Watanabe <yuto.w51942@gmail.com>
  * @version 1.0.0
@@ -19,7 +19,7 @@ enum Result {
   NoResult,
 }
 
-const Question: React.FC<{
+const Quiz: React.FC<{
   topic: Topic;
   setAns: React.Dispatch<React.SetStateAction<VisitorAns>>;
 }> = ({topic, setAns}) => {
@@ -120,4 +120,4 @@ const Question: React.FC<{
   );
 };
 
-export default Question;
+export default Quiz;

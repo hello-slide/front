@@ -10,7 +10,7 @@ import React from 'react';
 import useVisitorSocket from '../../hooks/useVisitorSocket';
 import Home from './contents/Home';
 import Load from './contents/Load';
-import Question from './contents/Question';
+import Quiz from './contents/Quiz';
 
 const VisitorController: React.FC<{id: string | string[]}> = ({id}) => {
   const [topic, isEnd, setId, setAnswer] = useVisitorSocket();
@@ -27,7 +27,7 @@ const VisitorController: React.FC<{id: string | string[]}> = ({id}) => {
     switch (topic?.t) {
       case 'q1':
       case 'q2':
-        return <Question topic={topic} setAns={setAnswer} />;
+        return <Quiz topic={topic} setAns={setAnswer} />;
       case 'qe':
         return <></>;
       default:
