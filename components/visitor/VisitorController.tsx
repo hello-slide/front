@@ -20,7 +20,7 @@ const VisitorController: React.FC<{id: string | string[]}> = ({id}) => {
     }
   }, [id]);
 
-  if (isEnd || topic) {
+  if (isEnd || !topic) {
     return <Home />;
   } else {
     switch (topic?.t) {
