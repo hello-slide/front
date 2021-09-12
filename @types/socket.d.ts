@@ -64,6 +64,9 @@ export interface Topic {
 
   // answer index
   a?: number;
+
+  // Anonymous
+  an?: number;
 }
 
 export interface Answers {

@@ -31,6 +31,7 @@ const Question: React.FC<{
       const sendData: Topic = {
         t: 'qe',
         tp: questionData.text,
+        an: questionData.isAnonymous ? 1 : 0,
       };
       setTopic(JSON.stringify(sendData));
     }
