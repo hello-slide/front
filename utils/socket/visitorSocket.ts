@@ -8,6 +8,7 @@
  **********************************************************/
 
 import {ReqSocket} from '../../@types/socket';
+import {VisitorAns} from '../../@types/socket';
 import AbstractSocketClient from './abstractSocket';
 
 export default class VisitorSocket extends AbstractSocketClient {
@@ -17,11 +18,11 @@ export default class VisitorSocket extends AbstractSocketClient {
     super(path);
   }
 
-  public sendAnswer(answer: string, name: string) {
+  public sendAnswer(answer: VisitorAns) {
     const data: ReqSocket = {
       type: '6',
-      answer: answer,
-      name: name,
+      answer: JSON.stringify(answer.ans),
+      name: answer.name || '',
     };
 
     this.send(data);

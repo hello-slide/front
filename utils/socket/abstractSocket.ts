@@ -52,6 +52,24 @@ export default abstract class AbstractSocketClient {
   }
 
   /**
+   *  error handling
+   *
+   * @param {(ev: Event) => void} fn - error call func
+   */
+  public error(fn: (ev: Event) => void) {
+    this.socket.onerror = fn;
+  }
+
+  /**
+   * close event.
+   *
+   * @param {() => void} fn close handler.
+   */
+  public end(fn: () => void) {
+    this.socket.onclose = fn;
+  }
+
+  /**
    * Close socket.
    */
   public close() {
