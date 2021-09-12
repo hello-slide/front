@@ -6,6 +6,7 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
+import {useToast} from '@chakra-ui/react';
 import React from 'react';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import HostSocket from '../utils/socket/hostSocket';
@@ -23,6 +24,7 @@ const useHostSocket = (): [
   const isHostSocket = useRecoilValue(IsHostSocketState);
   const [topic, setTopic] = React.useState('');
   const [init, setInit] = React.useState(false);
+  const toast = useToast();
 
   const ref = React.useRef<HostSocket>();
 
@@ -31,6 +33,14 @@ const useHostSocket = (): [
       setTopic('');
 
       const socket = new HostSocket();
+
+      socket.error(() => {
+        toast({
+          title: 'エラーによりコネクションが切断されました',
+          status: 'error',
+          isClosable: true,
+        });
+      });
 
       socket.get(data => {
         switch (data.type) {
