@@ -9,6 +9,7 @@
 import React from 'react';
 import useVisitorSocket from '../../hooks/useVisitorSocket';
 import Home from './contents/Home';
+import Load from './contents/Load';
 import Question from './contents/Question';
 
 const VisitorController: React.FC<{id: string | string[]}> = ({id}) => {
@@ -20,7 +21,7 @@ const VisitorController: React.FC<{id: string | string[]}> = ({id}) => {
     }
   }, [id]);
 
-  if (isEnd || !topic) {
+  if (isEnd) {
     return <Home />;
   } else {
     switch (topic?.t) {
@@ -30,7 +31,7 @@ const VisitorController: React.FC<{id: string | string[]}> = ({id}) => {
       case 'qe':
         return <></>;
       default:
-        return <Home />;
+        return <Load />;
     }
   }
 };
