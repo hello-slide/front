@@ -29,7 +29,7 @@ const Question: React.FC<{
   React.useEffect(() => {
     if (questionData) {
       const sendData: Topic = {
-        t: 'question',
+        t: 'qe',
         tp: questionData.text,
       };
       setTopic(JSON.stringify(sendData));

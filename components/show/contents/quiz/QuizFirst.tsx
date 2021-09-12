@@ -27,7 +27,7 @@ const QuizFirst: React.FC<{
   React.useEffect(() => {
     if (questionData) {
       const sendData: Topic = {
-        t: 'quiz1',
+        t: 'q1',
         tp: questionData.title,
         n: questionData.numberOfChoices,
         c: questionData.choices,
