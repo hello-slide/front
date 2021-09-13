@@ -15,7 +15,7 @@ const UsagePage: React.FC<{contents: string}> = ({contents}) => {
   return (
     <InfoText title="使い方">
       <Center>
-        <Box width={{base: '90%', sm: '80%', md: '70%'}}>
+        <Box width={{base: '700px', sm: '80%', md: '700px'}}>
           <Markdown text={contents} />
         </Box>
       </Center>

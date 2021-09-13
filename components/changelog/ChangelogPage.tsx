@@ -17,7 +17,7 @@ const ChangelogPage: React.FC<{logData: ChangeLogType[]}> = ({logData}) => {
         return (
           <Center key={value.version}>
             <Box
-              width={{base: '90%', sm: '80%', md: '70%'}}
+              width={{base: '700px', sm: '80%', md: '700px'}}
               margin="1rem 0 1rem 0"
             >
               <Flex>
