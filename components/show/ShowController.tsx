@@ -14,15 +14,16 @@ import SlidePageData from '../../@types/pageItem';
 import useShowClose from '../../hooks/useShowClose';
 import GetPage from '../../utils/api/getPage';
 import ListPages from '../../utils/api/listPage';
-import {SlideshowDataState, LoadState} from '../../utils/state/atom';
+import {SlideshowDataState} from '../../utils/state/atom';
 import ChangeContents from './ChangeContetns';
+import Loading from './Loading';
 
 const ShowController: React.FC<{id: string}> = ({id}) => {
   const toast = useToast();
   const setSlideshowData = useSetRecoilState(SlideshowDataState);
   const [index, setIndex] = React.useState(0);
   const [pageList, setPageList] = React.useState<Page[]>([]);
-  const setIsLoad = useSetRecoilState(LoadState);
+  const [load, setIsLoad] = React.useState(false);
   const closeShow = useShowClose();
   let maxPage = 3; // header page * 2 and end page.
 
@@ -134,6 +135,7 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
 
   return (
     <>
+      <Loading isLoad={load} />
       <Flex
         position="absolute"
         zIndex="1000"
