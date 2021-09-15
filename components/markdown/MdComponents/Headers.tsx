@@ -43,7 +43,7 @@ export const H3: React.FC = ({children}) => {
 
 export const H4: React.FC = ({children}) => {
   return (
-    <Box marginBottom="1.5rem" marginTop="4rem">
+    <Box marginBottom="1rem" marginTop="1.5rem">
       <Heading fontSize="1.4rem" paddingLeft=".5rem">
         {children}
       </Heading>
@@ -53,7 +53,7 @@ export const H4: React.FC = ({children}) => {
 
 export const H5: React.FC = ({children}) => {
   return (
-    <Box marginBottom="1.5rem" marginTop="4rem">
+    <Box marginBottom="1rem" marginTop="1.5rem">
       <Heading fontSize="1.3rem" paddingLeft=".5rem">
         {children}
       </Heading>
@@ -63,7 +63,7 @@ export const H5: React.FC = ({children}) => {
 
 export const H6: React.FC = ({children}) => {
   return (
-    <Box marginBottom="1.5rem" marginTop="4rem">
+    <Box marginBottom="1rem" marginTop="1.5rem">
       <Heading fontSize="1.2rem" paddingLeft=".5rem">
         {children}
       </Heading>
