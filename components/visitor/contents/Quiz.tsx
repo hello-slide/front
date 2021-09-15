@@ -9,7 +9,6 @@
 import {Box, Center, Heading, SimpleGrid} from '@chakra-ui/react';
 import React from 'react';
 import Confetti from 'react-confetti';
-import useWindowSize from 'react-use/lib/useWindowSize';
 import {Topic} from '../../../@types/socket';
 import {VisitorAns} from '../../../@types/socket';
 
@@ -27,8 +26,6 @@ const Quiz: React.FC<{
   const [resultIndex, setResultIndex] = React.useState(10); // 10 is out of choice.
   const [result, setResult] = React.useState<Result>(Result.NoResult);
   const [lock, setLock] = React.useState(false);
-
-  const {width, height} = useWindowSize();
 
   React.useEffect(() => {
     setAnswerIndex(10);
@@ -67,8 +64,13 @@ const Quiz: React.FC<{
   const Celebration = () => {
     switch (result) {
       case Result.Pass:
-        console.log('pass');
-        return <Confetti width={width} height={height} recycle={false} />;
+        return (
+          <Confetti
+            width={screen.width}
+            height={screen.height}
+            recycle={false}
+          />
+        );
       case Result.Fail:
         // TODO: add fail animation.
         return <></>;

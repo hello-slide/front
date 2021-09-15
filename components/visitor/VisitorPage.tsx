@@ -8,6 +8,7 @@
  **********************************************************/
 import {Box} from '@chakra-ui/react';
 import React from 'react';
+import NoSSR from 'react-no-ssr';
 import VisitorController from './VisitorController';
 
 const VisitorPage: React.FC<{id: string | string[]}> = ({id}) => {
@@ -22,7 +23,9 @@ const VisitorPage: React.FC<{id: string | string[]}> = ({id}) => {
 
   return (
     <Box ref={ref} width="100%" height="100vh">
-      <VisitorController id={id} />
+      <NoSSR>
+        <VisitorController id={id} />
+      </NoSSR>
     </Box>
   );
 };
