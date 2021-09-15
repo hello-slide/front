@@ -6,12 +6,11 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {readFileSync} from 'fs';
 import path from 'path';
 import {GetStaticProps, InferGetStaticPropsType} from 'next';
-import ChangeLogType from '../@types/changelog';
 import ChangelogPage from '../components/changelog/ChangelogPage';
 import Title from '../components/common/Title';
+import ChangelogParse from '../utils/changelog/parse';
 
 const Changelog: React.FC<InferGetStaticPropsType<typeof getStaticProps>> =
   props => {
@@ -24,10 +23,12 @@ const Changelog: React.FC<InferGetStaticPropsType<typeof getStaticProps>> =
   };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const filePath = path.join(process.cwd(), 'contents', 'changelog.json');
-  const contents = JSON.parse(
-    readFileSync(filePath, 'utf8')
-  ) as ChangeLogType[];
+  const filePath = path.join(process.cwd(), 'contents');
+  const indexPath = path.join(filePath, 'changelog.json');
+  const dirPath = path.join(filePath, 'changelogs');
+
+  const changelog = new ChangelogParse(indexPath, dirPath);
+  const contents = changelog.getChangelog();
 
   return {
     props: {

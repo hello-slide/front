@@ -31,7 +31,7 @@ export default function cookie(
     const [key, _value] = cookieKeyValue.split('=');
     let value = _value;
 
-    if ('"' === value[0]) {
+    if (value && '"' === value[0]) {
       value = value.slice(1, -1);
     }
 

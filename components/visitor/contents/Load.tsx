@@ -14,9 +14,6 @@ const Load = () => {
     <Center height="100%">
       <Box>
         <Heading>しばらくお待ち下さい...</Heading>
-        <Center marginY="2rem">
-          <Spinner size="xl" />
-        </Center>
       </Box>
     </Center>
   );

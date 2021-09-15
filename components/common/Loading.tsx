@@ -6,42 +6,14 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Box, Spinner, Flex} from '@chakra-ui/react';
 import {useRecoilValue} from 'recoil';
 import {LoadState} from '../../utils/state/atom';
+import Load from './Load';
 
 const Loading = () => {
   const isLoad = useRecoilValue(LoadState);
 
-  return (
-    <>
-      <Box
-        backgroundColor="gray.400"
-        opacity=".5"
-        position="fixed"
-        width="100vw"
-        height="100vh"
-        zIndex="9999"
-        top="0"
-        left="0"
-        hidden={!isLoad}
-      ></Box>
-      <Flex
-        width="100vw"
-        height="100vh"
-        position="fixed"
-        top="0"
-        left="0"
-        zIndex="9999"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        hidden={!isLoad}
-      >
-        <Spinner thickness="4px" speed="0.65s" color="blue.500" size="xl" />
-      </Flex>
-    </>
-  );
+  return <Load isLoad={isLoad} />;
 };
 
 export default Loading;
