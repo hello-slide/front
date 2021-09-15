@@ -15,8 +15,8 @@ import useShowClose from '../../hooks/useShowClose';
 import GetPage from '../../utils/api/getPage';
 import ListPages from '../../utils/api/listPage';
 import {SlideshowDataState} from '../../utils/state/atom';
+import Load from '../common/Load';
 import ChangeContents from './ChangeContetns';
-import Loading from './Loading';
 
 const ShowController: React.FC<{id: string}> = ({id}) => {
   const toast = useToast();
@@ -135,7 +135,7 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
 
   return (
     <>
-      <Loading isLoad={load} />
+      <Load isLoad={load} />
       <Flex
         position="absolute"
         zIndex="1000"

@@ -9,7 +9,7 @@
 import {Box, Spinner, Flex} from '@chakra-ui/react';
 import React from 'react';
 
-const Loading: React.FC<{isLoad: boolean}> = ({isLoad}) => {
+const Load: React.FC<{isLoad: boolean}> = ({isLoad}) => {
   return (
     <>
       {!isLoad || (
@@ -43,4 +43,4 @@ const Loading: React.FC<{isLoad: boolean}> = ({isLoad}) => {
   );
 };
 
-export default Loading;
+export default Load;
