@@ -15,7 +15,7 @@ const TermsPage: React.FC<{contents: string}> = ({contents}) => {
   return (
     <InfoText title="利用規約">
       <Center>
-        <Box width={{base: '700px', sm: '80%', md: '700px'}}>
+        <Box width={{base: '80%', sm: '80%', md: '700px'}}>
           <Markdown text={contents} />
         </Box>
       </Center>
