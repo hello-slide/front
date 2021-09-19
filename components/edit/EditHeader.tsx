@@ -43,7 +43,7 @@ const EditHeader: React.FC<{id: string | string[]}> = ({id}) => {
     <>
       <Flex justifyContent="space-between" margin="0 .5rem 0">
         <Flex>
-          <Link href="/dashboard">
+          <Link href="/dashboard" borderRadius="5px">
             <IoArrowBackOutline size="29px" />
           </Link>
           <Text
