@@ -50,13 +50,15 @@ const Graph: React.FC<{
       });
     }
 
-    console.log(dataBuf);
     setData(dataBuf);
   }, [answers]);
 
   return (
     <Center fontSize="1.7rem" fontWeight="bold">
-      <ResponsiveContainer width={1000} height={700}>
+      <ResponsiveContainer
+        width={window.innerWidth - 100}
+        height={window.innerHeight - 250}
+      >
         <BarChart width={2000} height={600} data={data} layout="vertical">
           <YAxis
             dataKey="title"

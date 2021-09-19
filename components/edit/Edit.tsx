@@ -16,6 +16,7 @@ import {
   UserDataState,
   NowPageDataState,
   CurrentPageState,
+  LoadState,
 } from '../../utils/state/atom';
 import EditMain from './EditMain';
 import PageList from './PageList';
@@ -26,9 +27,11 @@ const Edit: React.FC<{id: string | string[]}> = ({id}) => {
   const setNowPageData = useSetRecoilState(NowPageDataState);
   const setCurrentPage = useSetRecoilState(CurrentPageState);
   const toast = useToast();
+  const setLoad = useSetRecoilState(LoadState);
 
   React.useEffect(() => {
     if (userData && typeof id === 'string') {
+      setLoad(true);
       setPages([]);
       setCurrentPage(undefined);
 
@@ -45,8 +48,10 @@ const Edit: React.FC<{id: string | string[]}> = ({id}) => {
           }
           setPages(pages);
           setNowPageData(value);
+          setLoad(false);
         })
         .catch(error => {
+          setLoad(false);
           toast({
             title: 'スライドを読み込めませんでした',
             description: `${error}`,

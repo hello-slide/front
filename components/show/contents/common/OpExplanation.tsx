@@ -8,12 +8,9 @@
  **********************************************************/
 import {Flex, Heading, Kbd, Stack, Spacer, Text} from '@chakra-ui/react';
 import React from 'react';
-import {useRecoilValue} from 'recoil';
-import {SlideshowDataState} from '../../../../utils/state/atom';
+import Slide from '../../../../@types/slides';
 
-const OpExplanation = () => {
-  const slideshowData = useRecoilValue(SlideshowDataState);
-
+const OpExplanation: React.FC<{slideData: Slide}> = ({slideData}) => {
   const KeyMap: React.FC<{text: string; keys: string[]}> = ({text, keys}) => {
     return (
       <Flex alignItems="center">
@@ -54,7 +51,7 @@ const OpExplanation = () => {
           <KeyMap text="終了する" keys={['Esc']} />
         </ExplanationContent>
         <ExplanationContent title="基本情報">
-          <Text fontSize="1.5rem">スライド名: {slideshowData?.title}</Text>
+          <Text fontSize="1.5rem">スライド名: {slideData?.title}</Text>
         </ExplanationContent>
       </Stack>
     </Flex>
