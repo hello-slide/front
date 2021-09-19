@@ -19,13 +19,13 @@ import {
   MenuDivider,
   useToast,
 } from '@chakra-ui/react';
-import Image from 'next/image';
 import NextLink from 'next/link';
 import {useRouter} from 'next/router';
 import React from 'react';
 import {IoSettingsOutline, IoLogOutOutline} from 'react-icons/io5';
 import NoSSR from 'react-no-ssr';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import Logo from '../../assets/svgs/logo.svg';
 import Logout from '../../utils/api/logout';
 import {UserDataState, LoadState, SlideState} from '../../utils/state/atom';
 import Link from './Link';
@@ -121,7 +121,7 @@ const Header: React.FC = React.memo(() => {
         <Flex alignItems="center">
           <Link href="/" _focus={{boxShadow: 'none'}}>
             <Box width={{base: '10rem', sm: '15rem'}}>
-              <Image src="/logo.svg" alt="logo" width={1000} height={315} />
+              <Logo />
             </Box>
           </Link>
         </Flex>
