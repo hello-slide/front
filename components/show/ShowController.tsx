@@ -6,136 +6,133 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {useToast, Box, Flex} from '@chakra-ui/react';
+import {Box, Flex} from '@chakra-ui/react';
 import React from 'react';
 import {useSetRecoilState} from 'recoil';
 import Page from '../../@types/page';
-import SlidePageData from '../../@types/pageItem';
+import {PageDetails} from '../../@types/slideshow';
 import useShowClose from '../../hooks/useShowClose';
-import GetPage from '../../utils/api/getPage';
-import ListPages from '../../utils/api/listPage';
+import useShowControl from '../../hooks/useShowControl';
 import {SlideshowDataState} from '../../utils/state/atom';
 import Load from '../common/Load';
 import ChangeContents from './ChangeContetns';
 
 const ShowController: React.FC<{id: string}> = ({id}) => {
-  const toast = useToast();
   const setSlideshowData = useSetRecoilState(SlideshowDataState);
   const [index, setIndex] = React.useState(0);
-  const [pageList, setPageList] = React.useState<Page[]>([]);
-  const [load, setIsLoad] = React.useState(false);
   const closeShow = useShowClose();
-  let maxPage = 3; // header page * 2 and end page.
+  const [isLoad, setIsLoad] = React.useState(false);
+  const [maxIndex, setMaxIndex] = React.useState(0);
+  const [isEndGetPage, setIsEndGetPage] = React.useState(false);
+  const [slideData, pageData, load, pageList, setSlideId, getPage] =
+    useShowControl();
+
+  const numberOfPageRef = React.useRef<number>();
+  const pageRef = React.useRef<AsyncGenerator<PageDetails>>();
+  const pageDataRef = React.useRef<Page[]>();
+  const pageLockRef = React.useRef<boolean>();
 
   const keyboardEvent = React.useCallback((event: KeyboardEvent) => {
     if (event.code === 'ArrowRight') {
-      nextPage(false);
+      nextPage();
     } else if (event.code === 'ArrowLeft') {
       backPage();
     }
   }, []);
 
-  const nextPage = (useJsx: boolean) => {
-    setIndex(value => {
-      if (!useJsx && value >= maxPage) {
-        return value;
-      } else if (useJsx && value >= pageList.length + 3) {
-        return value;
-      }
-      return (value += 1);
-    });
+  const nextPage = () => {
+    // The move is locked until the next page is loaded.
+    if (!pageLockRef.current) {
+      setIndex(value => {
+        if (numberOfPageRef.current && value >= numberOfPageRef.current) {
+          return value;
+        }
+
+        return (value += 1);
+      });
+    }
   };
 
   const backPage = () => {
-    setIndex(value => {
-      if (value > 0) {
-        return (value -= 1);
-      }
-      return value;
-    });
-  };
-
-  const getPage = async (
-    getPage: GetPage,
-    pageId: string
-  ): Promise<SlidePageData> => {
-    return await getPage.run(id, pageId);
+    // The move is locked until the next page is loaded.
+    if (!pageLockRef.current) {
+      setIndex(value => {
+        if (value > 0) {
+          return (value -= 1);
+        }
+        return value;
+      });
+    }
   };
 
   React.useEffect(() => {
-    if (index >= pageList.length + 3) {
+    // The slide show ends when you move to the next page on the last page.
+    if (numberOfPageRef.current && index >= numberOfPageRef.current) {
       closeShow();
+    }
+
+    if (index >= 2 && maxIndex < index && !isEndGetPage) {
+      switch (pageData[index - 2]?.type) {
+        case 'quiz2':
+        case 'question':
+          pageLockRef.current = true;
+          pageRef.current.next().then(value => {
+            if (value.done) {
+              setIsEndGetPage(true);
+              pageLockRef.current = false;
+              return;
+            }
+            // Get page data async.
+            const result = value.value as PageDetails;
+            setSlideshowData(value => {
+              return [result, ...value];
+            });
+
+            pageLockRef.current = false;
+          });
+          break;
+        default:
+          break;
+      }
+      setMaxIndex(index);
     }
   }, [index]);
 
   React.useEffect(() => {
-    // reset state
     setSlideshowData(undefined);
     setIsLoad(true);
 
-    const listPagesAPI = new ListPages();
-
-    const getPageAPI = new GetPage();
-
-    const api = async () => {
-      try {
-        const value = await listPagesAPI.run(id);
-
-        const pageLists = [];
-        const data: {key: string; value: SlidePageData}[] = [];
-        for (const element of value.pages) {
-          if (element.type === 'quiz') {
-            pageLists.push({id: element.page_id, type: 'quiz1'});
-            pageLists.push({id: element.page_id, type: 'quiz2'});
-          } else if (element.type === 'question') {
-            pageLists.push({id: element.page_id, type: 'question'});
-          }
-
-          try {
-            data.push({
-              key: element.page_id,
-              value: await getPage(getPageAPI, element.page_id),
-            });
-          } catch (error) {
-            toast({
-              title: 'ページを読み込めませんでした。',
-              description: `${error}`,
-              status: 'error',
-            });
-          }
-        }
-        setPageList(pageLists);
-
-        setSlideshowData({
-          title: value.title,
-          id: value.id,
-          createDate: value.createDate,
-          lastChange: value.lastChange,
-          data: data,
-        });
-
-        maxPage += pageLists.length;
-        document.addEventListener('keydown', keyboardEvent, false);
-      } catch (error) {
-        toast({
-          title: 'スライドを読み込めませんでした',
-          description: `${error}`,
-          status: 'error',
-        });
-      }
-
-      setIsLoad(false);
-    };
-    api();
+    if (id.length !== 0) {
+      setSlideId(id);
+    }
 
     return () => {
       document.removeEventListener('keydown', keyboardEvent, false);
     };
   }, []);
 
+  React.useEffect(() => {
+    if (typeof pageList !== 'undefined' && typeof pageData !== 'undefined') {
+      numberOfPageRef.current = pageData.length + 3;
+
+      const getter = getPage();
+      // Load only the first page.
+      getter.next().then(value => {
+        const result = value.value as PageDetails;
+        setSlideshowData([result]);
+      });
+
+      pageRef.current = getter;
+      pageDataRef.current = pageData;
+
+      document.addEventListener('keydown', keyboardEvent, false);
+      setIsLoad(false);
+    }
+  }, [pageList, pageData]);
+
   return (
     <>
-      <Load isLoad={load} />
+      <Load isLoad={load || isLoad} />
       <Flex
         position="absolute"
         zIndex="1000"
@@ -145,9 +142,9 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
         height="100%"
       >
         <Box width="50%" height="100%" onClick={backPage} />
-        <Box width="50%" height="100%" onClick={() => nextPage(true)} />
+        <Box width="50%" height="100%" onClick={() => nextPage()} />
       </Flex>
-      <ChangeContents index={index} pageList={pageList} />
+      <ChangeContents index={index} pageList={pageData} slideData={slideData} />
     </>
   );
 };

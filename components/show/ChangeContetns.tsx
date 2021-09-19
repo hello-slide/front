@@ -8,6 +8,7 @@
  **********************************************************/
 import React from 'react';
 import Page from '../../@types/page';
+import Slide from '../../@types/slides';
 import useHostSocket from '../../hooks/useHostSocket';
 
 import End from './contents/common/End';
@@ -19,7 +20,11 @@ import QuizSecond from './contents/quiz/QuizSecond';
 
 const domain = process.env.NEXT_PUBLIC_DOMAIN || 'hello-slide.jp';
 
-const ChangeContents: React.FC<{index: number; pageList: Page[]}> = props => {
+const ChangeContents: React.FC<{
+  index: number;
+  pageList: Page[];
+  slideData: Slide;
+}> = props => {
   const [id, visitor, setTopic, resetAnswers] = useHostSocket();
   const link = (id && `https://${domain}/v?id=${id}`) || '(  ´∀｀)＜ぬるぽ';
 
@@ -63,7 +68,7 @@ const ChangeContents: React.FC<{index: number; pageList: Page[]}> = props => {
 
   switch (props.index) {
     case 0:
-      return <OpExplanation />;
+      return <OpExplanation slideData={props.slideData} />;
     case 1:
       return <QrCode link={link} visitor={visitor} />;
     default:
