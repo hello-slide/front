@@ -22,7 +22,7 @@ const Question: React.FC<{
   setTopic: React.Dispatch<React.SetStateAction<string>>;
 }> = ({id, link, setTopic, visitor}) => {
   const slideshowData = useRecoilValue(SlideshowDataState);
-  const questionData = slideshowData.data?.find(value => value.key === id)
+  const questionData = slideshowData?.find(value => value.key === id)
     .value as QuestionType;
 
   React.useEffect(() => {

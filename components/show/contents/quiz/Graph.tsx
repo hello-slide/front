@@ -50,7 +50,6 @@ const Graph: React.FC<{
       });
     }
 
-    console.log(dataBuf);
     setData(dataBuf);
   }, [answers]);
 
