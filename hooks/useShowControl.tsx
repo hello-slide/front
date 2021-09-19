@@ -45,6 +45,9 @@ const useShowControl = (): [
           setPageList(value.pages);
 
           for (const element of value.pages) {
+            // Set the component to be used for each page type.
+            //
+            // Note: The quiz requires 2 pages.
             if (element.type === 'quiz') {
               pageLists.push({id: element.page_id, type: 'quiz1'});
               pageLists.push({id: element.page_id, type: 'quiz2'});
