@@ -20,18 +20,13 @@ import {
   Spinner,
 } from '@chakra-ui/react';
 import React from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {Question, SlideDesign} from '../../../@types/pageItem';
 import GetPage from '../../../utils/api/getPage';
-import {
-  UserDataState,
-  NowPageDataState,
-  PageDataState,
-} from '../../../utils/state/atom';
+import {NowPageDataState, PageDataState} from '../../../utils/state/atom';
 import ColorPalette from './ColorPalette';
 
 const QuestionEdit: React.FC<{id: string}> = ({id}) => {
-  const [userData, setUserData] = useRecoilState(UserDataState);
   const nowPageData = useRecoilValue(NowPageDataState);
   const toast = useToast();
   const [load, setLoad] = React.useState(false);
@@ -67,6 +62,7 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
         id: id,
         type: 'question',
         slideDesign: design,
+        isAnonymous: isAnonymous,
       } as Question);
     }
   }, [isUpdate]);
@@ -80,30 +76,12 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
     setTextColor('#000000');
 
     setLoad(true);
-    const getPageAPI = new GetPage(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
+    const getPageAPI = new GetPage();
 
     getPageAPI
       .run<Question>(nowPageData?.id, id)
       .then(value => {
-        if (typeof value !== 'undefined' && value.type === 'question') {
+        if (value && value.type === 'question') {
           setText(value.text);
 
           setBGColorType(value.slideDesign.designType === 'mono' ? '0' : '1');
@@ -117,6 +95,7 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
           }
 
           setTextColor(value.slideDesign.textColor);
+          setIsAnonymous(value.isAnonymous);
         }
         setLoad(false);
         setIsFirst(false);
@@ -229,9 +208,10 @@ const QuestionEdit: React.FC<{id: string}> = ({id}) => {
                 <Box marginLeft="1rem">
                   <Checkbox
                     isChecked={isAnonymous}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setIsAnonymous(event.target.checked)
-                    }
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                      setIsAnonymous(event.target.checked);
+                      setIsUpdate(value => !value);
+                    }}
                   >
                     匿名
                   </Checkbox>

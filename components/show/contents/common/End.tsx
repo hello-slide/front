@@ -30,10 +30,10 @@ const End = () => {
       >
         <Heading fontSize="5rem">終</Heading>
         <Text marginY=".5rem" fontSize="2rem">
-          制作・著作
+          制作・作成者
         </Text>
         <Divider borderWidth="1px" borderColor="white" marginY=".5rem" />
-        <Text fontSize="2rem">{userData.name}</Text>
+        <Text fontSize="2rem">{userData?.name}</Text>
       </Box>
       <Flex
         position="absolute"

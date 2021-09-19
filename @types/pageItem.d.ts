@@ -35,7 +35,7 @@ export interface Quiz {
       id: string;
       people: number;
     };
-  };
+  }[];
 }
 
 export interface Question {
@@ -50,7 +50,7 @@ export interface Question {
       text: string;
       author?: string;
     }[];
-  };
+  }[];
 }
 
 type SlidePageData = Quiz | Question;

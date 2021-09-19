@@ -10,6 +10,7 @@ import {GetServerSideProps} from 'next';
 import {useRouter} from 'next/router';
 import Title from '../../components/common/Title';
 import EditPage from '../../components/edit/EditPage';
+import cookie from '../../utils/cookie/cookie';
 
 const Edit = () => {
   const router = useRouter();
@@ -22,7 +23,23 @@ const Edit = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async context => {
+  if (
+    cookie(
+      context.req.headers.cookie,
+      ['session_token', 'refresh_token'],
+      false
+    )
+  ) {
+    return {
+      redirect: {
+        statusCode: 301,
+        destination: '/',
+      },
+      props: {},
+    };
+  }
+
   return {
     props: {
       noFooter: true,

@@ -13,9 +13,10 @@ export default class CreateSlide
   implements CreateSlideAPI
 {
   async run(title: string): Promise<string> {
-    this.setConfig('/slide/create', {Title: title});
-
-    const response = await this.connect();
-    return response.data['slide_id'];
+    const response = await this.connect(
+      JSON.stringify({Title: title}),
+      '/slide/create'
+    );
+    return (await response.json())['slide_id'];
   }
 }

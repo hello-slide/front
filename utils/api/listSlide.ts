@@ -14,9 +14,7 @@ export default class ListSlides
   implements ListSlidesAPI
 {
   async run(): Promise<SlideConfig> {
-    this.setConfig('/slide/list', {});
-
-    const response = await this.connect();
-    return response.data as SlideConfig;
+    const response = await this.connect('', '/slide/list');
+    return (await response.json()) as SlideConfig;
   }
 }

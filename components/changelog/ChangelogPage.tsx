@@ -7,17 +7,18 @@
  * Copyright (C) 2021 hello-slide
  **********************************************************/
 import {Box, Center, Text, Flex, Spacer, Divider} from '@chakra-ui/react';
-import ChangeLogType from '../../@types/changelog';
+import {ChangelogData} from '../../utils/changelog/parse';
 import InfoText from '../common/InfoText';
+import Markdown from '../markdown/Markdown';
 
-const ChangelogPage: React.FC<{logData: ChangeLogType[]}> = ({logData}) => {
+const ChangelogPage: React.FC<{logData: ChangelogData[]}> = ({logData}) => {
   return (
     <InfoText title="変更履歴">
       {logData.map(value => {
         return (
           <Center key={value.version}>
             <Box
-              width={{base: '90%', sm: '80%', md: '70%'}}
+              width={{base: '80%', sm: '80%', md: '700px'}}
               margin="1rem 0 1rem 0"
             >
               <Flex>
@@ -41,7 +42,9 @@ const ChangelogPage: React.FC<{logData: ChangeLogType[]}> = ({logData}) => {
                 </Flex>
               </Flex>
               <Divider borderWidth="1px" />
-              <Box margin=".5rem 1rem 0 1rem">{value.text}</Box>
+              <Box margin="0 1rem 0 1rem">
+                <Markdown text={value.details} />
+              </Box>
             </Box>
           </Center>
         );

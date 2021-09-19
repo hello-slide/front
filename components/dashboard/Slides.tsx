@@ -30,25 +30,27 @@ import {
   IoOpenOutline,
   IoTextOutline,
   IoTvOutline,
+  IoPlayCircleOutline,
 } from 'react-icons/io5';
-import {useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
+import useShow from '../../hooks/useShow';
 import updateDate from '../../utils/date/updateDate';
-import {ShowState} from '../../utils/state/atom';
+import Show from '../show/Show';
 import DeleteSlide from './DeleteSlide';
 import SlideInfo from './SlideInfo';
 import SlideRename from './SlideRename';
 
-const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
-  slides,
-  onOpen,
-}) => {
+const Slides: React.FC<{
+  slides: Slide[];
+  onOpen: () => void;
+}> = ({slides, onOpen}) => {
   const deleteSlideModal = useDisclosure();
   const detailModal = useDisclosure();
   const renameModal = useDisclosure();
   const [operationSlide, setOperationSlide] = React.useState<Slide>();
   const router = useRouter();
-  const setShow = useSetRecoilState(ShowState);
+  const ref = React.useRef();
+  const open = useShow(ref);
 
   const ListContents: ChakraComponent<'div', {}> = props => {
     return (
@@ -134,7 +136,7 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
               </ContextMenuTrigger>
               <ContextMenu id={value.id}>
                 <Menu isOpen={true}>
-                  <MenuList padding={0} minWidth="255px">
+                  <MenuList padding={0} width="270px">
                     <Text
                       fontSize="1rem"
                       fontWeight="bold"
@@ -154,11 +156,22 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
                     </MenuItem>
                     <MenuItem
                       padding=".5rem 0 .5rem 1rem"
-                      icon={<IoTvOutline size="18px" />}
+                      icon={<IoPlayCircleOutline size="18px" />}
                       onClick={() => {
-                        setShow(value.id);
+                        open(value.id);
                       }}
                     >
+                      プレゼンテーションを開始
+                    </MenuItem>
+                    <MenuItem
+                      padding=".5rem 0 .5rem 1rem"
+                      icon={<IoTvOutline size="18px" />}
+                      onClick={() => {
+                        open(value.id, false);
+                      }}
+                    >
+                      全画面にしないで
+                      <br />
                       プレゼンテーションを開始
                     </MenuItem>
                     <MenuItem
@@ -224,6 +237,9 @@ const Slides: React.FC<{slides: Slide[]; onOpen: () => void}> = ({
         isOpen={renameModal.isOpen}
         slide={operationSlide}
       />
+      <Box ref={ref}>
+        <Show />
+      </Box>
     </>
   );
 };

@@ -20,7 +20,7 @@ import {
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import Slide from '../../@types/slides';
 import _DeleteSlide from '../../utils/api/deleteSlide';
-import {SlideState, LoadState, UserDataState} from '../../utils/state/atom';
+import {SlideState, LoadState} from '../../utils/state/atom';
 
 const DeleteSlide: React.FC<{
   isOpen: boolean;
@@ -29,31 +29,12 @@ const DeleteSlide: React.FC<{
 }> = ({isOpen, onClose, slide}) => {
   const [slides, setSlides] = useRecoilState(SlideState);
   const setIsLoad = useSetRecoilState(LoadState);
-  const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
 
   const handleChange = () => {
     setIsLoad(true);
 
-    const deleteSlideAPI = new _DeleteSlide(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
+    const deleteSlideAPI = new _DeleteSlide();
     deleteSlideAPI
       .run(slide?.id)
       .then(() => {

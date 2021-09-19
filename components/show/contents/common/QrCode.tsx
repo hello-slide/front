@@ -6,16 +6,18 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Flex, Text, Heading} from '@chakra-ui/react';
+import {Flex, Text, Heading, Center, Button, Box} from '@chakra-ui/react';
 import QRCode from 'qrcode.react';
 import React from 'react';
-import {useRecoilValue} from 'recoil';
-import {sessionApiLink} from '../../../../utils/api/links';
-import {SlideshowDataState} from '../../../../utils/state/atom';
+import {useRecoilState} from 'recoil';
+import {IsHostSocketState} from '../../../../utils/state/atom';
 
-const QrCode = () => {
-  const slideshowData = useRecoilValue(SlideshowDataState);
-  const link = `${sessionApiLink}${slideshowData?.session}`;
+const QrCode: React.FC<{
+  link: string;
+  visitor: number;
+}> = ({link, visitor}) => {
+  const [isHostSocket, setIsHostSocket] = useRecoilState(IsHostSocketState);
+
   return (
     <Flex
       flexDirection="column"
@@ -25,11 +27,42 @@ const QrCode = () => {
     >
       <Heading fontSize="3rem">一緒に参加しよう！</Heading>
       <Flex justifyContent="center" alignItems="center" marginTop="7rem">
-        <QRCode value={link} size={300} />
-        <Text fontSize="2.5rem" fontWeight="bold" marginLeft="4rem">
+        <Flex
+          position="relative"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {isHostSocket || (
+            <Button
+              onClick={() => setIsHostSocket(true)}
+              colorScheme="blue"
+              zIndex="1001"
+              position="absolute"
+            >
+              コネクション開始
+            </Button>
+          )}
+          <Box filter={isHostSocket ? '' : 'blur(4px)'}>
+            <QRCode value={link} size={300} />
+          </Box>
+        </Flex>
+        <Text
+          fontSize="2.5rem"
+          fontWeight="bold"
+          marginLeft="4rem"
+          width="40rem"
+          textAlign="center"
+          zIndex="1001"
+        >
           {link}
         </Text>
       </Flex>
+      <Center>
+        <Text fontSize="1.5rem" fontWeight="bold">
+          参加者数: {visitor}
+        </Text>
+      </Center>
     </Flex>
   );
 };

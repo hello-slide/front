@@ -13,6 +13,14 @@
 yarn install
 ```
 
+## Environments
+
+```env
+NEXT_PUBLIC_API_DOMAIN=****   # APIのドメイン
+NEXT_PUBLIC_DOMAIN=****       # ページのドメイン
+GOOGLE_ANALYTICS_ID=****      # Google analytics id
+```
+
 ## Lint and Build
 
 - Lint
@@ -30,6 +38,10 @@ yarn install
   ```bash
   yarn run build
   ```
+
+- ログインした状態でデバッグ
+
+[やり方](./documents/debug.md)
 
 ## Start (or dev start)
 

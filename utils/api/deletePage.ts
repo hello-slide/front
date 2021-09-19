@@ -13,8 +13,9 @@ export default class DeletePage
   implements DeletePageAPI
 {
   async run(slideId: string, pageId: string): Promise<void> {
-    this.setConfig('/slide/deletepage', {SlideID: slideId, PageID: pageId});
-
-    await this.connect();
+    await this.connect(
+      JSON.stringify({SlideID: slideId, PageID: pageId}),
+      '/slide/deletepage'
+    );
   }
 }

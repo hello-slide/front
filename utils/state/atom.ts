@@ -13,6 +13,7 @@ import {GetAPIPages} from '../../@types/page';
 import SlidePageData from '../../@types/pageItem';
 import Slide from '../../@types/slides';
 import {Slideshow} from '../../@types/slideshow';
+import {Answer} from '../../@types/socket';
 import {UserData} from '../../@types/userData';
 
 /**
@@ -43,10 +44,10 @@ const localStorageEffect =
 /**
  * Keeps the user logged in.
  */
-export const UserDataState = atom<UserData>({
+export const UserDataState = atom<UserData | null>({
   key: 'userData',
-  default: {name: '', image: ''},
-  effects_UNSTABLE: [localStorageEffect('userData')],
+  default: null,
+  //   effects_UNSTABLE: [localStorageEffect('userData')],
 });
 
 /**
@@ -120,4 +121,20 @@ export const ShowState = atom<string | undefined>({
 export const SlideshowDataState = atom<Slideshow>({
   key: 'slideshowData',
   default: undefined,
+});
+
+/**
+ * host socket start
+ */
+export const IsHostSocketState = atom<boolean>({
+  key: 'isHostSocket',
+  default: false,
+});
+
+/**
+ * Answers
+ */
+export const AnswersState = atom<Answer[]>({
+  key: 'answers',
+  default: [],
 });

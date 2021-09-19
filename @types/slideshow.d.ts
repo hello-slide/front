@@ -10,7 +10,6 @@ import SlidePageData from './pageItem';
 import Slide from './slides';
 
 export interface Slideshow extends Slide {
-  session: string;
   data: {
     key: string;
     value: SlidePageData;

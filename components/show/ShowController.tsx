@@ -8,25 +8,23 @@
  **********************************************************/
 import {useToast, Box, Flex} from '@chakra-ui/react';
 import React from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useSetRecoilState} from 'recoil';
 import Page from '../../@types/page';
 import SlidePageData from '../../@types/pageItem';
+import useShowClose from '../../hooks/useShowClose';
 import GetPage from '../../utils/api/getPage';
 import ListPages from '../../utils/api/listPage';
-import {
-  UserDataState,
-  SlideshowDataState,
-  LoadState,
-} from '../../utils/state/atom';
+import {SlideshowDataState} from '../../utils/state/atom';
+import Load from '../common/Load';
 import ChangeContents from './ChangeContetns';
 
 const ShowController: React.FC<{id: string}> = ({id}) => {
-  const [userData, setUserData] = useRecoilState(UserDataState);
   const toast = useToast();
   const setSlideshowData = useSetRecoilState(SlideshowDataState);
   const [index, setIndex] = React.useState(0);
   const [pageList, setPageList] = React.useState<Page[]>([]);
-  const setIsLoad = useSetRecoilState(LoadState);
+  const [load, setIsLoad] = React.useState(false);
+  const closeShow = useShowClose();
   let maxPage = 3; // header page * 2 and end page.
 
   const keyboardEvent = React.useCallback((event: KeyboardEvent) => {
@@ -39,9 +37,9 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
 
   const nextPage = (useJsx: boolean) => {
     setIndex(value => {
-      if (!useJsx && value >= maxPage - 1) {
+      if (!useJsx && value >= maxPage) {
         return value;
-      } else if (useJsx && value >= pageList.length + 2) {
+      } else if (useJsx && value >= pageList.length + 3) {
         return value;
       }
       return (value += 1);
@@ -65,49 +63,19 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
   };
 
   React.useEffect(() => {
+    if (index >= pageList.length + 3) {
+      closeShow();
+    }
+  }, [index]);
+
+  React.useEffect(() => {
     // reset state
     setSlideshowData(undefined);
     setIsLoad(true);
 
-    const listPagesAPI = new ListPages(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
+    const listPagesAPI = new ListPages();
 
-    const getPageAPI = new GetPage(
-      userData.sessionToken,
-      userData.refreshToken,
-      (sessionToken, refreshToken, isFailed) => {
-        if (isFailed) {
-          setUserData({
-            name: '',
-            image: '',
-          });
-        } else {
-          setUserData(value => ({
-            name: value.name,
-            image: value.image,
-            sessionToken: sessionToken,
-            refreshToken: refreshToken,
-          }));
-        }
-      }
-    );
+    const getPageAPI = new GetPage();
 
     const api = async () => {
       try {
@@ -144,8 +112,6 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
           createDate: value.createDate,
           lastChange: value.lastChange,
           data: data,
-          // TODO: session id create logic
-          session: Math.floor(Math.random() * 100000).toString(),
         });
 
         maxPage += pageLists.length;
@@ -169,6 +135,7 @@ const ShowController: React.FC<{id: string}> = ({id}) => {
 
   return (
     <>
+      <Load isLoad={load} />
       <Flex
         position="absolute"
         zIndex="1000"

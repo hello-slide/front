@@ -18,70 +18,24 @@ import {
   ModalContent,
   Text,
   Checkbox,
-  useToast,
 } from '@chakra-ui/react';
+import {useRouter} from 'next/router';
 import React from 'react';
-import {
-  useGoogleLogin,
-  GoogleLoginResponse,
-  GoogleLoginResponseOffline,
-} from 'react-google-login';
 import {FcGoogle} from 'react-icons/fc';
-import {useRecoilState} from 'recoil';
-import {useSetRecoilState} from 'recoil';
-import login from '../../utils/api/account/login';
-import {UserDataState} from '../../utils/state/atom';
-import {LoadState} from '../../utils/state/atom';
+import {domain as apiDomain} from '../../utils/api/links';
 import Link from './Link';
 
 const Login: React.FC<{isOpen: boolean; onClose: () => void}> = ({
   isOpen,
   onClose,
 }) => {
-  const toast = useToast();
-  const setIsLoad = useSetRecoilState(LoadState);
-
   const From = () => {
-    const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-    const [, setUserData] = useRecoilState(UserDataState);
     const [isCanLogin, setIsCanLogin] = React.useState(false);
+    const router = useRouter();
 
-    const handleGoogleLogin = (
-      response: GoogleLoginResponse | GoogleLoginResponseOffline
-    ) => {
-      if (response.code) {
-        return;
-      }
-      setIsLoad(true);
-
-      const profile = (response as GoogleLoginResponse).getBasicProfile();
-      const token = (response as GoogleLoginResponse).getAuthResponse();
-
-      login(token.id_token)
-        .then(response => {
-          setIsLoad(false);
-          setUserData({
-            refreshToken: response.refreshToken,
-            sessionToken: response.sessionToken,
-            name: profile.getName(),
-            image: profile.getImageUrl(),
-          });
-        })
-        .catch(error => {
-          toast({
-            title: 'ログインできませんでした',
-            description: `${error}`,
-            status: 'error',
-          });
-          setIsLoad(false);
-        });
+    const handleChange = () => {
+      router.push(`https://${apiDomain}/account/login`);
     };
-
-    const {signIn, loaded} = useGoogleLogin({
-      onSuccess: response => handleGoogleLogin(response),
-      clientId: googleClientId,
-      cookiePolicy: 'single_host_origin',
-    });
 
     return (
       <React.Fragment>
@@ -91,8 +45,8 @@ const Login: React.FC<{isOpen: boolean; onClose: () => void}> = ({
         <Center>
           <Flex height="6rem" alignItems="center">
             <Button
-              onClick={signIn}
-              disabled={!(loaded && isCanLogin)}
+              onClick={handleChange}
+              disabled={!isCanLogin}
               leftIcon={<FcGoogle />}
             >
               Googleでログイン
