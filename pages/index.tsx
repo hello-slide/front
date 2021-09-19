@@ -21,9 +21,7 @@ const Index = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  if (
-    cookie(context.req.headers.cookie, ['session_token', 'refresh_token'], true)
-  ) {
+  if (cookie(context.req.headers.cookie, ['refresh_token'], true)) {
     return {
       redirect: {
         statusCode: 301,
