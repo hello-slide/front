@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2021 hello-slide
  **********************************************************/
-import {Heading, Center, Box, Spinner} from '@chakra-ui/react';
+import {Heading, Center, Box} from '@chakra-ui/react';
 import React from 'react';
 
 const Load = () => {
