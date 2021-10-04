@@ -65,11 +65,13 @@ const Quiz: React.FC<{
     switch (result) {
       case Result.Pass:
         return (
-          <Confetti
-            width={screen.width}
-            height={screen.height}
-            recycle={false}
-          />
+          <Box position="sticky" left="0" top="0" backgroundColor="black">
+            <Confetti
+              width={screen.width}
+              height={screen.height}
+              recycle={false}
+            />
+          </Box>
         );
       case Result.Fail:
         // TODO: add fail animation.
